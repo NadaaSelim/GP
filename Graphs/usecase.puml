@@ -1,0 +1,43 @@
+@startuml
+
+left to right direction
+:user:
+
+usecase "sign up" as s1
+usecase "login" as lg
+usecase "view analytics" as v1
+usecase "choose platform" as p1
+usecase "generate report" as gr
+usecase "view dashboard" as od
+usecase "check crisis alerts" as ca
+usecase "add brand" as ab
+usecase "delete brand" as db
+usecase "add platform" as ap
+usecase "remove platform" as rp
+usecase "go to settings" as gs
+user -> s1
+user -> lg 
+user -> v1
+user -> p1
+user -> gr
+user -> od
+user -> ca
+user -> ab
+user -> db
+user -> ap
+user -> rp
+user -> gs
+(rp) -[hidden]- (gs)
+(db) -[hidden]- (ap)
+(ab) -[hidden]- (db)
+(od) -[hidden]- (ca)
+(ab) -[hidden]- (s1)
+(rp) -[hidden]- (ap)
+(gr) -[hidden]- (od)
+(gr) -[hidden]- (p1)
+(p1) -[hidden]- (v1)
+(s1) -[hidden]- (lg)
+
+
+
+@enduml
