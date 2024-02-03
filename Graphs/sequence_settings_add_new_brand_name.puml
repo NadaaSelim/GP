@@ -1,0 +1,21 @@
+@startuml
+actor user
+user -> UI: add another name to track
+UI -> settings_controller: fetch brand names
+settings_controller -> accounts_controller: fetch brand names
+accounts_controller -> User: list all brands
+UI -> user: select brand
+UI -> settings_controller : list all brand names
+settings_controller -> Brand: list_names()
+Brand -> database : query for all brand names
+settings_controller --> UI: list of names
+UI --> user : diplay all existing brand names
+UI -> user: enter new names with language
+UI -> settings_controller: update_brand_names(names)
+settings_controller -> Brand: add_names(names)
+Brand -> database : query to add names
+settings_controller -> UI : added names
+UI -> user: added names
+
+
+@enduml

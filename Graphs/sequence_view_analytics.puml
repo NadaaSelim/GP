@@ -1,0 +1,21 @@
+@startuml
+actor user
+user -> UI: view analytics
+UI -> analysis_controller: fetch brand names
+analysis_controller -> User: query for all user brands
+UI -> user: specify the brand
+UI -> analysis_controller: fetch available platforms
+analysis_controller -> database: query for all platforms
+database --> analysis_controller: all platforms
+analysis_controller --> UI: all platforms
+UI --> user : select platforms
+analysis_controller -> Brand: fetch all brand names
+Brand -> database: query for all band names
+analysis_controller -> data_collection_controller : web_scrape(platforms, brand names)
+data_collection_controller --> analysis_controller: returns web scrapping results
+analysis_controller -> database : adds analysis results
+analysis_controller --> UI : results are ready
+UI --> user : display results
+
+
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+actor user
+user -> UI: Fills the form
+UI -> accounts_controller: not_already signed_up(email)
+accounts_controller -> database: query for the email
+alt User wasn't found
+  accounts_controller -> User : creates a new user
+  accounts_controller -> Brand : create a new brand
+  accounts_controller --> UI: user added
+  UI --> user: show message
+else user was found
+  accounts_controller --> UI: user already exists
+  UI --> user: error
+end
+@enduml
