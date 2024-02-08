@@ -1,15 +1,30 @@
 @startuml
-actor user
-user -> UI: Fills the form
-UI -> accounts_controller: not_already signed_up(email)
-accounts_controller -> database: query for the email
+actor "__client__:__user__"
+boundary UI
+control "__accscont__:__accounts_controller__"
+entity Brand
+database database
+activate "__client__:__user__" 
+"__client__:__user__" -> UI: Fills the form
+activate UI
+UI -> "__accscont__:__accounts_controller__": user_exists(client)
+activate "__accscont__:__accounts_controller__"
+"__accscont__:__accounts_controller__" -> database: query for the email
 alt User wasn't found
-  accounts_controller -> User : creates a new user
-  accounts_controller -> Brand : create a new brand
-  accounts_controller --> UI: user added
-  UI --> user: show message
+  activate database
+  create Brand
+  "__accscont__:__accounts_controller__" -> Brand : new
+  "__accscont__:__accounts_controller__" -> database : add user
+    "__accscont__:__accounts_controller__" -> database : add brand
+
+  "__accscont__:__accounts_controller__" --> UI: 
+  UI --> "__client__:__user__": Registration successful
 else user was found
-  accounts_controller --> UI: user already exists
-  UI --> user: error
+  "__accscont__:__accounts_controller__" --> UI: 
+  UI --> "__client__:__user__": FAILED. User already exists
+deactivate database
+deactivate "__accscont__:__accounts_controller__"
+deactivate UI
+deactivate "__client__:__user__"
 end
 @enduml

@@ -1,21 +1,41 @@
 @startuml
-actor user
-user -> UI: add another name to track
-UI -> settings_controller: fetch brand names
-settings_controller -> accounts_controller: fetch brand names
-accounts_controller -> User: list all brands
-UI -> user: select brand
-UI -> settings_controller : list all brand names
-settings_controller -> Brand: list_names()
-Brand -> database : query for all brand names
-settings_controller --> UI: list of names
-UI --> user : diplay all existing brand names
-UI -> user: enter new names with language
-UI -> settings_controller: update_brand_names(names)
-settings_controller -> Brand: add_names(names)
+
+actor "__client__:__user__" as client
+boundary UI
+control "__settingsCont__: settings_controller" as SC
+control "__accsCont__:__account_controller__" as AC
+entity Brand
+database database
+
+activate client 
+activate UI
+client -> UI: add another name to track
+activate AC
+UI -> AC: getUserBrands(client)
+activate database
+AC -> database: fetch all user brands
+AC --> UI:
+deactivate AC
+UI --> client: Show all User's Brands
+UI <- client: select brand
+activate SC
+UI -> SC : getBrandAltNames(userSelectedBrand)
+activate Brand
+SC -> Brand: getBrandAltNames(userSelectedBrand)
+Brand -> database : query for all brand alt names
+SC --> UI: list of names
+UI --> client : display all existing brand names
+UI -> client: enter new names with language
+UI -> SC: update_brand_names(names)
+SC -> Brand: add_names(names)
 Brand -> database : query to add names
-settings_controller -> UI : added names
-UI -> user: added names
+deactivate database
+deactivate Brand
+SC -> UI : added names
+deactivate SC
+UI -> client: added names
+deactivate client 
+deactivate UI
 
 
 @enduml
