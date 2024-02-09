@@ -4,6 +4,8 @@ boundary UI
 control "__analysisCont__:__analysis_controller__" as AC
 control "__dataColCont__: __data_collection_controller__" as DC
 control "__accsCont__:__account_controller__" as AccsC
+control "__brandCont__: __brand_controller__" as BC
+
 entity Brand
 database database
 
@@ -18,18 +20,24 @@ AccsC -> database: fetch all user brands
 AccsC --> UI:
 deactivate AccsC
 UI <- client: specify the brand
+activate BC
+activate Brand
+
+UI -> BC : getBrandAltNames(userSelectedBrand)
+BC -> Brand: getAltNames()
+Brand -> database : query for all brand alt names
+
+deactivate BC
 activate AC
 UI -> AC: getAvailablePlatforms()
 AC -> database: fetch all available platforms
 database --> AC: return all available platform names
 AC --> UI: 
-activate Brand
 UI <- client : select platforms
-AC -> Brand: getBrandAltNames(userSelectedBrand)
-Brand -> database: query for all alt brand names
-database --> Brand:
-Brand --> AC:
+AC -> Brand: getaltnames()
+Brand--> AC: return brand alt names
 deactivate Brand
+
 activate DC
 AC -> DC : web_scrape(platforms, brand names)
 DC --> AC: returns web scrapping results
