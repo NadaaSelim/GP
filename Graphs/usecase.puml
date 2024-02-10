@@ -1,42 +1,49 @@
 @startuml
-
 left to right direction
-:user:
-
+actor user
+rectangle system{
 usecase "sign up" as s1
-usecase "login" as lg
+usecase "log in" as lg
 usecase "view analytics" as v1
-usecase "choose platform" as p1
+usecase "go to settings" as gs
 usecase "generate report" as gr
 usecase "view dashboard" as od
 usecase "check crisis alerts" as ca
+usecase "choose platform" as p1
+
 usecase "add brand" as ab
 usecase "delete brand" as db
-usecase "add platform" as ap
-usecase "remove platform" as rp
-usecase "go to settings" as gs
+' usecase "add platform" as ap
+' usecase "remove platform" as rp
+}
 user -> s1
+s1 .> ab : include
 user -> lg 
 user -> v1
-user -> p1
+v1 .> p1 : include
+user -> gs
+gs .> ab: exclude
+gs .> db: exclude
+
+' user -> p1
 user -> gr
 user -> od
 user -> ca
-user -> ab
-user -> db
-user -> ap
-user -> rp
-user -> gs
-(rp) -[hidden]- (gs)
-(db) -[hidden]- (ap)
-(ab) -[hidden]- (db)
-(od) -[hidden]- (ca)
-(ab) -[hidden]- (s1)
-(rp) -[hidden]- (ap)
-(gr) -[hidden]- (od)
-(gr) -[hidden]- (p1)
-(p1) -[hidden]- (v1)
-(s1) -[hidden]- (lg)
+' user -> db
+' user -> ap
+' user -> rp
+
+
+' (rp) -[hidden]- (gs)
+' (db) -[hidden]- (ap)
+' (ab) -[hidden]- (db)
+' (od) -[hidden]- (ca)
+' (ab) -[hidden]- (s1)
+' (rp) -[hidden]- (ap)
+' (gr) -[hidden]- (od)
+' (gr) -[hidden]- (p1)
+' (p1) -[hidden]- (v1)
+' (s1) -[hidden]- (lg)
 
 
 

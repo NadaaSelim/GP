@@ -1,0 +1,94 @@
+@startuml
+actor "__client__:__user__" as client
+boundary UI
+control "__reportCont__:__report_controller__" as RC
+control "__accsCont__:__account_controller__" as AccsC
+
+entity Brand
+database database
+/'
+  1- user selects generate report 
+  2- user selects brand   
+  3- UI to RC  
+  4- RC to DB fetch data  
+  5- RC marks the available dates & platforms from the existing brand analysis result to be sent to UI 
+  6- UI displays the dates and platforms included on last brand analysis results 
+  7- user selects dates & platforms 
+  8- UI -> RC : user's choices 
+  9- RC formatts report
+  10- RC sends report to UI
+  11 - UI displays report to user
+
+  2- user enter start and end time  
+  3- user select platforms 
+  4- UI to RC  
+  5- RC to DB fetch data  
+  6- RC compares brand latest analysis results with user selected dates & platforms  
+   IF DATES AND PLATFORMS ALIGNED WITH USER S CHOICES 
+     7- RC formatts report  
+     8- RC sends report to UI 
+     9- UI shows report to client 
+  ELSE  REANALYZE 
+    7- RC sends message "" '
+'/
+/'
+    restrict dates to be within range of latest brand analysis results on db & restrict platforms
+    otherwise user must reanalyze data and redirected to view analytics page
+
+    Also how to know platforms and dates the latest web scraping done on?
+    By fetching data analysis result?
+'/
+activate client
+client -> UI: generate report
+activate UI
+UI -> AccsC: getUserBrands(client)
+activate AccsC
+activate database
+
+AccsC -> database: fetch all user brands
+AccsC --> UI:
+deactivate AccsC
+UI <- client: select the brand
+activate RC
+activate Brand
+
+UI -> RC : getBrandResults(userSelectedBrand)
+RC -> Brand: getLatestResults()
+Brand -> database : query for brand analysis results
+
+database --> Brand :return latest brand analysis result
+Brand --> RC : 
+deactivate database
+deactivate Brand
+
+RC --> UI : return available dates & platforms
+UI --> client: displays dropdown menus for dates & platforms
+client -> UI : user selects dates & platforms
+UI -> RC : generateReport(dates,platforms)
+RC --> UI: returns report
+UI --> client: show report
+
+/'activate AC
+UI -> AC: getAvailablePlatforms()
+AC -> database: fetch all available platforms
+database --> AC: return all available platform names
+AC --> UI: 
+UI <- client : select platforms
+AC -> Brand: getaltnames()
+Brand--> AC: return brand alt names
+deactivate Brand
+
+activate DC
+AC -> DC : web_scrape(platforms, brand names)
+DC --> AC: returns web scrapping results
+deactivate DC
+AC -> database : adds analysis results
+deactivate database
+AC --> UI : results are ready
+deactivate AC
+UI --> client : display results
+deactivate UI
+deactivate client
+'/
+
+@enduml
