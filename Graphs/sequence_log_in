@@ -1,0 +1,33 @@
+
+@startuml
+actor "__client__:__user__"
+boundary UI
+control "__accscont__:__accounts_controller__"
+entity User
+database database
+activate "__client__:__user__" 
+"__client__:__user__" -> UI: Enter credentials
+activate UI
+UI -> "__accscont__:__accounts_controller__": user_exists(client)
+activate "__accscont__:__accounts_controller__"
+"__accscont__:__accounts_controller__" ->  User: user_in_db()
+activate User
+activate database
+User-> database : query to find user within database
+deactivate database
+deactivate User
+alt user was found
+    "__accscont__:__accounts_controller__" --> UI: return true
+    UI --> "__client__:__user__": LOGIN SUCCESSFUL
+  
+else user does not exist
+ "__accscont__:__accounts_controller__" --> UI: return false
+  UI --> "__client__:__user__": User does not exist.Please try again
+
+
+deactivate database
+deactivate "__accscont__:__accounts_controller__"
+deactivate UI
+deactivate "__client__:__user__"
+end
+@enduml

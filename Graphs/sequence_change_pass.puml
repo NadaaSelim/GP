@@ -1,0 +1,39 @@
+@startuml
+
+actor "__client__:__user__" as client
+boundary UI
+control "__settingsCont__: settings_controller" as SC
+entity User
+database database
+
+activate client
+activate UI
+client-> UI : choose Change password
+UI --> client: display form
+client -> UI : enter old & new password
+'bool'
+activate SC
+UI -> SC : change_password(client,oldPassword,NewPassword) 
+'return object User'
+activate User
+SC -> User: get_password()
+SC <-- User:
+alt Users password match entered old password:
+SC -> User: set_password(NewPassword)
+activate database
+User-> database: query to change users password
+deactivate User
+
+deactivate database
+SC --> UI: return true
+UI --> client: Password has been reset
+
+else
+SC --> UI: return false
+UI --> client: Password is incorrect.Please try again.
+end
+deactivate SC
+deactivate UI
+deactivate client
+
+@enduml

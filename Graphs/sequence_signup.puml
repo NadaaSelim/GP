@@ -3,19 +3,23 @@ actor "__client__:__user__"
 boundary UI
 control "__accscont__:__accounts_controller__"
 entity Brand
+entity User
 database database
 activate "__client__:__user__" 
 "__client__:__user__" -> UI: Fills the form
 activate UI
 UI -> "__accscont__:__accounts_controller__": user_exists(client)
 activate "__accscont__:__accounts_controller__"
-"__accscont__:__accounts_controller__" -> database: query for the email
+"__accscont__:__accounts_controller__" -> User: user_in_db()
+activate User
+User-> database : query to find user within database
+deactivate User
 alt User wasn't found
   activate database
   create Brand
   "__accscont__:__accounts_controller__" -> Brand : new
   "__accscont__:__accounts_controller__" -> database : add user
-    "__accscont__:__accounts_controller__" -> database : add brand
+  "__accscont__:__accounts_controller__" -> database : add brand
 
   "__accscont__:__accounts_controller__" --> UI: 
   UI --> "__client__:__user__": Registration successful

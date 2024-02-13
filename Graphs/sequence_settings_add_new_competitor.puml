@@ -7,6 +7,7 @@ control "__brandCont__: __brand_controller__" as BC
 
 control "__accsCont__:__account_controller__" as AC
 entity Brand
+entity User
 database database
 
 activate client 
@@ -14,28 +15,37 @@ activate UI
 client -> UI: view settings page
 client -> UI: add competitor
 activate AC
-UI -> AC: getUserBrands(client)
-activate database
-AC -> database: fetch all user brands
+UI -> AC: get_user_brands(client)
+activate User
+AC -> User : get_brands()
+User-> AC
+deactivate User
+/'
+activate User
+AccsC -> User: get_brands()
+User --> AccsC:
+'/
 AC --> UI: return user's brands
 deactivate AC
 UI --> client: Show all User's Brands
 UI <- client: select brand
 activate BC
-UI <- client : add competitor brand info
-UI -> BC : getBrandCompetitors(userSelectedBrand)
+UI -> BC: get_brand_competitors(UserSelectedBrand)
 activate Brand
-BC -> Brand: getCompetitors()
-Brand -> database : query for all brand competitor names
+BC -> Brand: get_competitors()
+Brand --> BC:
 BC --> UI: list of competitor names
 deactivate BC
 UI --> client : display all existing competitor brand names
-UI --> client: enter new competitor name with alt names
+UI --> client: Please enter new competitor name with alt names
 client -> UI : enter competitor brand
 activate SC
-UI -> SC: addcompetitor(userSelectedBrand,competitor)
-SC -> Brand: addcompetitor(competitor)
+UI -> SC: add_competitor(userSelectedBrand,competitor)
+
+SC -> Brand: add_competitor(competitor)
+activate database
 Brand -> database : query to add competitor
+Brand --> SC:
 deactivate database
 deactivate Brand
 SC -> UI : added competitor

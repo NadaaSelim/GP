@@ -7,48 +7,108 @@ control "__accsCont__:__account_controller__" as AccsC
 control "__brandCont__: __brand_controller__" as BC
 
 entity Brand
+entity User
+entity Platform
 database database
+
 
 activate client
 client -> UI: view analytics
 activate UI
-UI -> AccsC: getUserBrands(client)
+UI -> AccsC: get_user_brands(client)
 activate AccsC
-activate database
-
-AccsC -> database: fetch all user brands
+activate User
+AccsC -> User: get_brands()
+User --> AccsC:
+deactivate User
 AccsC --> UI:
 deactivate AccsC
 UI <- client: specify the brand
 activate BC
 activate Brand
 
-UI -> BC : getBrandAltNames(userSelectedBrand)
-BC -> Brand: getAltNames()
-Brand -> database : query for all brand alt names
+UI -> BC : get_brand_altnames(userSelectedBrand)
+BC -> Brand: get_altnames()
 
+UI -> BC: get_brand_competitors(UserSelectedBrand)
+BC -> Brand: get_competitors()
+Brand --> BC:
+BC --> UI:
 deactivate BC
+deactivate Brand
 activate AC
-UI -> AC: getAvailablePlatforms()
-AC -> database: fetch all available platforms
-database --> AC: return all available platform names
+UI -> AC: get_available_platforms()
+activate Platform
+
+note right
+how will object platform return all available platforms??
+end note
+AC -> Platform: get_all_platforms()
+activate database
+Platform -> database : fetch all platforms
+deactivate database
+Platform --> AC: return all available platform names
+deactivate Platform
 AC --> UI: 
 UI <- client : select platforms
-AC -> Brand: getaltnames()
-Brand--> AC: return brand alt names
+UI <- client : select competitors
+UI --> AC: start_analysis(platforms,CompetiorBrands)
+activate BC
+activate Brand
+loop SelectedCompetitors size
+    AC -> BC: get_brand_altnames(userSelectedBrand)
+    BC -> Brand: get_altnames()
+    BC --> AC:
+end 
+deactivate Brand
+deactivate BC 
+AC -> DC : web_scrape(platforms, brands)
+activate DC
+DC --> AC: 
+deactivate DC
+activate Brand
+AC -> Brand : get_analysis()
+activate database
+Brand -> database: fetch analysis result
+deactivate database
+Brand --> AC:
+AC --> UI : results are ready
 deactivate Brand
 
-activate DC
-AC -> DC : web_scrape(platforms, brand names)
-DC --> AC: returns web scrapping results
-deactivate DC
-AC -> database : adds analysis results
-deactivate database
-AC --> UI : results are ready
 deactivate AC
 UI --> client : display results
 deactivate UI
 deactivate client
 
+/'UI --> AC: start_analysis(client)
+AC -> Brand: get_alt_names()
+Brand--> AC: return brand alt names
+activate AccsC
+AC -> AccsC: get_competitors(brand)
+AccsC -> User: get_competitors()
+User --> AccsC:
+deactivate AccsC
+loop competitors_size times
+    AC -> Brand: get_alt_names()
+    AC <-- Brand:
+end
 
+AC -> DC : web_scrape(platforms, brands)
+activate DC
+DC --> AC: 
+deactivate DC
+
+AC -> Brand : get_analysis()
+Brand -> database: fetch analysis result
+Brand --> AC:
+deactivate database
+AC --> UI : results are ready
+deactivate Brand
+
+deactivate AC
+UI --> client : display results
+deactivate UI
+deactivate client
+
+'/
 @enduml

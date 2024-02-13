@@ -1,0 +1,42 @@
+@startuml
+
+actor "__client__:__user__" as client
+boundary UI
+control "__settingsCont__: settings_controller" as SC
+control "__accsCont__:__account_controller__" as AC
+entity user
+
+database database
+
+activate client 
+activate UI
+client -> UI: add new brand name 
+activate AC
+UI -> AC: get_user_brands(client)
+activate database
+AC -> database: fetch all user brands
+AC --> UI:
+
+UI --> client: Show all User's Brands
+UI <- client: enter new brand
+
+activate SC
+
+UI -> SC: add_brand(user,new_brand)
+SC -> AC: add_brand(user,new_brand)
+activate user
+AC-> user: add_brand(new_brand)
+AC <-- user:
+deactivate user
+SC <-- AC:
+deactivate AC
+SC -> database: query to add user's brand
+
+deactivate database
+
+SC --> UI : added brand
+deactivate SC
+UI -> client: Brand has been added
+deactivate client 
+deactivate UI
+@enduml

@@ -18,6 +18,7 @@ entity User{
     +set_email(in email:string):void
     +add_brand(in brand:Brand):boolean
     +remove_brand(in brand:Brand):boolean
+    +user_in_db():boolean
 }
 
 entity Brand{
@@ -97,7 +98,8 @@ class AccountsController {
     +sign_up(username,password,email):boolean
     +log_in(in username:string in password:string):boolean
     +get_user_brands(in client:User):list<brands>
-
+    +add_brand(in user:User, in brand:Brand): boolean
+    +get_user(in username:string):User
 
 
 }
@@ -105,8 +107,8 @@ class AccountsController {
 class SettingsController{
     +add_altname(in selected_brand:Brand ,in name:string):boolean
     +add_competitor(in selected_brand:Brand ,in competitor:Brand):boolean
-
-
+    +add_brand(in user:User, in brand:Brand): boolean
+    +change_password(in user:User,in oldPass:string,in newPass:string):boolean
 }
 
 class BrandController{
@@ -117,17 +119,17 @@ class BrandController{
 }
 
 class AnalysisController{
-    +get_available_platforms()
+    +get_available_platforms():list<platform>
 
 }
 
 class DataCollectionController{
-    +web_scrape(in platforms:list<string>,in ):
+    +web_scrape(in platforms:list<string>,in brands: list<brand> ):
 }
 
 class ReportController{
     +get_brand_results(in selected_brand:Brand):AnalysisResult
-    +generate_report()
+    +generate_report(in dates: list<date>, in platforms:list<string>)
 }
 
 entity Platform{
@@ -135,6 +137,7 @@ entity Platform{
     - id:string
     Platform()
     Platform(in name:string ,in id:string)
+    +get_all_platforms():list<Platform>
 }
 
 entity Review{
