@@ -1,4 +1,5 @@
 @startuml
+skinparam linetype ortho
 
 entity User{
     -id:string
@@ -64,9 +65,6 @@ entity AnalysisResult{
     -negative:long
     -neutral:long
     -poistive:long
-    -examples_negative:list<string>
-    -examples_neutral:list<string>
-    -examples_poistive:list<string>
     Report()
     Report(in start:date ,in end:date)
     +get_associated_words():map<string,int>
@@ -76,14 +74,9 @@ entity AnalysisResult{
     +get_negative():long
     +get_neutral():long
     +get_positive():long
-    +get_examples_negative():list<string>
-    +get_examples_poistive():list<string>
-    +get_examples_neutral():list<string>
     +set_start_date(in start_date:date):void
     +set_start_date(in end_date:date):void
-    +set_examples_negative(in examples:list<string>):void
-    +set_examples_neutral(in examples:list<string>):void
-    +set_examples_postive(in examples:list<string>):void
+    
 }
 
 note right of AnalysisResult::examples_negative
@@ -120,6 +113,10 @@ class BrandController{
 
 class AnalysisController{
     +get_available_platforms():list<platform>
+    +start_analysis(in platforms:list<string>, in competitors:list<Brand> ):list<AnaylsisResult>
+    +get_negative_reviews(in number_of_reviews:int ,in brand:Brand):list<Review>
+    +get_poistive_reviews(in number_of_reviews:int ,in brand:Brand):list<Review>
+    +get_neutral_reviews(in number_of_reviews:int ,in brand:Brand):list<Review>
 
 }
 
@@ -157,16 +154,22 @@ entity Review{
     +set_sentiment_score(in score:long):void
     +set_platform(in platform:Platform):void
 }
-Brand o-- Brand
-User *-right- Brand
-Brand o-- AnalysisResult
-Brand o-- Review
-Review *--Platform
+Brand  "1" o--"0..*" Brand:competes
+User   "1" *-right- "1..*" Brand:has 
+Brand  "1" o-- "1" AnalysisResult:has
+Brand  "1" o-- "*" Review:has
+Review "1" *-- "1" Platform:has
 BrandController ..> Brand
 AccountsController ..> User
-SettingsController ..> Brand
+SettingsController .left.> Brand
 SettingsController ..> User
 DataCollectionController ..> Platform
+AnalysisController ..> Platform
+AnalysisController ..> Brand
+AnalysisController ..> AnalysisResult
+AnalysisController ..> Review
+ReportController ..> Platform
+ReportController ..> Brand
 
 
 
