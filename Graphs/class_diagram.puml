@@ -113,7 +113,7 @@ class BrandController{
 
 class AnalysisController{
     +get_available_platforms():list<platform>
-    +start_analysis(in platforms:list<string>, in competitors:list<Brand> ):list<AnaylsisResult>
+    +start_analysis(in platforms:list<string>,in dates:list<dates>, in competitors:list<Brand> ):list<AnaylsisResult>
     +get_negative_reviews(in number_of_reviews:int ,in brand:Brand):list<Review>
     +get_poistive_reviews(in number_of_reviews:int ,in brand:Brand):list<Review>
     +get_neutral_reviews(in number_of_reviews:int ,in brand:Brand):list<Review>
@@ -121,12 +121,12 @@ class AnalysisController{
 }
 
 class DataCollectionController{
-    +web_scrape(in platforms:list<string>,in brands: list<brand> ):
+    +web_scrape(in platforms:list<string>,in dates:list<Date>,in brands: list<brand> ):
 }
 
 class ReportController{
     +get_brand_results(in selected_brand:Brand):AnalysisResult
-    +generate_report(in dates: list<date>, in platforms:list<string>)
+    ' +generate_report(in dates: list<date>, in platforms:list<string>)
 }
 
 entity Platform{

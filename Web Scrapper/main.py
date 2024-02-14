@@ -1,5 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 from selenium.webdriver.chrome.service import Service
 
 import pandas as pd
@@ -10,13 +13,14 @@ from langdetect import detect
 
 NeededRevs = {
     "ar": {
-       "Good": 1000,
-       "Very good": 1500,
-      #"Amazing": 300
+       "Good": 800,
+       "Very good": 1400,
+       "Amazing": 100
     },
     "en": {
-        "Good": 1300,
-        "Very good": 1500,
+        "OK":200,
+        "Good": 1100,
+        "Very good": 1400,
         "Amazing": 700
     }
   }
@@ -43,12 +47,19 @@ def getResReview(driver,url):
     except Exception as e:
         return
     #selector = "#__next > div:nth-child(4) > div.sc-c2e9abd4-0.jNQZcm > div > div > div > div.mt-2 > div > div.b-b.mb-4 > div > div > div:nth-child(2) > button"
-    while True:
-        try:
-            load_more_button = driver.find_element(By.CSS_SELECTOR, '[data-testid="btn-load-more"]')
+    try:
+        load_more_button = WebDriverWait(driver, 5).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-testid="btn-load-more"]'))
+        )
+        while load_more_button.is_displayed():
             load_more_button.click()
-            time.sleep(1)  # Wait for the page to load
-        except Exception as e:
+            time.sleep(1)  # Adjust the wait time as needed
+            
+            # Refresh the elements to avoid StaleElementReferenceException
+            review_elements = WebDriverWait(driver, 5).until(
+                EC.presence_of_all_elements_located((By.CSS_SELECTOR, '[data-testid="reviews-item-component"]'))
+            )
+    except Exception as e:
             # Scrape the reviews
             reviews_data = []
             review_elements = driver.find_elements(By.CSS_SELECTOR, '[data-testid="reviews-item-component"]')
@@ -76,7 +87,6 @@ def getResReview(driver,url):
             df.to_csv(csv_file_path, mode='a',encoding='utf-8-sig', index=False, header=not os.path.isfile(csv_file_path))
             #df.to_csv('reviews.csv', index=False,encoding='utf-8-sig')
             print("Reviews saved to 'reviews.csv'")
-            break
 
     # url will be all restaurants available in certain location
 def getAllResInLocation(url):
@@ -99,13 +109,13 @@ def getAllResInLocation(url):
 
     reslinks=[]
     print(page_number)  
-    for _ in range(int(page_number)-1):
+    for _ in range(int(page_number)+1):
         #driver.get(url+"page?="+str(i))
         a_elements = driver.find_elements(By.CSS_SELECTOR,"a[data-testid='restaurant-a']")
         link = [a_element.get_attribute("href") for a_element in a_elements]
         reslinks.extend(link)
         next_button = driver.find_element(By.CSS_SELECTOR,"a[aria-label='Go to next page']")
-        time.sleep(1)
+        time.sleep(2)
 
         if next_button is not None:
             next_page_link = next_button.get_attribute("href")
@@ -116,9 +126,9 @@ def getAllResInLocation(url):
         print(reslinks[i])
     driver.quit()
     return reslinks
-
+# 316 res
 # https://www.talabat.com/egypt/restaurants/7150/shatby
-reslinks = getAllResInLocation("https://www.talabat.com/egypt/restaurants/8696/el-galaa-el-aswaq")
+reslinks = getAllResInLocation("https://www.talabat.com/egypt/restaurants/7588/garden-city")
 
 driver = webdriver.Chrome()  
 

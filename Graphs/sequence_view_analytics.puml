@@ -52,7 +52,9 @@ deactivate Platform
 AC --> UI: 
 UI <- client : select platforms
 UI <- client : select competitors
-UI --> AC: start_analysis(platforms,CompetiorBrands)
+UI <- client : select dates
+
+UI --> AC: start_analysis(platforms,dates,CompetiorBrands)
 activate BC
 activate Brand
 loop SelectedCompetitors size
@@ -62,7 +64,7 @@ loop SelectedCompetitors size
 end 
 deactivate Brand
 deactivate BC 
-AC -> DC : web_scrape(platforms, brands)
+AC -> DC : web_scrape(platforms,dates, brands)
 activate DC
 DC --> AC: 
 deactivate DC

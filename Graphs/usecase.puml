@@ -1,5 +1,4 @@
 @startuml
-left to right direction
 actor user
 rectangle system{
 usecase "sign up" as s1
@@ -12,7 +11,10 @@ usecase "check crisis alerts" as ca
 usecase "choose platform" as p1
 
 usecase "add brand" as ab
+
 usecase "delete brand" as db
+usecase "add competitor" as ac
+usecase "delete competitor" as dc
 ' usecase "add platform" as ap
 ' usecase "remove platform" as rp
 }
@@ -24,6 +26,8 @@ v1 .> p1 : include
 user -> gs
 gs .> ab: exclude
 gs .> db: exclude
+gs .> ac: exclude
+gs .> dc: exclude
 
 ' user -> p1
 user -> gr

@@ -5,7 +5,6 @@ control "__reportCont__:__report_controller__" as RC
 control "__accsCont__:__account_controller__" as AccsC
 entity User
 entity Brand
-entity AnalysisResult
 database database
 /'
   1- user selects generate report 
@@ -65,14 +64,14 @@ Brand --> RC :
 deactivate database
 deactivate Brand
 
-RC --> UI : return available dates & platforms
+/'RC --> UI : return available dates & platforms
 UI --> client: displays dropdown menus for dates & platforms
 client -> UI : user selects dates & platforms
 UI -> RC : generate_report(dates,platforms)
 activate Brand
 RC -> Brand: get_analysis()
 Brand --> RC:
-deactivate Brand
+deactivate Brand'/
 RC --> UI: returns Analysis Result
 UI --> client: show report
 
