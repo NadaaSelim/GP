@@ -15,9 +15,8 @@ export default function Sidebar1({ ...props }: Props) {
       width="240px !important"
       collapsedWidth="80px !important"
       collapsed={collapsed}
-      onClick={() => {
-        setCollapsed(!collapsed);
-      }}
+      className="h-screen overflow-hidden" 
+
     >
       <div className="flex flex-row justify-start items-start w-[47%] mt-5 ml-10 mr-[88px] gap-2.5">
         <div className="h-6 w-6 relative">

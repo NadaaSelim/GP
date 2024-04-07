@@ -1,151 +1,126 @@
 "use client"
-import { Helmet } from "react-helmet";
- import React from "react";
- import Link from "next/link";
-
+import React from "react";
 import { Img, Text, Button, Input, Heading, SelectBox } from "../components";
+import Link from "next/link";
+
 const dropDownOptions = [
-{ label: "Option1", value: "option1" },
+  { label: "Option1", value: "option1" },
+  { label: "Option2", value: "option2" },
+  { label: "Option3", value: "option3" }
+];
 
-{ label: "Option2", value: "option2" },
+const Login: React.FC = () => {
+  return (
+    <>
+      <title>Menna's Application1</title>
+      <meta name="description" content="Web site created using create-react-app" />
+      <div className="flex flex-row justify-center items-center min-h-screen w-full bg-gray-100_03">
 
-{ label: "Option3", value: "option3" },
-]
-
-export default function SigninpagePage() {
-return (<>
-<div className="flex flex-row justify-center w-full bg-white-A700">
-<div className="h-[982px] w-full pl-[19px] bg-indigo-200 shadow-xs relative">
-<div className="flex flex-row nd: flex-col justify-center items-center w-max h-full left-8 bottom-8 right-8 top-8 m-auto md:gap-5 absolute"> 
-<div className="flex flex-row justify-center w-[47%] md:w-full z-[1]">
+        <div className="h-[982px] w-full pl-[18px] bg-indigo-400_01 shadow-xs relative">
+          <div className="flex flex-col justify-center items-start w-1/2">
+          <Img src="../images/img_doodle_2_1.png"alt="doodle2oneone"className="w-[156px] md:h-auto object-cover"/>
+          <Img
+src="../images/img_doodle_4_1.png"
+alt="doodle4oneone"
+className="w-[156px] md:h-auto mt-[-3px] object-cover"
+/>
 <Img
+src="../images/img_doodle_3_1.png"
+alt="doodle3oneone"
+className="w-[156px] md:h-auto mt-[-3px] object-cover"
 
-src="images/img_saly_22.png"
-alt="salytwentytwo"
-className="w-full md:h-auto sm:w-full object-cover"/>
-</div>
-<div className="flex flex-col items-end justify-start w-[63%] md:w-full ml-[-123px] p-[38px] md:ml-8 sm:p-5 bg-white-A700 rounded-[25px">
-<div className="flex flex-col items-start justify-start w-[73%] md:w-full mb-[107px] mr-[86px] gap-[114px] md:mr-5">
-{/* <SelectBox
-size="xs"
-variant="dropdown1"
-shape="square"
-indicator={<Img src="images/ing_arrow_drop_down.svg" alt="arrow_drop_down" />} name="englishuk"
-placeholder="English (UK)"
-options={dropDownOptions}
-className="w-[20%] ml-[500px] gap-px md:ml-5 text-black-988 tracking-[1.12px]"
-/> */}
-{/* <div className="flex flex-row justify-start items-center ml-[500px] gap-1.5">
-                  <Text size="md" as="p" className="!text-black-900 tracking-[1.12px]">
+></Img>
+
+            <Img
+src="../images/img_doodle_5_1.png"
+alt="doodleSoneone"
+              className="w-[210px] object-cover"
+            />
+            <Img
+              src="../images/img_saly_22.png"
+              alt="salytwentytwo"
+              className="mb-4 w-[300px] object-cover"
+            />
+          </div>
+
+          <div className="flex flex-row justify-center items-center w-max h-full left-0 bottom-0 right-0 top-0 m-auto absolute">
+
+            <div className="flex flex-col items-end justify-start w-[100%] ml-[87px] p-[30px] bg-white-A700 rounded-[25px]">
+              <div className="flex flex-col items-start justify-start w-[73%] mb-[107px] mr-[86px] gap-[123px]">
+              <div className="flex flex-row justify-start items-center ml-[500px] gap-1.5">
+                  <Text size="md" as="p" className="font-medium !text-black-900 tracking-[1.12px]">
                     English (UK)
                   </Text>
                   <Img src="../../images/img_arrow_drop_down.svg" alt="arrowdropdown" className="h-6 w-6" />
-                </div> */}
-
-<div className="flex flex-col items-start justify-start w-[87%] md:w-full">
-<Heading size="lg" as="h1" className="!text-black-900 tracking-[3.20px]"> Log in
-</Heading>
-<div className="flex flex-row sm:flex-col justify-between w-full mt-7 sm:gap-10"> 
-<Button
-color="gray_100_02"
-size="3xl"
-variant="outline"
-shape="round"
-leftIcon={
-
-<Img
-
-src="images/img_8c030bd6bd7ee87ad41485e3c7598dd4_1.png"
-alt="8c030bd6bd7ee87ad41485e3c7598dd4 1"
-className="w-[26px] h-[27px]"/>
+                </div>                <div className="flex flex-col items-center justify-start w-[83%] gap-[50px]">
+                  <Heading size="xl" as="h1" className="font-medium !text-black-900  tracking-[1.92px]">
+                    Log in
+                  </Heading>
+                  <div className="flex flex-row justify-between w-full">
+                    <Button
+                      color="gray_100_02"
+                      size="3xl"
+                      variant="outline"
+                      leftIcon={<Img src="../../images/img_8c030bd6bd7ee87ad41485e3c7598dd4_1.png" alt="8c030bd6bd7ee87ad41485e3c7598dd4 1" className="w-[23px] h-[27px]" />}
+                      className="gap-[9px] tracking-[1.04px] font-light min-w-[221px]"
+                    >
+                      Sign in with Google
+                    </Button>
+                    <Button
+                      color="gray_100_02"
+                      size="3xl"
+                      variant="outline"
+                      leftIcon={<Img src="../../images/img_pngegg_69_1.png" alt="pngegg (69) 1" className="w-6 h-6" />}
+                      className="gap-[9px] tracking-[1.04px] font-light min-w-[231px]"
+                    >
+                      Sign in with Facebook
+                    </Button>
+                  </div>
+                  <Text size="lg" as="p" className="!text-blue_gray-100 tracking-[1.44px]">
+                    - OR -
+                  </Text>
+                  <Input
+                    color="gray_100_02"
+                    size="sm"
+                    variant="underline"
+                    shape="square"
+                    type="email"
+                    name="email"
+                    placeholder="E-mail"
+                    className="w-full tracking-[1.12px] font-medium"
+                  />
+                  <Input
+                    color="gray_100_02"
+                    size="sm"
+                    variant="underline"
+                    shape="square"
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    className="w-full tracking-[1.12px] font-medium"
+                  />
+                  <Button size="2xl" className="w-full tracking-[1.92px] font-extrabold">
+                    Log in
+                  </Button>
+                  <Text size="lg" as="p" className="!text-gray-400_01 tracking-[1.44px] !font-medium">
+                    <Link href="../signup"><span className="text-gray-400_01">Don't have an account? </span>
+                    <span className="text-blue_gray_800">Sign up</span></Link>
+                  </Text>
+                </div>
+              </div>
+            </div>
+          </div>
+          <Text
+            size="6xl"
+            as="p"
+            className="w-[24%] left-[3%] top-[16%] m-auto !text-white-A700 tracking-[2.88px] absolute font-medium"
+          >
+          </Text>
+        </div>
+      </div>
+      
+    </>
+  );
 }
-className="gap-[17px] sm:pr-5 tracking [1.20px] font-light min-w-[256px]">
-Sign in with Google
-</Button>
 
-<Button
-color="gray_100_82"
-size="3xl"
-variant="outline"
-shape="round"
-leftIcon={
-
-<Img src="images/img_pngegg_69_1.png" alt="pngegg (69) 1" className="w-[27px] h-[24px]" />
-}
-className="gap-2.5 tracking-[1.20px] font-light min-w-[251px]">
-Sign in with Facebook
-</Button>
-</div>
-<Text size="md" as="p" className="mt-[63px] ml-56 md:ml-5 !text-blue_gray-100 tracking [1.44px}"> -OR-
-</Text>
-
-
-
-
-
-
-
-<Input
-
-color="gray_100_02"
-size="sm"
-variant="underline"
-shape="square"
-type="email"
-name="email"
-placeholder="E-mail"
-className="w-[95%] sm:w-full mt-[62px] tracking [1.12px] font-medium"/>
-<Input
-color="gray_100_02"
-size="sm"
-variant="underline"
-shape="square"
-
-type="password"
-name="password"
-placeholder="Password"
-className="w-[95%] sm:w-full mt-[46px] tracking [1.12px] font-medium"/>
-<Button
-size="2xl"
-shape="round"
-className="mt-[68px] sm:px-5 tracking-[1.92px] font-extrabold min-w-[513px] sm: min-w-full">
-Log in
-</Button>
-
-<Text size="md" as="p" className="mt-[105px] !text-gray-400_01 tracking-[1.44px] font-medium"> 
-<Link href="../signup"><span className="text-gray-400_01">You don't have an account</span>
-<span className="text-gray-400_01">?</span>
-<span className="text-blue_gray_800">Sign up</span></Link>
-</Text>
-</div> </div>
-</div> </div>
-<div className="flex flex-row justify-start w-[27%] left-[8%] top-[10%] m-auto absolute"> <div className="flex flex-row justify-between items-center w-full"></div>
-
-
-
-
-<div className="flex flex-col items-center justify-start">
-
-<Img src="images/img_doodle_2_1.png" alt="doodleoncone” "className="w-[156px] md:h-auto object-cover" />
-<Img src="images/img_doodle_2_1.png" alt="doodleoncone” "className="w-[156px] md:h-auto object-cover" />
-
-</div>
-
-<div className="h-[303px] w-[42%] relative">
-<div className="flex flex-col items-center justify-start h-[156px] w-[156px] left-0 top-0 m-auto absolute">
-    <Img src="images/img_doodle_2_1.png" alt="doodleoncone” "className="w-[156px] md:h-auto object-cover" />
-
-</div>
-
-<div className="flex flex-col items-center justify-start h-[156px] w-[156px] left-0 top-0 m-auto absolute">
-    <Img src="images/img_doodle_2_1.png" alt="doodleoncone” "className="w-[156px] md:h-auto object-cover" />
-
-</div>
-
-</div>
-</div>
-</div>
-</div>
-</>
-);
-}
+export default Login;

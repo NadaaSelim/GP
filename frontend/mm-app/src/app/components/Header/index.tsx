@@ -18,11 +18,13 @@ export default function Header({ ...props }: Props) {
         name="search"
         placeholder="Search"
         value={searchBarValue3}
+        
         onChange={(e: string) => setSearchBarValue3(e)}
         suffix={
-          searchBarValue3?.length > 0 ? (
-            <CloseSVG onClick={() => setSearchBarValue3("")} height={12} width={12} fillColor="#627b87ff" />
-          ) : (
+          // searchBarValue3?.length > 0 ? (
+          //   <CloseSVG onClick={() => setSearchBarValue3("")} height={12} width={12} />
+          // ) :
+           (
             <Img src="images/img_icon.svg" alt="Icon" className="cursor-pointer" />
           )
         }
@@ -40,3 +42,4 @@ export default function Header({ ...props }: Props) {
     </header>
   );
 }
+export {Header};

@@ -7,7 +7,8 @@ export default function Guest() {
       <>
           <title>Menna's Application1</title>
           <meta name="description" content="Web site created using create-react-app" />
-        <div className="h-[982px] w-full bg-indigo-200 relative">
+        <div className="min-h-screen h-[982px] w-full  flex items-center bg-indigo-200 relative overflow-hidden">
+          
           <div className="flex flex-row justify-between items-center w-[21%] right-[31%] top-[22%] m-auto absolute">
             <Img src="../../images/img_ball_3.png" alt="ballthreeone" className="w-[122px] object-cover" />
             <Img src="../../images/img_untitled2.png" alt="untitledtwoone" className="w-[59px] object-cover" />
@@ -68,7 +69,7 @@ export default function Guest() {
               />
             </div>
             <div className="flex flex-row justify-end items-start w-full mt-[-181px]">
-              <div className="h-[57px] w-[28%] mt-48 z-[1] relative">
+              {/* <div className="h-[57px] w-[28%] mt-48 mb-[269px] z-[1] relative">
                <Link href='../login'> <Img
                   src="../../images/img_rectangle_36.svg"
                   alt="imageone_one"
@@ -81,7 +82,7 @@ export default function Guest() {
                 >
                   Log In
                 </Heading></Link>
-              </div>
+              </div> */}
               <div className="flex flex-row justify-end items-center w-[99%] ml-[-293px]">
                 <div className="flex flex-row justify-end w-[34%] z-[1]">
                   <div className="h-[373px] w-full relative">
@@ -184,7 +185,7 @@ export default function Guest() {
               </div>
             </div>
             <div className="flex flex-col items-start justify-start w-full mt-[-56px]">
-              <Text size="7xl" as="p" className="ml-[358px] !text-black-900 !font-merienda z-[1]">
+              <Text size="7xl" as="p" className="ml-[358px] mt-[50px] mb-[30px] !text-black-900 !font-merienda z-[1]">
                 Hello
               </Text>
               <div className="flex flex-row justify-start items-center w-full mt-[-122px]">
@@ -214,8 +215,23 @@ export default function Guest() {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-row justify-start items-start w-[71%] ml-[-77px]">
-                  <div className="h-[57px] w-[37%] mt-[269px] z-[1] relative">
+                <div className="flex flex-col justify-start items-start w-[71%] ml-[-77px]">
+                <div className="h-[57px] w-[37%] z-[1] mt-[70px] mb-[20px] relative">
+                  <Link href='../login'><Img
+                      src="../../images/img_rectangle_36.svg"
+                      alt="imageoneone_one"
+                      className="justify-center h-[57px] left-0 bottom-0 right-0 top-0 m-auto absolute rounded-md"
+                    />
+                    <Heading
+                      size="xl"
+                      as="h2"
+                      className="w-max top-[6%] right-0 left-0 m-auto !text-gray-200_01 !font-inter text-center absolute"
+                    >
+                      Login
+
+                    </Heading> </Link>
+                  </div>
+                  <div className="h-[57px] w-[37%] mt-[20px] mb-[20px] z-[1] relative">
                   <Link href='../signup'><Img
                       src="../../images/img_rectangle_36.svg"
                       alt="imageoneone_one"
@@ -230,8 +246,8 @@ export default function Guest() {
 
                     </Heading> </Link>
                   </div>
-                  <div className="flex flex-row justify-start items-start w-full ml-[-309px]">
-                    <Heading as="h3" className="w-[36%] mt-[122px] !text-gray-200_01 !font-inter z-[1] !leading-[35px]">
+                  <div className="flex flex-row justify-start items-start w-full ">
+                    <Heading as="h3" className="w-[36%] !text-gray-200_01 !font-inter z-[1] !leading-[35px]">
                       Are you ready to unlock the marketing magic that drives results? Dive in and unleash your
                       brand&#39;s full potential!
                     </Heading>
@@ -255,6 +271,7 @@ export default function Guest() {
           >
             MarketMinds
           </Heading>
+        
         </div>
       </>
     );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ForwardedRef, useEffect, useRef } from "react";
 import Select, { Props } from "react-select";
 
 const shapes = {
@@ -55,6 +55,11 @@ const SelectBox = React.forwardRef<any, SelectProps>(
     },
     ref,
   ) => {
+      const menuPortalTargetRef = useRef(document.body);
+    
+      useEffect(() => {
+        menuPortalTargetRef.current = document.body;
+      }, []);
     return (
       <>
         <Select
