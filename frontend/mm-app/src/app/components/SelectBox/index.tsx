@@ -55,11 +55,13 @@ const SelectBox = React.forwardRef<any, SelectProps>(
     },
     ref,
   ) => {
-      const menuPortalTargetRef = useRef(document.body);
+    const menuPortalTargetRef = useRef<HTMLElement | null>(null);
     
       useEffect(() => {
-        menuPortalTargetRef.current = document.body;
-      }, []);
+        if (typeof document !== 'undefined') {
+          menuPortalTargetRef.current = document.body;
+        }
+            }, []);
     return (
       <>
         <Select
@@ -111,7 +113,7 @@ const SelectBox = React.forwardRef<any, SelectProps>(
             }),
             menuPortal: (base) => ({ ...base, zIndex: 999999 }),
           }}
-          menuPortalTarget={document.body}
+          menuPortalTarget={typeof document !== 'undefined' ? document.body : null}
           closeMenuOnScroll={(event: any) => {
             return event.target.id === "scrollContainer";
           }}

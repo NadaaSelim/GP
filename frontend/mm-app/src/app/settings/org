@@ -1,0 +1,382 @@
+"use client"
+import React from "react";
+import { Img, Text, Button, Input, Heading, SelectBox,Sidebar1,Header } from "../components";
+export default function SettingsPage(){
+return (
+<>
+<div className="flex flex-row min-h-screen md:flex-col justify-start items-start w-full gap-9 md:gap-5 bg-white-A700">
+{/* <div className="flex">
+<Sidebar1 className="w-[242px]h-screen top-0 bg-gray-100 03 !sticky overflow-auto"/>
+</div> */}
+<div className="flex flex-row justify-start w-[81%] md:w-full mt-[15px] md:mt-0">
+<div className="flex flex-col items-center justify-start w-full gap-[23px]">
+<div className="flex flex-row justify-center w-[97%] md:w-full pb-[58px] md:pb-5 border-indigo-400_01 border border-solid bg-white-A700 rounded-[23px]">
+<div className="flex flex-col items-center justify-start w-full gap-[17px]">
+<div className="h-[229px] w-full relative">
+<div className="flex flex-col items-center justify-center h-[28px] w-[28px] bottom-0 right-[3%] m-auto border-gray-100 border border-solid absolute">
+<Img src="../images/img_vector_gray_500.svg" alt="vectorthreeone" className="h-[6px] my-[9px]"/>
+</div>
+<div className="flex flex-col items-center justify-start h-[191px] w-[191px] bottom-0 left-[3%] m-auto absolute">
+<div className="flex flex-col items-center justify-center h-[191px] w-[191px] border-indigo-400_01 border border-solid bg-indigo-100 rounded-[95px]">
+<Img
+src="../images/img_avatar_image_188x155.png"
+alt="avatarimageone"
+className="w-[82%] md:h-auto sm:w-full mt-px object-cover rounded-[61px]"
+/>
+</div>
+</div>
+<div className="flex flex-row justify-center w-full top-0 right-0 left-0 m-auto absolute">
+<div className="flex flex-row justify-center w-full">
+<div className="h-[163px] w-full rounded-tl-[23px] rounded-tr-[23px] border-indigo-400_01 border border-solid bg-indigo-400_01 shadow-sm relative">
+<div className="justify-center h-[163px] w-[93%] md:w-full left-0 bottom-0 right-0 top-0 m-auto rounded-t1-[23px] rounded-tr-[23px] rotate-[-32deg] border-indigo-400_01 border border-solid absolute">
+<Img
+src="../images/img_ring_163x1085.png"
+alt="ringoneone_one"
+className="justify-center h-[163px]w-full sm:w-full left-0 bottom-0 right-0 top-0 m-auto rounded-tr-[23px] rounded-tl-[23px]object-cover absolute"/>
+
+<Img
+src="../images/img_color_red_300_163x879.png"
+alt="coloroneone one"
+className="justify-center h-[163px] w-[82%] sm:w-full left-0 bottom-0 right-0 top-0 m-auto rounded-tr-[23px] rounded-tl-[23px]object-cover absolute"/>
+<div className="justify-center h-[163px] w-full left-0 bottom-0 right-0 top-0 m-auto rounded-tl-[23px] rounded-tr-[23px] absolute">
+<Img
+src="../images/img light 163x1085.png"
+alt="lightoneone one"
+className="justify-center h-[163px]w-full sm:w-full left-0 bottom-0 right-0 top-0 m-auto rounded-tr-[23px]rounded-t1-[23px]object-cover absolute"
+/>
+<div className="flex flex-row justify-between items-center w-[48%] h-max ml-[95px] left-[9%] bottom-0 top-0 my-auto md:ml-5 absolute">
+<div className="h-[159px] w-[32%] mb-[3px] relative">
+<div className="justify-center h-[159px] w-full sm:w-full left-0 bottom-0 right-0 top-0 m-auto absolute">
+
+
+
+
+
+
+
+<div className="h-[159px]w-[32%]mb-[3px]relative">
+<div className="justify-center h-[159px] w-full sm:w-full left-0 bottom-0 right-0 top-0 m-auto absolute">
+<Img
+src="../images/img_glass_159x162.png"
+alt="glassoneone one"
+className="justify-center h-[159px] w-full sm:w-full left-0 bottom-0 right-0 top-0 m-auto rounded-tr-[23px] rounded-t1-[23px] object-cover absolute"/>
+<Img
+src="../images/img_color_red_a400.svg"
+alt="colorthreeone"
+className="h-[104px] top-[14%] right-0 left-0 m-auto rounded-tr-[23px] rounded-t1-[23px] absolute"/>
+</div>
+<Img
+src="../images/img_light_159x162.png"
+alt="lightthreeone"
+className="justify-center h-[159px] w-full sm:w-full left-0 bottom-0 right-0 top-0 m-auto rounded-tr-[23px]rounded-tl-[23px] object-cover absolute"
+/>
+</div>
+<Img
+src="../images/img_untitled_98x156.png"
+alt="untitledoneone"
+className="w-[31%] md:h-auto rounded-tr-[23px] rounded-tl-[23px] object-cover"/>
+</div>
+</div>
+</div>
+<div className="h-[163px] w-[27%] sm:w-full right-0 bottom-0 top-0 my-auto rounded-tl-[23px] rounded-tr-[23px] rotate-[-171deg] border-indigo-400_01 border border-solid absolute">
+<Img
+src="../images/img_spiral_163x307.png"
+alt="spiraloneone"
+className="justify-center h-[163px] w-full sm:w-full left-0 bottom-0 right-0 top-0 m-auto rounded-tr-[23px] rounded-tl-[23px] object-cover absolute"
+/>
+<Img
+src="../images/img_color_163x218.png"
+alt="colorfiveone"
+className="justify-center h-[163px] w-[72%] sm:w-full left-0 bottom-0 right-0 top-0 m-auto rounded-tr-[23px] rounded-t1-[23px] object-cover absolute"
+/>
+<Img
+src="../images/img_light_163x307.png"
+alt="lightfiveone"
+className="justify-center h-[163px] w-full sm:w-full left-0 bottom-0 right-0 top-0 m-auto rounded-tr-[23px] rounded-tl-[23px] object-cover absolute"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div className="flex flex-col items-start justify-start w-[92%] md:w-full gap-[11px]">
+<Heading size="2xl"as="h1"className="ml-0.5 md:ml-0 !text-[37.43px]">
+Yara hassan
+</Heading>
+<div className="flex flex-row md:flex-col justify-between items-center w-full md:gap-10">
+<div className="flex flex-row justify-start items-center w-[27%] md:h-auto gap-2.5 border-white-A700 border border-solid"></div>
+
+
+
+
+
+
+
+<div className="flex flex-col items-center justify-start h-[51px] w-[51px] p-2.5 bg-indigo-100 rounded-[25px]">
+<Img src="../images/img_location.svg"alt="locationoneone"className="h-[31px] w-[31px]"/>
+</div>
+<Heading size="xl"as="h2"className="!text-[23.39px]">
+Cairo,Egypt
+</Heading>
+</div>
+<div className="flex flex-row justify-center w-[23%] md:w-full">
+<div className="h-[50px] w-full sm:w-full relative">
+<div className="flex flex-row justify-center w-max h-full md:h-auto sm:w-full left-0 bottom-0 right-0 top-0 m-auto border-white-A700 border border-solid absolute">
+<Button color="indigo_100" size="lg" shape="circle" className="w-[50px]">
+<Img src="../images/img_call.svg"/>
+</Button>
+</div>
+<Heading
+size="lg"
+as="h3"
+className="w-max right-0 bottom-0 top-0 my-auto !text-[22.66px]absolute">
++28183456789{""}
+</Heading>
+</div>
+</div>
+<div className="flex flex-row justify-center w-[31%] md:w-full">
+<div className="flex flex-row justify-start items-center w-full md:h-auto sm:w-full gap-[22px] border-white-A700 border border-solid">
+<div className="flex flex-col items-center justify-start h-[56px] w-[56px]">
+<div className="flex flex-col items-center justify-start h-[56px] w-[56px] p-[11px] bg-indigo-100 rounded-[50%]">
+<Img src="../images/img_email.svg" alt="emailoneone_one" className="h-[33px] w-[33px]"/>
+</div>
+</div>
+<Heading size="2xl"as="h4"className="!text-[25.24px]">
+yara@mail.com
+</Heading>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div className="flex flex-row md:flex-col justify-start items-start w-full gap-[25px] md:gap-5">
+<div className="flex flex-col items-start justify-start w-[67%] md:w-full gap-[47px] p-2.5 border-indigo-400_01 border border-solid bg-white-A700 rounded-[15px]">
+<Heading size="s" as="h5" className="mt-2 ml-3.5 md:ml-0 !text-[18.99px]">
+Brands
+</Heading>
+<div className="flex flex-col items-center justify-start w-[93%] md:w-full ml-[21px] gap-[129px] md:ml-0 sm:ml-5">
+<div className="flex flex-row md:flex-col justify-between items-center w-[98%] md:w-full md:gap-10">
+<div className="flex flex-row sm:flex-col justify-center items-end w-[82%] md:w-full sm:gap-5">
+<Img
+src="../images/img_target_dynamic_color.png"
+alt="targetdynamic"
+className="w-[8%] md:h-auto sm:w-full mb-[7px] object-cover"/>
+<div className="flex flex-row justify-start w-[35%] sm:w-full mt-[5px] ml-3.5 sm:ml-0 sm:mt-0"></div>
+
+
+
+
+
+
+
+<Heading size="xl"as="h6"className="!text-[28.58px]">
+McDonald's
+</Heading>
+</div>
+<Text size="xl"as="p"className="ml-[47px] md:ml-5 !text-gray-500 !text-[24.82px]">
+2 March2021,13:45PM
+</Text>
+</div>
+<Button color="yellow_100" size="md" className="w-[39px] px-[7px] rounded-[50%]">
+<Img src="../images/img_component_4.png"/>
+</Button>
+</div>
+<div className="flex flex-row justify-between items-start w-full">
+<Text size="xs"as="p"className="flex mt-[7px] !text-indigo-900 !text-[11.08px]">
+<span className="text-gray-500">Showing </span>
+<span className="text-indigo-900">1</span>
+<span className="text-indigo-900"></span>
+<span className="text-gray-500">from</span>
+<span className="text-indigo-900">1 </span>
+<span className="text-gray-500">data</span>
+</Text>
+<div className="flex flex-row justify-between items-center w-[16%] border-white-A700 border border-solid">
+<Img src="../images/img_dropdown.svg"alt="dropdownoneone"className="h-[25px] w-[25px]"/>
+<div className="flex flex-col items-center justify-start h-[39px] w-[39px]">
+<Text
+size="md"
+as="p"
+className="flex justify-center items-center h-[39px] w-[39px] !text-white-A700 !text-[14.24px] bg-indigo-500 text-shadow-ts text-center rounded-[19px]">
+1
+</Text>
+</div>
+<Img src="../images/img_dropdown_gray_500.svg"alt="dropdownthree"className="h-[25px] w-[25px]"/>
+</div>
+</div>
+</div>
+</div>
+<div className="flex flex-col w-[32%] md:w-full gap-[22px]">
+<div className="flex flex-col items-center justify-start w-[99%] md:w-full md:h-auto ml-1 p-[21px] sm:p-5 bg-white-A700 shadow-xs rounded-[5px]">
+<div className="flex flex-col items-center justify-start h-[68px] w-[68px]">
+<Img
+src="../images/img_list_perspective_matte_s.png"
+alt="image"
+className="w-[68px] md:h-auto object-cover"
+/>
+</div>
+<Text size="lg"as="p"className="!text-gray-800 !font-inter !text-[19.43px]">
+Add Alternative Names
+</Text>
+</div>
+<div className="flex flex-col items-start justify-start w-[99%] md:w-full md:h-auto mr-1 p-3 bg-white-A700 shadow-xs rounded-[5px]"></div>
+
+
+
+
+
+
+
+
+
+
+<Img
+src="../images/img_chart_perspective_matte_s.png"
+alt="chartoneone_one"
+className="w-[73px] md:h-auto ml-[131px] md:ml-5 object-cover"
+/>
+<div className="flex flex-row justify-center mb-3.5 ml-[11px] md:ml-0">
+<Text size="lg"as="p"className="mx-[120px] md:mx-5 !text-gray-800 !font-inter !text-[19.43px]">
+Add Brand
+</Text>
+</div>
+</div>
+<div className="flex flex-col items-center justify-start w-[99%] md:w-full md:h-auto ml-1 gap-2 p-3 bg-white-A700 shadow-xs rounded-[5px]">
+<Img
+src="../images/img_padlock_perspective_matte_s.png"
+alt="padlockoneone"
+className="w-[17%] md:h-auto sm:w-full object-cover"/>
+<div className="flex flex-row justify-start w-[50%] md:w-full mb-[11px]">
+<Text size="lg"as="p"className="!text-gray-800 !font-inter !text-[19.43px]">
+Change Password
+</Text>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</>
+);
+}
+
+
+{// return(
+// <div className="flex flex-row md:flex-col justify-start items-start w-full gap-9 md:gap-5 bg-white-A700">
+// <Sidebarl className="w-[242px]h-screen top-0 bg-gray-100_03 !sticky overflow-auto"/>
+// <div className="flex flex-row justify-start w-[81%]md:w-full mt-[15px]md:mt-0">
+// <div className="flex flex-col items-center justify-start w-full gap-[23px]">
+// <div className="flex flex-row justify-center w-[97%]md:w-full pb-[58px]md:pb-5 border-indigo-400_01 border border-solid bg-white-A700 rounded-[23px]">
+// <div className="flex flex-col items-center justify-start w-full gap-[17px]">
+// <div className="h-[229px]w-full relative">
+// <div className="flex flex-col items-center justify-center h-[28px]w-[28px]bottom-0 right-[3%]m-auto border-gray-100 border border-solid absolute">
+// <Img src="images/img_vector_gray_500.svg"alt="vectorthreeone"className="h-[6px]my-[9px]"/>
+// </div>
+// <div className="flex flex-col items-center justify-start h-[191px]w-[191px]bottom-0 left-[3%]m-auto absolute">
+// <div className="flex flex-col items-center justify-center h-[191px]w-[191px]border-indigo-400_01 border border-solid bg-indigo-100 rounded-[95px]">
+// <Img src="images/img_avatar_image_188x155.png"
+// alt="avatarimageone"
+// className="w-[82%]md:h-auto sm:w-full mt-px object-cover rounded-[61px]"/>
+// </div>
+// </div>
+// <div className="flex flex-row justify-center w-full top-0 right-0 left-0 m-auto absolute">
+// <div className="flex flex-row justify-center w-full">
+// <div className="h-[163px]w-full rounded-tl-[23px]rounded-tr-[23px]border-indigo-400_01 border border-solid bg-indigo-400_01 shadow-2x1 relative">
+// <div className="justify-center h-[163px]w-[93%]md:w-full left-0 bottom-0 right-0 top-0 m-auto rounded-tl-[23px]rounded-tr-[23px]rotate-[-32deg]border-indigo-400_01 border border-solid absolute">
+// <Img
+// src="images/img_ring_163x1085.png"
+// alt="ringoneone_one"
+// className="justify-center h-[163px]w-full sm:w-full left-0 bottom-0 right-0 top-0 m-auto rounded-tr-[23px]rounded-tl-[23px]object-cover absolute"
+// /><Img
+// src="images/img_color_red_300_163x879.png"
+// alt="coloroneone_one"
+// className="justify-center h-[163px]w-[82%]sm:w-full left-0 bottom-0 right-0 top-0 m-auto rounded-tr-[23px]rounded-tl-[23px]object-cover absolute"
+// />
+// <div className="justify-center h-[163px]w-full left-0 bottom-0 right-0 top-0 m-auto rounded-tl-[23px]rounded-tr-[23px]absolute">
+// <Img
+// src="images/ing_light_163x1085.png"
+// alt="lightoneone_one"
+// className="justify-center h-[163px]w-full sm:w-full left-0 bottom-0 right-0 top-0 m-auto rounded-tr-[23px]rounded-tl-[23px]object-cover absolute"
+// >
+// <div className="flex flex-row justify-between items-center w-[48%]h-max ml-[95px]left-[9%]bottom-0 top-0 my-auto md:ml-5 absolute">
+// <div className="h-[159px]w-[32%]mb-[3px]relative">
+// <div className="justify-center h-[159px]w-full sm:w-full left-0 bottom-0 right-0 top-0 m-auto absolute">
+// <Img
+// src="images/img_glass_159x162.png"
+// alt="glassoneone_one"
+// className="justify-center h-[159px]w-full sm:w-full left-0 bottom-0 right-0 top-0 m-auto rounded-tr-[23px]rounded-tl-[23px]object-cover absolute"
+// />
+// <Img
+// src="images/img_color_red_a400.svg"
+// alt="colorthreeone"
+// className="h-[104px]top-[14%]right-0 left-0 m-auto rounded-tr-[23px]rounded-tl-[23px]absolute"/>
+
+
+
+
+
+// </div>
+
+// src="images/img_light_159x162.png"
+// alt="lightthreeone
+// className="justify-center h-[159px]w-full sm:w-full left-0 bottom-0 right-0 top-0 m-auto rounded-tr-[23px]rounded-tl-[23px]object-cover absolute"
+// </div>
+// <Img
+// src="images/img_untitled_98x156.png"
+// alt="untitledoneone"
+// className="w-[31%]md:h-auto rounded-tr-[23px]rounded-tl-[23px]object-cover"
+// </div>
+// </div>
+// </div>
+// <div className="h-[163px]w-[27%]sm:w-full right-0 bottom-0 top-0 my-auto rounded-tl-[23px]rounded-tr-[23px]rotate-[-171deg]border-indigo-400_01 border border-solid absolute">
+// <Img
+// src="images/img_spiral_163x307.png"
+// alt="spiraloneone'
+// className="justify-center h-[163px]w-full sm:w-full left-0 bottom-0 right-0 top-0 m-auto rounded-tr-[23px]rounded-tl-[23px]object-cover absolute"
+// <Img
+// src="images/img_color_163x218.png"
+// alt="colorfiveone'
+// className="justify-center h-[163px]w-[72%]sm:w-full left-0 bottom-0 right-0 top-0 m-auto rounded-tr-[23px]rounded-tl-[23px]object-cover absolute"
+// <Img
+// src="images/img_light_163x307.png"
+// alt="lightfiveone'
+// className="justify-center h-[163px]w-full sm:w-full left-0 bottom-0 right-0 top-0 m-auto rounded-tr-[23px]rounded-t1-[23px]object-cover absolute"
+// </div>
+// </div>
+// </div>
+// </div>
+// </div>
+// kdiv className="flex flex-col items-start justify-start w-[92%]md:w-full gap-[11px]">
+// <Heading size="8xl"as="h1"className="ml-0.5 md:ml-0 !text-indigo-900 !text-[37.43px]">
+// Yara hassan
+// </Heading>
+// <div className="flex flex-row md:flex-col justify-between items-center w-full md:gap-10">
+// <div className-"flex flex-row justify-start items-center w-[27%]md:h-auto gap-2.5 border-white-A700 border border-solid">
+// <div className="flex flex-col items-center justify-start h-[51px]w-[51px]p-2.5 bg-indigo-100 rounded-[25px]">
+// <Img src="images/img_location.svg"alt="locationoneone"className="h-[31px]w-[31px]"/>
+// </div>
+// <Heading size="2x1"as="h2"className="!text-indigo-900 !text-[23.39px]">
+// Cairo,Egypt
+// </Heading>
+// </div>
+// <div className="flex flex-row justify-center w-[23%]md:w-full">
+// <div className="h-[50px]w-full sm:w-full relative">
+// <div className="flex flex-row justify-center w-max h-full md:h-auto sm:w-full left-0 bottom-0 right-0 top-0 m-auto border-white-A700 border border-solid absolute">
+// <Button color="indigo_100"size="1g"shape="circle"className="w-[50px]">
+// <Img src="images/i呢call.svE”/)
+// </Button>
+// </div>
+// <Heading
+// size="xl"
+// a5="h3=
+// className="w-max right-0 bottom-0 top-0 my-auto !text-indigo-900 !text-[22.66px]absolute"
+// +20103456789""
+// </Heading>
+// </div>
+// Idiv></div>
+
+
+
+
+
+
+}

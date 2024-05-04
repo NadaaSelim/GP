@@ -16,11 +16,11 @@ export default function AnalyzereviewsPage(){
     <div className="flex flex-row justify-center w-full bg-white-A700">
     <div className="h-[982px] w-full relative">
     <div className="flex flex-row md:flex-col justify-center items-start w-full h-full left-0 bottom-0 right-0 top-0 m-auto md:gap-5 absolute">
-    <Sidebar1 className="w-[242px] h-screen top-0 bg-gray-100_03 !sticky overflow-hidden"/>
-    <div className="h-px w-full mt-16 ml-[-240px] md:ml-0 md:mt-0 bg-blue_gray-100_02"/>
+    <Sidebar1 className="w-[242px] min-h-screen top-0 bg-gray-100_03 !sticky overflow-hidden "/>
+    <div className="h-px w-full mt-16 ml-[240px] md:ml-0 md:mt-0 bg-blue_gray-100_02"/>
     </div>
-    <Header className="flex flex-row justify-between items-center w-[77%] sm:w-full right-[5%] top-[2%] m-auto absolute"/>
-    <div className="flex flex-col items-start justify-start w-[66%] h-max mr-[216px] right-[14%] bottom-0 top-0 my-auto md:mr-5 absolute">
+    <Header className="flex flex-row justify-between items-center w-[77%] sm:w-full right-[5%] top-[2%] m-auto absolute z-10"/>
+    <div className="flex flex-col items-start justify-start w-[66%] h-max mr-[216px] right-[14%] bottom-0 top-0 my-auto md:mr-5 absolute z-0">
     <div className="flex flex-row sm:flex-col justify-between items-center w-[49%] md:w-full mt-[158px] ml-[212px] md:ml-5 sm:gap-10">
 
     <Heading size="lg"as="h1"className="!text-blue_gray-900_01 tracking-[0.50px]">
@@ -34,7 +34,7 @@ export default function AnalyzereviewsPage(){
     </Text>
     <SelectBox
     shape="round"
-    indicator={<Img src="mm-app\public\images\img_polygon.svg" alt="Polygon"/>}
+    indicator={<Img src="../images/img_polygon.svg" alt="Polygon"/>}
     name="selectabrand"
     placeholder="Select a Brand"
     options={dropDownOptions}

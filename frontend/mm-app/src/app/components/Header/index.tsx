@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { CloseSVG } from "../../assets/images";
 import { Img, Text, Button, Input } from "./..";
@@ -12,13 +13,15 @@ export default function Header({ ...props }: Props) {
   return (
     <header {...props}>
       <Input
+        
         color="gray_100_01"
         size="xs"
         variant="fill"
         name="search"
         placeholder="Search"
-        value={searchBarValue3}
+       value={searchBarValue3}
         
+
         onChange={(e: string) => setSearchBarValue3(e)}
         suffix={
           // searchBarValue3?.length > 0 ? (
@@ -28,7 +31,7 @@ export default function Header({ ...props }: Props) {
             <Img src="images/img_icon.svg" alt="Icon" className="cursor-pointer" />
           )
         }
-        className="w-[55%] gap-[35px] text-blue_gray-900_75 tracking-[0.50px] rounded-[5px]"
+        className="w-[55%] gap-[35px] text-blue_gray-900_75 bg-gray-50 tracking-[0.50px] rounded-[5px]"
       />
       <div className="flex flex-row justify-center items-center">
         <Button color="yellow_100" size="sm" shape="circle" className="w-8">

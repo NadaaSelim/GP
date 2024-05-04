@@ -1,6 +1,8 @@
 import React from "react";
 import { Img, Text, Heading } from "./..";
 import { Menu, Sidebar } from "react-pro-sidebar";
+import Link from "next/link";
+import Chatbot from "../Chatbot";
 
 interface Props {
   className?: string;
@@ -10,15 +12,17 @@ export default function Sidebar1({ ...props }: Props) {
   const [collapsed, setCollapsed] = React.useState(false);
 
   return (
+    <div className="fixed left-0 top-0 h-full">
+
     <Sidebar
       {...props}
       width="240px !important"
       collapsedWidth="80px !important"
       collapsed={collapsed}
-      className="h-screen overflow-hidden" 
+      className="min-h-screen h-full overflow-hidden bg-gray-100_03" 
 
     >
-      <div className="flex flex-row justify-start items-start w-[47%] mt-5 ml-10 mr-[88px] gap-2.5">
+      <div className="flex flex-row justify-start items-start w-[47%] mt-5 ml-10 mr-[88px]  gap-2.5">
         <div className="h-6 w-6 relative">
           <Heading size="xs" as="p" className="right-[17%] top-[13%] m-auto !text-white-A700 absolute">
             G
@@ -55,7 +59,7 @@ export default function Sidebar1({ ...props }: Props) {
             Dashboard
           </Text>
         </div>
-        <div className="flex flex-row justify-start w-full gap-3 p-3">
+        <Link href="../analyze" className="flex flex-row justify-start w-full gap-3 p-3">
           <Img
             src="images/img_iconly_bold_chart_indigo_300.svg"
             alt="iconlybold_one"
@@ -64,7 +68,7 @@ export default function Sidebar1({ ...props }: Props) {
           <Text size="s" as="p" className="!text-blue_gray-900 tracking-[0.50px]">
             Analyze Reviews
           </Text>
-        </div>
+        </Link>
         <div className="flex flex-row justify-start w-full gap-3 p-3">
           <Img
             src="images/img_iconly_bold_document_indigo_200.svg"
@@ -75,12 +79,13 @@ export default function Sidebar1({ ...props }: Props) {
             Generate Reports
           </Text>
         </div>
-        <div className="flex flex-row justify-start w-full gap-3 p-3">
-          <Img src="images/img_iconly_bold_setting.svg" alt="iconlybold_five" className="h-[18px] w-[18px] ml-[7px]" />
-          <Text size="s" as="p" className="!text-blue_gray-900 tracking-[0.50px]">
-            Settings
-          </Text>
-        </div>
+        <Link  href ="../settings" className="flex flex-row justify-start w-full gap-3 p-3">
+            <Img src="images/img_iconly_bold_setting.svg" alt="iconlybold_five" className="h-[18px] w-[18px] ml-[7px]" />
+            <Text size="s" as="p" className="!text-blue_gray-900 tracking-[0.50px]">
+              Settings
+            </Text>
+        </Link>
+        
         <div className="flex flex-row justify-start w-full gap-3 p-3">
           <Img src="images/img_iconly_bold_info.svg" alt="iconlybold" className="h-[18px] w-[18px] ml-[7px]" />
           <Text size="s" as="p" className="!text-blue_gray-900 tracking-[0.50px]">
@@ -88,15 +93,8 @@ export default function Sidebar1({ ...props }: Props) {
           </Text>
         </div>
       </Menu>
-      {!collapsed ? (
-        <div className="flex flex-row justify-center items-start h-20 w-20 mt-[525px] mb-[31px] ml-[53px] mr-[106px] p-[9px] bg-indigo-400_01 rounded-[50%]">
-          <Img
-            src="images/img_character_19.png"
-            alt="characterninete"
-            className="w-[97%] mt-[11px] mb-[17px] object-cover"
-          />
-        </div>
-      ) : null}
+      <Chatbot/>
     </Sidebar>
+    </div>
   );
 }
