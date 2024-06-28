@@ -2,14 +2,43 @@
 import React from "react";
 import { Img, Text, Button, Input, Heading, SelectBox } from "../components";
 import Link from "next/link";
+import { useRouter } from "next/navigation"; 
 
-const dropDownOptions = [
-  { label: "Option1", value: "option1" },
-  { label: "Option2", value: "option2" },
-  { label: "Option3", value: "option3" }
-];
 
 const Login: React.FC = () => {
+  const router = useRouter();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const email = (document.getElementById('email') as HTMLInputElement).value;
+    const password = (document.getElementById('password') as HTMLInputElement).value;
+
+    console.log(email, password);
+    try{
+    const response = await fetch('http://localhost:8000/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    if (response.ok) {
+      console.log("Good to go")
+
+      const token = await response.json();
+      localStorage.setItem('token', token.access_token);
+      console.log(token);
+      //redirect to  next page
+      router.push('/dashboard');
+    } else {
+      console.error('Login failed');
+    }
+  }catch(error){ console.error(error);}
+  };
+
   return (
     <>
       <title>Menna's Application1</title>
@@ -62,7 +91,7 @@ alt="doodleSoneone"
                       size="3xl"
                       variant="outline"
                       leftIcon={<Img src="../../images/img_8c030bd6bd7ee87ad41485e3c7598dd4_1.png" alt="8c030bd6bd7ee87ad41485e3c7598dd4 1" className="w-[23px] h-[27px]" />}
-                      className="gap-[9px] tracking-[1.04px] font-light min-w-[221px]"
+                      className="gap-[9px] tracking-[1.04px] font-medium min-w-[221px]"
                     >
                       Sign in with Google
                     </Button>
@@ -71,7 +100,7 @@ alt="doodleSoneone"
                       size="3xl"
                       variant="outline"
                       leftIcon={<Img src="../../images/img_pngegg_69_1.png" alt="pngegg (69) 1" className="w-6 h-6" />}
-                      className="gap-[9px] tracking-[1.04px] font-light min-w-[231px]"
+                      className="gap-[9px] ml-1 tracking-[1.04px] font-medium min-w-[241px]"
                     >
                       Sign in with Facebook
                     </Button>
@@ -79,6 +108,7 @@ alt="doodleSoneone"
                   <Text size="lg" as="p" className="!text-blue_gray-100 tracking-[1.44px]">
                     - OR -
                   </Text>
+                  <form id="submitForm" onSubmit={handleSubmit} className="h-full w-full flex flex-col justify-center items-center gap-10" >
                   <Input
                     color="gray_100_02"
                     size="sm"
@@ -87,6 +117,7 @@ alt="doodleSoneone"
                     type="email"
                     name="email"
                     placeholder="E-mail"
+                    id="email"
                     className="w-full tracking-[1.12px] font-medium"
                   />
                   <Input
@@ -96,12 +127,14 @@ alt="doodleSoneone"
                     shape="square"
                     type="password"
                     name="password"
+                    id="password"
                     placeholder="Password"
                     className="w-full tracking-[1.12px] font-medium"
                   />
-                  <Button size="2xl" className="w-full tracking-[1.92px] font-extrabold">
+                  <Button size="2xl" type="submit" className="w-full tracking-[1.92px] font-extrabold">
                     Log in
                   </Button>
+                  </form>
                   <Text size="lg" as="p" className="!text-gray-400_01 tracking-[1.44px] !font-medium">
                     <Link href="../signup"><span className="text-gray-400_01">Don't have an account? </span>
                     <span className="text-blue_gray_800">Sign up</span></Link>
