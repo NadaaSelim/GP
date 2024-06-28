@@ -144,7 +144,9 @@ module.exports= {
         tsl: "0px 6.58px 15px #00000023"
       }
     },
-    plugins: [require("@tailwindcss/forms")]
+    plugins: [require("@tailwindcss/forms"),
+      
+    ]
   }
 };
 

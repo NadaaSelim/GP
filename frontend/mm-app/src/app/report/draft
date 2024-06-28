@@ -1,0 +1,53 @@
+{/* <div className="flex w-full  h-full">
+            <div className="w-[60%]">
+          <p className="mt-[46px] !text-black-900 tracking-[0.50px] text-sm font-normal">
+        Sentiment over the past 12 months
+      </p>
+      <p className="mt-[5px] !text-black-900 tracking-[0.50px] text-xl font-medium">
+        Sentiment Score: 6/10
+      </p>
+      <div className="flex flex-row justify-start items-center gap-[9px]">
+        <Img src="images/img_arrow_up.svg" alt="arrowup_one" className="h-[8px] w-[7px]" />
+        <h1 className="flex !text-green-500_02 tracking-[0.50px] text-xs font-semibold">
+          <span className="!text-green_700 font-semibold">3%</span>
+          <span className="!text-blue_gray_500 font-semibold">&nbsp; vs last month</span>
+        </h1>
+      </div>
+      <p
+        className="mt-[17px] !text-black-900_87_02 tracking-[0.50px] text-[13px] font-normal opacity-0.5"
+      >
+        Reviews from Jan 2023 to Dec 2023
+      </p>
+      <div className="w-full mt-10">
+
+        <div className="flex flex-row justify-between items-center w-full mt-3">
+          {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map(month => (
+            <Text key={month} size="xs" as="p" className="tracking-[0.50px] text-center text-[11px] font-normal opacity-0.5">
+              {month}
+            </Text>
+          ))}
+        </div>
+
+        <div className="flex flex-row justify-between items-center w-[60%] mt-5">
+          <div className="flex flex-row justify-start items-center gap-2">
+            <div className="h-[7px] w-[14px] bg-indigo-400_02 rounded" />
+            <Text as="p" className="!text-gray-900_99_02 tracking-[0.50px] text-xs font-medium opacity-0.7">
+              Positive
+            </Text>
+          </div>
+          <div className="flex flex-row justify-start items-center gap-2">
+            <div className="h-[7px] w-[14px] bg-indigo-A100_02 rounded" />
+            <p className="!text-gray-900_99_02 tracking-[0.50px] text-xs font-medium opacity-0.7">
+              Neutral
+            </p>
+          </div>
+          <div className="flex flex-row justify-start items-center gap-2">
+            <div className="h-[7px] w-[14px] bg-blue-100_02 rounded" />
+            <Text as="p" className="!text-gray-900_99_02 tracking-[0.50px] text-xs font-medium opacity-0.7">
+              Negative
+            </Text>
+          </div>
+</div>
+</div>
+</div>
+</div> */}
