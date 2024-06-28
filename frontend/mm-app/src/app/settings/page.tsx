@@ -1,6 +1,12 @@
 "use client"
 import React from "react";
-import { Img, Text, Button, Input, Heading, SelectBox,Sidebar1,Header } from "../components";
+import { Img, Text, Button, Input, Heading, SelectBox,Sidebar1,Header,BrandComp } from "../components";
+
+const brandData = {
+        imageSrc: "images/img_target_dynamic_color.png",
+        brandName: "McDonalds",
+        date: "2 March 2021, 13:45 PM"
+    };
 
 export default function SettingsPage() {
     return (
@@ -11,56 +17,126 @@ export default function SettingsPage() {
                 
                 {/* Main Content */}
                 <div className="flex flex-col justify-center items-center w-[80%] gap-5 mt-[15px] mr-[2%]  ">
-                    <div className="flex flex-col justify-center items-center w-full pb-[58px] border-indigo-400_01 border border-solid bg-white-A700 rounded-[23px]">
+                    <div className="flex flex-col justify-center items-center w-full h-full border-indigo-400_01  h-[40%] border border-solid bg-white-A700 rounded-[20px]">
                         {/* Content Div */}
                         <div className="flex flex-col items-center justify-start w-full gap-[17px]">
                             <Heading size="2xl" as="h1" className="!text-[37.43px]">
                                 Yara Hassan
                             </Heading>
-                            <div className="flex flex-row justify-between items-center w-full gap-10">
-                                <div className="flex items-center gap-2.5 border border-solid">
+                            <div
+            className="relative flex flex-row justify-between items-center w-full gap-10 bg-[url-('mm-app\public\images\bg-settings.png')]"
+            //style={{ backgroundImage: `url(mm-app/public/images/bg-settings.png)`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        >
+            <div className="absolute bottom-[-40px] left-[25px] w-[100px] h-[100px] bg-[#C1BBEB] rounded-full overflow-hidden border-2 border-[#5A67BA]">
+                <img src="../../images/img_avatar_image.png" alt="Avatar" className="w-full h-full object-cover" />
+            </div>
+        </div>
+
+                            <div className="flex flex-row justify-between w-full  gap-10 mt-7 p-7">
+                            <div className="flex  gap-2.5">
+                                    <Button color="indigo_100" size="lg" shape="circle" className="w-[50px]">
+                                        <Img src="../../images/img_call.svg" />
+                                    </Button>
+                                    <Heading size="xl" as="h2" className="!text-[22.66px]">
+                                        +20103456789
+                                    </Heading>
+                                </div>
+
+                                <div className="flex  gap-2.5">
+                                    <Img src="../../images/img_email.svg" alt="email" className="h-[33px] w-[33px]" />
+                                    <Heading size="xl" as="h2" className="!text-[25.24px]">
+                                        yara@mail.com
+                                    </Heading>
+                                </div>
+                                <div className="flex  border border-solid">
                                     <Img src="../../images/img_location.svg" alt="location" className="h-[31px] w-[31px]" />
                                     <Heading size="xl" as="h2" className="!text-[23.39px]">
                                         Cairo, Egypt
                                     </Heading>
                                 </div>
-                                <div className="flex items-center gap-2.5">
-                                    <Button color="indigo_100" size="lg" shape="circle" className="w-[50px]">
-                                        <Img src="../../images/img_call.svg" />
-                                    </Button>
-                                    <Heading size="lg" as="h3" className="!text-[22.66px]">
-                                        +20103456789
-                                    </Heading>
-                                </div>
+
                             </div>
-                            <div className="flex flex-row justify-center items-center gap-5 mt-7">
-                                <div className="flex flex-col items-center gap-2.5">
-                                    <Img src="../../images/img_email.svg" alt="email" className="h-[33px] w-[33px]" />
-                                    <Heading size="2xl" as="h4" className="!text-[25.24px]">
-                                        yara@mail.com
+                        </div>
+                    </div>
+                    <div className="flex flex-row  justify-start items-start w-full p-5">
+                    <div className="flex flex-col border-indigo-400_01 border border-solid rounded-[10px] p-5 h-[60%] w-full">
+                                    <Heading size="lg" as="h6" className="ml-6 mb-6 text-[18.99px] font-bold">
+                                        Brands
                                     </Heading>
-                                </div>
-                                <div className="flex flex-col items-center gap-2.5">
+                                    <div className="flex flex-col items-center justify-start w-[93%] md:w-full  md:ml-0 ">
+    {/* To be transformed into component */}
+    <BrandComp brandData={brandData} />
+    <BrandComp brandData={brandData} />
+
+        {/* <div className="flex flex-row md:flex-col justify-between items-center w-[98%] md:w-full md:gap-10">
+            <div className="flex flex-row sm:flex-col justify-center items-end w-[82%] md:w-full sm:gap-5">
+                <Img
+                    src="images/img_target_dynamic_color.png"
+                    alt="targetdynamic"
+                    className="w-[8%] md:h-auto sm:w-full mb-[7px] object-cover"
+                />
+                <div className="flex flex-row justify-start w-[35%] sm:w-full mt-[5px] ml-3.5 sm:ml-0 sm:mt-0">
+                    <Heading size="md" as="h5" className="text-[28.58px] font-semibold">
+                        McDonalds
+                    </Heading>
+                </div>
+                <Text size="lg" as="p" className="ml-[47px] md:ml-5 !text-gray-500 text-[24.82px] font-normal">
+                    2 March 2021, 13:45 PM
+                </Text>
+            </div>
+            <Button color="yellow_100" size="md" className="w-[39px] px-[7px] rounded-[50%]">
+                <Img src="images/img_component_4.png" />
+            </Button>
+        </div> */}
+    </div>
+    <div className="flex flex-row justify-between items-start w-full m-[2%] mt-[5%] p-[2%] ">
+        <Text size="xs" as="p" className="flex mt-[7px] !text-indigo-900 text-[11.08px] font-normal">
+            <span className="text-gray-500">Showing</span>
+            <span className="text-indigo-900">1</span>
+            <span className="text-indigo-900">of</span>
+            <span className="text-indigo-900">2</span>
+            <span className="text-gray-500">data</span>
+        </Text>
+        <div className="flex flex-row justify-between items-center w-[16%] border-white-A700 border border-solid">
+            <Img src="images/img_dropdownone.svg" alt="dropdownone" className="h-[25px] w-[25px]" />
+            <div className="flex flex-col items-center justify-start h-[39px] w-[39px]">
+                <Text
+                    size="lg"
+                    as="p"
+                    className="flex justify-center items-center h-[39px] w-[39px] text-white-A700 text-[14.24px] font-normal bg-indigo-500 text-shadow-ts text-center rounded"
+                >
+                    1
+                </Text>
+            </div>
+            <Img src="images/img_dropdown_gray_500.svg" alt="dropdownthree" className="h-[25px] w-[25px]" />
+        </div>
+    </div>
+
+                    </div>
+                    <div className="flex flex-col justify-end items-end w-[50%] bg-white-A700 rounded-[23px] ">
+
+                    <div className="flex flex-col border-indigo-400_01 border border-solid rounded-[10px] w-[60%] p-[5px] h-[10%] mb-[5px] items-center gap-2.5">
+                                    <Img src="../../images/img_padlock_perspective_matte_s.png" alt="padlock" className="w-[17%] h-auto object-cover" />
+                                    <Heading size="lg" as="p" className="!text-[19.43px]">
+                                        Change Password
+                                    </Heading>
+                    </div>
+                    <div className="flex flex-col border-indigo-400_01 border border-solid rounded-[10px] w-[60%] p-[5px] h-[10%] mb-[5px] items-center gap-2.5">
                                     <Img src="../../images/img_list_perspective_matte_s.png" alt="image" className="w-[68px] h-auto object-cover" />
                                     <Heading size="lg" as="p" className="!text-[19.43px]">
                                         Add Alternative Names
                                     </Heading>
                                 </div>
-                                <div className="flex flex-col items-center gap-2.5">
+                                <div className="flex flex-col border-indigo-400_01 border border-solid rounded-[10px] w-[60%] p-[5px] h-[10%] mb-[5px] items-center gap-2.5">
                                     <Img src="../../images/img_chart_perspective_matte_s.png" alt="chart" className="w-[73px] h-auto object-cover" />
                                     <Heading size="lg" as="p" className="!text-[19.43px]">
                                         Add Brand
                                     </Heading>
                                 </div>
-                                <div className="flex flex-col items-center gap-2.5">
-                                    <Img src="../../images/img_padlock_perspective_matte_s.png" alt="padlock" className="w-[17%] h-auto object-cover" />
-                                    <Heading size="lg" as="p" className="!text-[19.43px]">
-                                        Change Password
-                                    </Heading>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+
+</div>
+</div>
                 </div>
             </div>
         </>

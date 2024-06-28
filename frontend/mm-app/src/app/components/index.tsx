@@ -6,4 +6,7 @@ import { Img } from "./Img";
 import { SelectBox } from "./SelectBox";
 import Sidebar1 from "./Sidebar1"
 import Header from "./Header"
-export { Text, Heading, Input, Button, Img,SelectBox ,Sidebar1,Header};
+import BrandComp from "./BrandComp";
+import SentimentComp from "./SentimentComp";
+import DountChart from './DountChart';
+export { Text, Heading, Input, Button, Img,SentimentComp,SelectBox,DountChart ,Sidebar1,Header,BrandComp};
