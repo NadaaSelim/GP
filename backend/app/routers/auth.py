@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 # TODO -> import issue
 import oauth2
-import schemas, models, utils
+import schemas, models, utils, crud.crud_user as crud_user
 
 from database import get_db
 
@@ -15,20 +15,16 @@ router = APIRouter(
 
 # TODO strong password
 # TODO captilize Name
-@router.post("/signup", status_code=status.HTTP_201_CREATED, response_model=schemas.UserOut)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+@router.post("/signup", status_code=status.HTTP_201_CREATED)
+def signup(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
-    # hash the password - user.password
-    hashed_password = utils.hash(user.password)
-    user.password = hashed_password
+    # add to db
+    db_user = crud_user.create_user(user,db)
     
-    # TODO change this decrapted function
-    new_user = models.User(**user.dict())
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-
-    return new_user
+    # token
+    access_token = oauth2.create_access_token(data= {"uid":db_user.id})
+    
+    return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/login")
 def login(user_cred: schemas.UserLogin, db: Session = Depends(get_db)):
