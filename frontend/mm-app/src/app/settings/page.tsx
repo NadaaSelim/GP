@@ -16,20 +16,28 @@ export default function SettingsPage() {
                 <Sidebar1 className="w-[20%] h-screen bg-gray-100_03 sticky overflow-auto" />
                 
                 {/* Main Content */}
-                <div className="flex flex-col justify-center items-center w-[80%] gap-5 mt-[15px] mr-[2%]  ">
-                    <div className="flex flex-col justify-center items-center w-full h-full border-indigo-400_01  h-[40%] border border-solid bg-white-A700 rounded-[20px]">
+                <div className="flex flex-col justify-center items-center w-[80%] gap-5 h-full mt-[15px] mr-[2%]  ">
                         {/* Content Div */}
-                        <div className="flex flex-col items-center justify-start w-full gap-[17px]">
-                            <Heading size="2xl" as="h1" className="!text-[37.43px]">
-                                Yara Hassan
-                            </Heading>
+                        <div className="flex flex-col items-start justify-start w-full border-indigo-400_01 border border-solid rounded-[10px] gap-[17px] p-3 ">
+                        <img src="../../images/img_avatar_image.png" alt="Avatar" className="w-[100px] h-[100px] border-2 border-[#5A67BA] rounded-full object-cover" />
+                        <h2 className="text-xl font-extrabold text-blue-950">Yara Hassan</h2>
+                        <div className="flex row gap-3 ml-2">
+                                    <Img src="../../images/img_email.svg" alt="email" className="h-[33px] w-[33px]" />
+                                    <h2  className="text-lg font-bold text-blue-950">
+                                        yara@mail.com
+                                    </h2>
+                                </div>
+
+                        </div>
+                        {/* <div className="flex flex-col items-start justify-start h-[60%] w-full border-2 rounded-5 gap-[17px]">
                             <div
-            className="relative flex flex-row justify-between items-center w-full gap-10 bg-[url-('mm-app\public\images\bg-settings.png')]"
-            //style={{ backgroundImage: `url(mm-app/public/images/bg-settings.png)`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+className="relative flex flex-row justify-between items-center w-full gap-10 bg-[url('/mm-app/public/images/bg-settings.png')]"
+//style={{ backgroundImage: `url(mm-app/public/images/bg-settings.png)`, backgroundSize: 'cover', backgroundPosition: 'center' }}
         >
             <div className="absolute bottom-[-40px] left-[25px] w-[100px] h-[100px] bg-[#C1BBEB] rounded-full overflow-hidden border-2 border-[#5A67BA]">
                 <img src="../../images/img_avatar_image.png" alt="Avatar" className="w-full h-full object-cover" />
             </div>
+            
         </div>
 
                             <div className="flex flex-row justify-between w-full  gap-10 mt-7 p-7">
@@ -56,14 +64,13 @@ export default function SettingsPage() {
                                 </div>
 
                             </div>
-                        </div>
-                    </div>
-                    <div className="flex flex-row  justify-start items-start w-full p-5">
-                    <div className="flex flex-col border-indigo-400_01 border border-solid rounded-[10px] p-5 h-[60%] w-full">
-                                    <Heading size="lg" as="h6" className="ml-6 mb-6 text-[18.99px] font-bold">
+                        </div> */}
+                    <div className="flex flex-row  justify-start items-start w-full ">
+                    <div className="flex flex-col border-indigo-400_01 border border-solid rounded-[10px] p-5 h-[60%] ml-auto mr-auto w-[60%]">
+                                    <h2  className=" text-xl font-bold mb-4">
                                         Brands
-                                    </Heading>
-                                    <div className="flex flex-col items-center justify-start w-[93%] md:w-full  md:ml-0 ">
+                                    </h2>
+                                    <div className="flex flex-col items-start justify-start w-full  md:ml-0 ">
     {/* To be transformed into component */}
     <BrandComp brandData={brandData} />
     <BrandComp brandData={brandData} />
@@ -98,36 +105,36 @@ export default function SettingsPage() {
             <span className="text-gray-500">data</span>
         </Text>
         <div className="flex flex-row justify-between items-center w-[16%] border-white-A700 border border-solid">
-            <Img src="images/img_dropdownone.svg" alt="dropdownone" className="h-[25px] w-[25px]" />
+            <Img src="../../images/img_dropdownone.svg" alt="dropdownone" className="h-[25px] w-[25px]" />
             <div className="flex flex-col items-center justify-start h-[39px] w-[39px]">
                 <Text
                     size="lg"
                     as="p"
-                    className="flex justify-center items-center h-[39px] w-[39px] text-white-A700 text-[14.24px] font-normal bg-indigo-500 text-shadow-ts text-center rounded"
+                    className="flex justify-center items-center h-[39px] w-[39px] rounded-full text-white-A700 text-[14.24px] font-normal bg-indigo-500 text-shadow-ts text-center rounded"
                 >
                     1
                 </Text>
             </div>
-            <Img src="images/img_dropdown_gray_500.svg" alt="dropdownthree" className="h-[25px] w-[25px]" />
+            <Img src="../../images/img_dropdown_gray_500.svg" alt="dropdownthree" className="h-[25px] w-[25px]" />
         </div>
     </div>
 
                     </div>
-                    <div className="flex flex-col justify-end items-end w-[50%] bg-white-A700 rounded-[23px] ">
+                    <div className="flex flex-col justify-end items-end w-[40%] bg-white-A700 rounded-[23px] ">
 
-                    <div className="flex flex-col border-indigo-400_01 border border-solid rounded-[10px] w-[60%] p-[5px] h-[10%] mb-[5px] items-center gap-2.5">
+                    <div className="flex flex-col border-indigo-400_01 border border-solid rounded-[10px] w-[90%] p-[5px] h-[10%] mb-[5px] items-center gap-2.5">
                                     <Img src="../../images/img_padlock_perspective_matte_s.png" alt="padlock" className="w-[17%] h-auto object-cover" />
                                     <Heading size="lg" as="p" className="!text-[19.43px]">
                                         Change Password
                                     </Heading>
                     </div>
-                    <div className="flex flex-col border-indigo-400_01 border border-solid rounded-[10px] w-[60%] p-[5px] h-[10%] mb-[5px] items-center gap-2.5">
+                    <div className="flex flex-col border-indigo-400_01 border border-solid rounded-[10px] w-[90%] p-[5px] h-[10%] mb-[5px] items-center gap-2.5">
                                     <Img src="../../images/img_list_perspective_matte_s.png" alt="image" className="w-[68px] h-auto object-cover" />
                                     <Heading size="lg" as="p" className="!text-[19.43px]">
                                         Add Alternative Names
                                     </Heading>
                                 </div>
-                                <div className="flex flex-col border-indigo-400_01 border border-solid rounded-[10px] w-[60%] p-[5px] h-[10%] mb-[5px] items-center gap-2.5">
+                                <div className="flex flex-col border-indigo-400_01 border border-solid rounded-[10px] w-[90%] p-[5px] h-[10%] mb-[5px] items-center gap-2.5">
                                     <Img src="../../images/img_chart_perspective_matte_s.png" alt="chart" className="w-[73px] h-auto object-cover" />
                                     <Heading size="lg" as="p" className="!text-[19.43px]">
                                         Add Brand
