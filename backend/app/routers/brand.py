@@ -24,3 +24,7 @@ def create_brand(brand: schemas.Brand, db: Session = Depends(get_db), current_us
     db.refresh(new_brand)
     
     return new_brand
+
+# Remove brand
+# add alt name
+# remove alt name

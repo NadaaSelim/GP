@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, status, Depends
+from pydantic import ValidationError
 from sqlalchemy.orm import Session
 
 # TODO -> import issue
@@ -13,18 +14,23 @@ router = APIRouter(
     tags=["authentication"],
 )
 
-# TODO strong password
+
 # TODO captilize Name
 @router.post("/signup", status_code=status.HTTP_201_CREATED)
 def signup(user: schemas.UserCreate, db: Session = Depends(get_db)):
-
-    # add to db
-    db_user = crud_user.create_user(user,db)
+    try:
+        # add to db
+        db_user = crud_user.create_user(user,db)
     
-    # token
-    access_token = oauth2.create_access_token(data= {"uid":db_user.id})
+        # token
+        access_token = oauth2.create_access_token(data= {"uid":db_user.id})
     
-    return {"access_token": access_token, "token_type": "bearer"}
+        return {"access_token": access_token, "token_type": "bearer"}
+    except ValidationError as e:
+        raise HTTPException(status_code=400, detail=e.errors())
+    
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
 
 @router.post("/login")
 def login(user_cred: schemas.UserLogin, db: Session = Depends(get_db)):

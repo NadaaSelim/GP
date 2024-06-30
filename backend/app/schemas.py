@@ -1,10 +1,12 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, field_validator
 from datetime import datetime
 from typing import List, Optional
+from utils import validate_password
 
 
 from pydantic.types import conint
 
+common_words = ['password', '123456', 'qwerty']
 
 
 class UserCreate(BaseModel):
@@ -12,6 +14,19 @@ class UserCreate(BaseModel):
     username: str
     password: str
     
+    @field_validator('password')
+    @classmethod
+    def validate_password(cls, v:str) -> str:
+        validate_password(v)
+         # Check for spaces
+        if ' ' in v:
+            raise ValueError("Password cannot contain spaces")
+        
+        if any(common_word in v.lower() for common_word in common_words):
+            raise ValueError('Password contains a common word or phrase')
+        
+        return v
+        
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
