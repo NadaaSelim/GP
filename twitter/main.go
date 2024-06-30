@@ -16,6 +16,8 @@ import (
 // Request struct to parse JSON input
 type Request struct {
 	BrandNames []string `json:"brandnames"`
+	MaxTweets  int      `json:"maxTweets"`
+	Lang       string   `json:"lang"`
 }
 
 type Response struct {
@@ -23,22 +25,27 @@ type Response struct {
 	Error  string   `json:"error,omitempty"`
 }
 
-func scrapeTweets(brandNames []string) ([]string, error) {
+func scrapeTweets(brandNames []string, lang string, maxTweets int) ([]string, error) {
 	re := regexp.MustCompile(`(@\w+)|((http|https):\/\/[^\s]+)`)
 	asciiRe := regexp.MustCompile(`[[:^print:]]`)
-
-	scraper := twitterscraper.New()
-	err := scraper.Login("notscrppr", "notscrapping")
-	if err != nil {
-		return nil, err
+	languages := map[string]string{
+		"en": "English",
+		"ar": "Arabic",
 	}
 
+	scraper := twitterscraper.New()
+	if !scraper.IsLoggedIn() {
+		err := scraper.Login("anon.mhg.2003@gmail.com", "notscrapping")
+		if err != nil {
+			//scraper.Logout()
+			return nil, err
+		}
+	}
 	scraper.SetSearchMode(twitterscraper.SearchLatest)
 	fmt.Println("Scraping...")
 
 	tweets := []string{}
 	totalTweets := 0
-	maxTweets := 100
 	for _, brandName := range brandNames {
 		for tweet := range scraper.SearchTweets(context.Background(),
 			brandName+" -filter:retweets", maxTweets) {
@@ -49,8 +56,8 @@ func scrapeTweets(brandNames []string) ([]string, error) {
 			cleanedTweet := re.ReplaceAllString(tweet.Text, "")
 			//to remove emojis
 			cleanedTweet = asciiRe.ReplaceAllString(cleanedTweet, "")
-			lang := whatlanggo.Detect(cleanedTweet).Lang.String()
-			if lang == "Arabic" || lang == "English" {
+			tweetLang := whatlanggo.Detect(cleanedTweet).Lang.String()
+			if tweetLang == languages[lang] {
 				tweets = append(tweets, cleanedTweet)
 				totalTweets++
 			}
@@ -61,6 +68,7 @@ func scrapeTweets(brandNames []string) ([]string, error) {
 	}
 
 	fmt.Println("Scraping Done!")
+	//scraper.Logout()
 	return tweets, nil
 }
 
@@ -71,7 +79,7 @@ func scrapeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tweets, err := scrapeTweets(req.BrandNames)
+	tweets, err := scrapeTweets(req.BrandNames, req.Lang, req.MaxTweets)
 	resp := Response{Tweets: tweets}
 	if err != nil {
 		resp.Error = err.Error()
