@@ -1,0 +1,8 @@
+go mod init twitter-scraper
+go get github.com/n0madic/twitter-scraper
+go get github.com/abadojack/whatlanggo
+
+go run main.go
+
+for documentation: https://github.com/n0madic/twitter-scraper
+
