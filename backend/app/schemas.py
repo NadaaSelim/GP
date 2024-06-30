@@ -6,15 +6,6 @@ from typing import List, Optional
 from pydantic.types import conint
 
 
-class UserOut(BaseModel):
-    id: int
-    email: EmailStr
-    username: str
-    created_at: datetime
-
-    class Config:
-        from_attributes = True
-
 
 class UserCreate(BaseModel):
     email: EmailStr
@@ -24,8 +15,8 @@ class UserCreate(BaseModel):
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
-    
-    
+
+
 class Token(BaseModel):
     access_token: str
     token_type: str
@@ -36,11 +27,32 @@ class TokenData(BaseModel):
     
 class Altname(BaseModel):
     altname: str
+    class Config:
+        from_attributes = True
     
 class Brand(BaseModel):
     name: str
     alt_names: List[Altname]
     
+    class Config:
+        from_attributes = True
+    
+class UserOut(BaseModel):
+    email: EmailStr
+    username: str
+    brands: List[Brand] = []
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+class UserBrands(BaseModel):
+    brands: List[Brand] = []
+    
+    class Config:
+        from_attributes = True
+ 
+# TODO   
 class BrandCreate(BaseModel):
     pass
     

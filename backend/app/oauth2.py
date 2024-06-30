@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 
 import database, schemas, models
 
+# TODO do i have to change the schema for signup too?
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/login')
 
 

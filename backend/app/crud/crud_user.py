@@ -1,5 +1,5 @@
 from fastapi import Depends
-import models, schemas, utils
+import models, schemas, utils, oauth2
 from database import get_db
 from sqlalchemy.orm import Session
 
@@ -17,3 +17,6 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db.refresh(new_user)
 
     return new_user
+
+# TODO change password
+
