@@ -53,13 +53,20 @@ class Brand(BaseModel):
     name: str
     alt_names: List[Altname]
     
+    class Config:
+        from_attributes = True
+        
+class BrandOut(BaseModel):
+    name: str
+    alt_names: List[Altname]
+    
     @model_validator(mode='after')
     def convert_altnames(cls, values):
         values.alt_names = [str(altname) if isinstance(altname, Altname) else altname for altname in values.alt_names]
         return values
     
     class Config:
-        from_attributes = True
+        from_attributes = True    
         
 class BrandAltnames(BaseModel):
     alt_names: List[Altname]
@@ -82,7 +89,7 @@ class UserOut(BaseModel):
         from_attributes = True
 
 class UserBrands(BaseModel):
-    brands: List[Brand] = []
+    brands: List[BrandOut] = []
     
     class Config:
         from_attributes = True
