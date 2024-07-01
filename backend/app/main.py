@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import models
-from routers import auth, brand, user
+from routers import auth, brand, user, web_scraper
 from database import SessionLocal, engine
 models.Base.metadata.create_all(bind=engine)
 
@@ -12,6 +12,7 @@ app = FastAPI()
 app.include_router(auth.router)
 app.include_router(brand.router)
 app.include_router(user.router)
+app.include_router(web_scraper.router)
 
 
         

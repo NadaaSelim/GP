@@ -10,6 +10,9 @@ class Settings(BaseSettings):
     secret_key: str
     algorithm: str
     access_token_expire_minutes: int
+    mongo_username: str
+    mongo_password: str
+    mongo_hostname: str
     
     class config:
         env_file = ".env"
