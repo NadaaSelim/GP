@@ -51,3 +51,26 @@ def delete_brand(brand_name: str, db:Session = Depends(get_db), current_user: in
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 # add alt name
 # remove alt name
+@router.delete("/{brand_name}/{alt_name}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_altname(brand_name: str,alt_name: str, db:Session = Depends(get_db), current_user: int =Depends(oauth2.get_current_user)):
+
+    brand = db.query(models.Brand).filter(models.Brand.name == brand_name).first()
+    
+    if brand == None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Brand with name: {brand_name} does not exist")
+    if brand.user_id != current_user.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail="Not authorized to perform requested action")
+        
+    
+    altname_query = db.query(models.Altname).filter(models.Altname.brand_id == brand.id, models.Altname.altname == alt_name)
+    altname = altname_query.first()
+    if altname == None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Alternative name with name: {altname} does not exist")
+        
+    altname_query.delete(synchronize_session=False)
+    db.commit()
+    
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
