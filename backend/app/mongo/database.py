@@ -1,10 +1,11 @@
 from pymongo.mongo_client import MongoClient
-from config import settings
+# TODO uncomment later
+# from config import settings
 
-uri = f"mongodb+srv://{settings.mongo_username}:{settings.mongo_password}@{settings.mongo_hostname}/?appName=Cluster0"
-
+#uri = f"mongodb+srv://{settings.mongo_username}:{settings.mongo_password}@{settings.mongo_hostname}/?appName=Cluster0"
+uri_2 = "mongodb+srv://lamakhaled789:mSgyWhRQwrkiNeub@cluster0.kayobza.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 # Create a new client and connect to the server
-client = MongoClient(uri)
+client = MongoClient(uri_2)
 
 # Send a ping to confirm a successful connection
 try:
@@ -14,4 +15,4 @@ except Exception as e:
     print(e)
     
 mongo_db = client.reviews_db
-collection_name = mongo_db["English_collection"]
+english_collection = mongo_db["English_collection"]
