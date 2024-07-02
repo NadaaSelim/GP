@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 
 const Login: React.FC = () => {
   const router = useRouter();
+  localStorage.clear();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const email = (document.getElementById('email') as HTMLInputElement).value;
@@ -36,12 +38,32 @@ const Login: React.FC = () => {
     } else {
       console.error('Login failed');
     }
+
+    const getUser = await fetch('http://localhost:8000/user/userinfo', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      
+    });
+
+    if (getUser.ok) {
+      const userresp = await getUser.json();
+      localStorage.setItem('user', userresp);
+      console.log(userresp);
+      //redirect to  next page
+      console.log("Good to go")
+      router.push('/dashboard');
+    } else {
+      console.error('Couldnt retrieve user ');
+    }
   }catch(error){ console.error(error);}
   };
 
   return (
     <>
-      <title>Menna's Application1</title>
+      <title>Login</title>
       <meta name="description" content="Web site created using create-react-app" />
       <div className="flex flex-row justify-center items-center min-h-screen w-full bg-gray-100_03">
 

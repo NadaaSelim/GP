@@ -3,9 +3,11 @@ import Link from "next/link";
 import { Heading, Text, Img } from "../components";
 
 export default function Guest() {
+  localStorage.removeItem('token');
+
     return (
       <>
-          <title>Menna's Application1</title>
+          <title>Welcome Page</title>
           <meta name="description" content="Web site created using create-react-app" />
         <div className="min-h-screen h-[982px] w-full  flex items-center bg-indigo-200 relative overflow-hidden">
           

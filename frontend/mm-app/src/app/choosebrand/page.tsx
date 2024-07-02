@@ -1,76 +1,196 @@
 "use client"
 import React, { useEffect, useState } from "react";
-import { Img, Text, Heading } from "../components";
-
-
+import { Img, Text } from "../components";
+import { useRouter } from 'next/router';
 
 interface BrandProps {
-  brandName: string;
-  images: { src: string; alt: string }[];
-  date: string;
+  name: string;
+  alt_names: string[];
 }
 
-function Brand({ brandName, images, date }: BrandProps) {
+const Section: React.FC<{ brandName: string }> = ({ brandName }) => {
+  const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false);
+  const [popupContent, setPopupContent] = useState<string>('');
+  const [brandData, setBrandData] = useState<BrandProps[]>([]);
+
+  
+  const handleEditClick = (item: string) => {
+    setPopupContent(`Enter New name for ${item}: <input type="text" id="newNameInput" style="padding:3px;border:2px solid black; margin-top:3px;border-radius:5px" />`);
+    setIsPopupVisible(true);
+  };
+
+  const handlePopupClose = () => {
+    setIsPopupVisible(false);
+    setPopupContent('');
+  };
+
+  const handleDeleteBrand = async(brandName: string,altName:string) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/brand/${brandName}/${altName}`, {
+          method: 'DELETE',
+          headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+      });
+
+      if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      console.log(`Altname ${altName} deleted successfully.`);
+  } catch (error) {
+      console.error('Error deleting brand:', error);
+  }
+
+
+    setBrandData(brandData.filter(brand => brand.name !== brandName));
+  };
+
+  const handlePopupConfirm = () => {
+    // Example function to handle popup confirmation
+  };
+
+  const fetchBrandData = async () => {
+    try {
+      const response = await fetch(`http://localhost:8000/brand/${brandName}/altnames`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const altnames = await response.json();
+      setBrandaltnames(altnames.alt_names);
+
+      return altnames;
+    } catch (error) {
+      console.error('Error fetching brand data:', error);
+      return [];
+    }
+  };
+
+  const [altnames, setBrandaltnames] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchAndSetBrandaltnames = async () => {
+      const altnames = await fetchBrandData();
+      console.log(altnames);
+    };
+    fetchAndSetBrandaltnames();
+  }, []);
+
+  useEffect(() => {
+    console.log("Updated brandData:", brandData);
+  }, [brandData]);
+
   return (
-    <div className="flex flex-row md:flex-col justify-between items-center w-full md:gap-10">
-      <div className="flex flex-row justify-start items-start w-[45%] md:w-full gap-[17px]">
-        {images.map((image, index) => (
-          <Img
-            key={index}
-            src={image.src}
-            alt={image.alt}
-            className="w-[18%] md:h-auto sm:w-full object-cover"
-          />
-        ))}
-        <div className="flex flex-row justify-start w-[78%] mt-[5px]">
-          <Heading size="2xl" as="h2" className="!text-black-900 !text-[35.63px]">
-            {brandName}
-          </Heading>
-        </div>
-      </div>
-      <Text size="7xl" as="p" className="!text-gray-500 !text-[30.93px] !font-normal">
-        {date}
-      </Text>
-      <div className="h-[50px] w-[6%] md:w-full relative">
-        <div className="justify-center h-[50px] w-full left-0 bottom-0 right-0 top-0 m-auto bg-yellow-100 absolute rounded-[50%]">
-          <img
-            className="h-[29px] w-[30px] sm:w-full top-[19%] right-0 left-0 m-auto object-cover absolute"
-            src="images/img_componentit.pag"
-            alt="imagesevenone"
-            loading="lazy"
-          />
+    <div className="w-full h-full mt-5">
+      <table className="w-full p-3 mb-4 text-sm text-left rtl:text-right text-black-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" className="px-6 py-3">
+              Alternative name
+            </th>
+            <th scope="col" className="px-6 py-3">
+              <span className="sr-only">Edit</span>
+            </th>
+            <th scope="col" className="px-6 py-3">
+              <span className="sr-only">Delete</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {altnames.map((item: string, index: number) => (
+            <tr
+              key={index}
+              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
+              <th
+                scope="row"
+                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              >
+                {item}
+              </th>
+              <td className="px-6 py-4 text-right">
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleEditClick(item);
+                  }}
+                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                >
+                  Edit
+                </a>
+              </td>
+              <td className="px-6 py-4 text-right">
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleDeleteBrand(brandName,item);
+                  }}
+                  className="font-medium text-red-600 dark:text-red-500 hover:underline"
+                >
+                  Delete
+                </a>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {isPopupVisible && (
+        <Popup
+          content={popupContent}
+          onClose={handlePopupClose}
+          onConfirm={handlePopupConfirm}
+        />
+      )}
+    </div>
+  );
+};
+
+interface PopupProps {
+  content: string;
+  onClose: () => void;
+  onConfirm: () => void;
+}
+
+const Popup: React.FC<PopupProps> = ({ content, onClose, onConfirm }) => {
+  return (
+    <div className="absolute left-[50%] top-20 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-slate-50 border-2 rounded p-4 shadow-lg">
+        <div dangerouslySetInnerHTML={{ __html: content }} />
+        <div className="flex justify-end mt-4">
+          <button onClick={onClose} className="mr-2 bg-gray-200 px-4 py-2 rounded">
+            Cancel
+          </button>
+          <button onClick={onConfirm} className="bg-blue-500 text-white px-4 py-2 rounded">
+            Confirm
+          </button>
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default function ChooseerandPage() {
+export default function ChooseBrandPage() {
   const images = [
     { src: "images/img_target_dynamic_color.png", alt: "targetdynamic" },
-    // Add more image objects here if needed
   ];
-  const [brandCount, setBrandCount] = useState(0);
-  //const brands=[ query to backend to retrieve brands] brandcount=brands.length
 
-  // Function to increment the brand count
-  // const incrementBrandCount = () => {
-  //   setBrandCount((prevCount) => prevCount + 1);
-  // };
+  const [brandCount, setBrandCount] = useState(0);
+  const queryParams = new URLSearchParams(window.location.search);
+  const brandname = queryParams.get('brandname');  
 
 
   return (
-    <div className="outer-container flex flex-row justify-end w-full min-h-screen pl-[55px] pr-[249px] md:px-5 border-black-900 border border-solid bg-indigo-200">
-      <div className="flex flex-col items-start justify-start w-full h-full gap-[1O1px] p-[35px] mx-auto md:px-5 sm:p-5 border-black-900 border border-solid bg-gray-100_04 max-w-[999px]">
-        <Heading
-          size="2xl"
-          as="h1"
-          className="mt-[37px] ml-[339px] md:m1-5 !text-black-900 tracking-[3.84px] text-center"
-        >
-          Brands
-        </Heading>
-        <div className="inner-container flex flex-col items-center justify-start w-[95%] md:w-full mb-[5px] ml-[47px] gap-[562px] md:m1-5">
-          <Brand brandName="McDonald's" images={images} date="2 March 2021, 13:45 PM"  />
+    <div className="w-full h-full min-h-screen bg-indigo-200">
+      <div className="flex flex-row items-center justify-center w-full h-full gap-[101px] p-[35px] mx-auto md:px-5 sm:p-5 border-black-900 border border-solid bg-gray-100_04 max-w-[70%] m:auto">
+        <div className="inner-container flex flex-col items-center justify-center w-full md:w-full  md:m1-5">
+          <h1 className="text-3xl font-bold">{brandname}</h1>
+          {typeof brandname === 'string' && <Section brandName={brandname} />}
           <div className="flex flex-row justify-between items-start w-[98%] md:w-full">
             <Text size="md" as="p" className="flex mt-2.5 !text-indigo-900 !text-[13.16px]">
               <span className="text-gray-500">Showing </span>
