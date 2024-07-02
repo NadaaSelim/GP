@@ -35,7 +35,7 @@ func scrapeTweets(brandNames []string, lang string, maxTweets int) ([]string, er
 
 	scraper := twitterscraper.New()
 	if !scraper.IsLoggedIn() {
-		err := scraper.Login("anon.mhg.2003@gmail.com", "notscrapping")
+		err := scraper.Login("xxanonxx333", "notscrapping")
 		if err != nil {
 			//scraper.Logout()
 			return nil, err
