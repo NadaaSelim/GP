@@ -2,7 +2,13 @@
 import React, { useState } from "react";
 import { Button, Heading, Img, Input } from "../components";
 
+const patterns:RegExp[] = [
+    /[\u0600-\u06FF,\s]+/, //matches ar chars commas spaces
+    /[a-zA-Z,\s]+/         // match eng chars and commas/spaces
+
+]
 function BrandForm() {
+
     return (
         <div className="brandForms font-medium w-full ml-[20px]">
             <h2 className="ml-[3px] md tracking-[1.92px] font-bold">Brand Offical Name</h2>
@@ -10,19 +16,25 @@ function BrandForm() {
                 name="name"
                 placeholder="McDonald's"
                 className="w-full mt-[5px] ml-[3px] tracking-[1.92px] font-medium"
+                required
             />
-            <h2 className="mt-[31px] ml-1.5 md tracking-[1.92px] font-bold">Names to track in Arabic</h2>
+            <h2 className="mt-[31px] ml-1.5 md tracking-[1.92px] font-bold">Alternative Names to track in Arabic</h2>
             <Input
                 name="alt_name"
                 placeholder="ماك,ماكدونالدز"
                 className="w-full mt-5 ml-[3px] tracking-[1.92px] font-medium"
+                pattern="[\u0600-\u06FF,\s]*"
+
             />
-            <h2 className="mt-[46px] ml-1.5 md tracking-[1.92px] font-bold">Names to track in English</h2>
-            <Input
+            <h2 className="mt-[46px] ml-1.5 md tracking-[1.92px] font-bold">Alternative Names to track in English</h2>
+            <input
                 name="alt_name"
                 placeholder="Mac , Macca's, Maccas"
                 className="w-full mt-[17px] tracking-[1.92px] font-medium"
+                pattern="[a-zA-Z,\s]*"
+                //oninvalid='setCustomValidity("Please enter only English alphabet characters, commas, and spaces")'
             />
+
         </div>
     );
 }
@@ -39,10 +51,12 @@ export default function AddBrand() {
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
+
         e.preventDefault();
         const brandForms = document.getElementsByClassName("brandForms");
 
-        const brands = [];
+        const token = localStorage.getItem('token');
+
         for (let i = 0; i < brandForms.length; i++) {
             const brandForm = brandForms[i] as HTMLElement;
             const inputs = brandForm.getElementsByTagName("input");
@@ -55,34 +69,37 @@ export default function AddBrand() {
                 let splitAltNames = alt.split(',');
                 
                 splitAltNames.forEach(name => {
-                    altNames.push({ altname: name.trim().toLowerCase() });
+                    name = name.trim().toLowerCase();
+                    if(patterns[j-1].test(name))
+                        altNames.push({ altname:  name});
                 });
             }
     
             
 
-            brands.push({ name, alt_names: altNames });
-        }
-        const token = localStorage.getItem('token');
-        console.log(token);
-        try {
-            const response = await fetch("http://localhost:8000/brand/add", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify(brands[0]),
-            });
-
-            if (response.ok) {
-                console.log("Brands added successfully!");
-            } else {
-                console.error("Failed to add brands.");
+            let brand = ({ name, alt_names: altNames });
+            console.log(brand);
+            try {
+                const response = await fetch("http://localhost:8000/brand/add", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(brand),
+                });
+    
+                if (response.ok) {
+                    console.log("Brands added successfully!");
+                } else {
+                    console.error("Failed to add brands.");
+                }
+            } catch (error) {
+                console.error("An error occurred:", error);
             }
-        } catch (error) {
-            console.error("An error occurred:", error);
+    
         }
+        console.log(token);
     };
 
     return (
@@ -104,20 +121,18 @@ export default function AddBrand() {
                                 </div>
                             ))}
                         </div>
-                        <div className="h-[168px] w-[10%] mt-8 px-3 relative flex flex-col justify-between">
+                        <div className="text-center h-[168px] w-[10%] mt-8 px-3 relative flex flex-col justify-between">
                             <Button
                                 size="md"
                                 shape="square"
                                 className="w-[40px] rounded-lg left-0 bottom-0 right-0 top-0 m-auto mb-5 absolute"
                                 onClick={handleRemoveBrand}
                             >
-                                <Heading
-                                    size="lg"
-                                    as="h5"
-                                    className="justify-center font-extrabold text-4xl w-max left-0 bottom-0 right-0 top-0 m-auto !text-white-A700 tracking-[3.60px] text-center absolute"
-                                >
+                                <h5
+                                    className="justify-center items-center font-extrabold text-2xl w-max left-0 bottom-0 right-0 top-0 m-auto !text-white-A700 tracking-[3.60px] text-center"
+                                    >
                                     -
-                                </Heading>
+                                </h5>
                             </Button>
                             <Button
                                 size="md"
@@ -125,13 +140,11 @@ export default function AddBrand() {
                                 className="w-[40px] rounded-lg left-0 bottom-0 right-0 top-0 m-auto mt-5"
                                 onClick={handleAddBrand}
                             >
-                                <Heading
-                                    size="lg"
-                                    as="h5"
-                                    className="justify-center font-extrabold text-3xl w-max left-0 bottom-0 right-0 top-0 m-auto !text-white-A700 tracking-[3.60px] text-center"
+                                <h5
+                                    className="justify-center items-center font-extrabold text-2xl w-max left-0 bottom-0 right-0 top-0 m-auto !text-white-A700 tracking-[3.60px] text-center"
                                 >
                                     +
-                                </Heading>
+                                </h5>
                             </Button>
                         </div>
                     </div>

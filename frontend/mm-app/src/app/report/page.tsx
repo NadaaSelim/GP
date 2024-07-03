@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import { CloseSVG } from "../assets/images";
 import { Text, Img, Button, Heading,Header, SelectBox, Input, SentimentComp, DountChart } from "../components";
@@ -17,16 +17,38 @@ const dropDownOptions = [
 
 export default function ReportPage() {
   const [searchBarValue4, setSearchBarValue4] = React.useState("");
+  const [selectedIndex, setSelectedIndex] = useState<number>(2);
+
+  function printDiv(): void {
+    try{
+      const printContents = document.getElementById("charts")?.innerHTML;
+      if (!printContents) return;
+  
+      const printWindow = window.open('', '', 'height=600,width=800');
+      if (!printWindow) return;
+  
+      printWindow.document.write('<html><head><title>Print Charts</title>');
+      printWindow.document.write('</head><body >');
+      printWindow.document.write(printContents);
+      printWindow.document.write('</body></html>');
+      
+      printWindow.document.close();
+      printWindow.focus();
+      printWindow.print();
+     // printWindow.close();
+  
+    }catch(error){console.error(error)}
+  }
 
   return (
     <>
       <Helmet>
-        <title>Menna's Application1</title>
+        <title>Report</title>
         <meta name="description" content="Web site created using create-react-app" />
       </Helmet>
       <div className="min-h-screen w-full bg-white-A700 relative">
         <div className="flex flex-row md:flex-col justify-center items-start w-full h-full left-0 bottom-0 right-0 top-0 m-auto md:gap-5 absolute">
-          <Sidebar1 className="w-[20%] h-screen  sticky " />
+          <Sidebar1 selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} className="w-[20%] h-screen  sticky " />
           
           <div className="flex flex-col justify-center items-center w-full mt-3 ml-[17%] pb-2 ">
 
@@ -52,7 +74,7 @@ export default function ReportPage() {
           </p>
           <p className="mt-5 md:ml-5 !text-black-900 tracking-[0.50px]  font-medium">
             
-          Platforms: Talabat, Facebook, Twitter
+          Platforms: Facebook, Twitter
           </p>
           </div>
           <div className="flex flex-row justify-start items-start mt-5 text-lg w-[80%] ">
@@ -66,12 +88,13 @@ export default function ReportPage() {
                 options={dropDownOptions}
                 className="w-[15%] ml-5 border-2 border-solid border-black-999  rounded-[10px]"
               />
-                        <Button color="black_900_02" size="md"  className="w-[50px] ml-10 rounded-[13px] outline outline-offset-10 outline-black ">
+                        <Button color="black_900_02" size="md" onClick={printDiv}
+                         className="w-[50px] ml-10 rounded-[13px] outline outline-offset-10 outline-black ">
               <Img src="../images/img_print_button.svg" />
             </Button>
                       
           </div>
-            <div className="flex flex-row mt-[20px] w-full gap-5">
+            <div id="charts" className="flex flex-row mt-[20px] w-full gap-5">
             <SentimentComp/>
             <DountChart/>
             </div>

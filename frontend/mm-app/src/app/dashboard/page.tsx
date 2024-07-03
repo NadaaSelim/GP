@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import { CloseSVG } from "../assets/images";
 import { Text, Img, Button, Heading,Header, SelectBox, Input, SentimentComp, DountChart } from "../components";
@@ -19,20 +19,21 @@ const dropDownOptions = [
 
 export default function ReportPage() {
   const [searchBarValue4, setSearchBarValue4] = React.useState("");
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   return (
     <>
       <Helmet>
-        <title>Menna's Application1</title>
+        <title>Dashboard</title>
         <meta name="description" content="Web site created using create-react-app" />
       </Helmet>
       <div className="min-h-screen w-full bg-white-A700 relative">
         <div className="flex flex-row md:flex-col justify-center items-start w-full h-full left-0 bottom-0 right-0 top-0 m-auto md:gap-5 absolute">
-          <Sidebar1 className="w-[20%] h-screen  sticky " />
+          <Sidebar1 selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} className="w-[20%] h-screen  sticky " />
           
           <div className="flex flex-col justify-center items-center w-full mt-3 ml-[17%] pb-2 ">
 
-          <Header className="flex flex-row justify-between items-center w-[77%] sm:w-full right-[5%] top-[2%] m-auto absolute z-10"/>
+          <Header />
                   
           <div className="h-px mt-14 w-full  md:ml-0 ml-[-40px] bg-blue_gray-100_02"></div>
 

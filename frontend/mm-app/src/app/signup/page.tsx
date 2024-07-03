@@ -6,13 +6,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation"; 
 
 const SignupForm = () => {
-  // const [email, setEmail] = useState<string>('');
-  // const [username, setUsername] = useState<string>('');
-  // const [password, setPassword] = useState<string>('');
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    localStorage.clear();
+
     const email = (document.getElementById('email') as HTMLInputElement).value;
     const username = (document.getElementById('username') as HTMLInputElement).value;
     const password = (document.getElementById('password') as HTMLInputElement).value;
@@ -32,16 +31,37 @@ const SignupForm = () => {
     });
 
     if (response.ok) {
-      const user = await response.json();
-      localStorage.setItem('session', user);
-      console.log(user.id,user.username);
+      const resp = await response.json();
+      localStorage.setItem('token', resp.access_token);
+      console.log(resp);
+      console.log("Good to go")
+     
+    } else {
+      console.error('Signup failed'); return;
+    }
+
+    const getUser = await fetch('http://localhost:8000/user/userinfo', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      
+    });
+
+    if (getUser.ok) {
+      const userresp = await getUser.json();
+      localStorage.setItem('user', userresp);
+      console.log(userresp);
       //redirect to  next page
       console.log("Good to go")
-      //router.push('/addbrand');
+      router.push('/addbrand');
     } else {
-      console.error('Signup failed');
+      console.error('Couldnt retrieve user ');
     }
   }catch(error){ console.error(error);}
+
+
   };
 
   return (
