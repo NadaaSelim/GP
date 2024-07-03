@@ -34,7 +34,8 @@ def text_data_cleaning(sentence):
 
 
 def load_model():
-    model = joblib.load('D:/Graduation Project/GP/backend/app/english_model/sentiment_model.joblib')
+    joblib_in = open("D:/Graduation Project/GP/backend/app/english_model/sentiment_model.joblib","rb")
+    model = joblib.load(joblib_in)
     return model
 
 def get_model():
