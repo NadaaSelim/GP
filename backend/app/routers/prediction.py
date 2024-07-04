@@ -1,45 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
-import joblib
 from mongo.database import english_collection
 from mongo import models, schemas
 import pandas as pd
-from english_model.using_model import predict
-
-import spacy
-from spacy.lang.en.stop_words import STOP_WORDS
-from string import punctuation
+from lifespan import ml_models
 
 
-# This is a function needed by the pipeline for predicting the sentiment of a text
-nlp = spacy.load("en_core_web_sm")
-stopwords = list(STOP_WORDS)
-punct = list(punctuation)
-
-def text_data_cleaning(sentence):
-    doc = nlp(sentence)
-    
-    tokens = []
-    for token in doc:
-        if token.lemma_ != "-PRON-":
-            temp = token.lemma_.lower().strip()
-        else:
-            temp = token.lower_
-        tokens.append(temp)
-    
-    cleaned_tokens = []
-    for token in tokens:
-        if (token not in stopwords and token not in punct) or token == 'not' :
-            cleaned_tokens.append(token)
-    return cleaned_tokens
 
 
-def load_model():
-    joblib_in = open("D:/Graduation Project/GP/backend/app/english_model/sentiment_model.joblib","rb")
-    model = joblib.load(joblib_in)
-    return model
-
-def get_model():
-    return load_model()
 
 router = APIRouter(
     prefix="/predict",
@@ -48,11 +15,19 @@ router = APIRouter(
 
 features = ['text']
 
-@router.post("/en")
-def predict(model=Depends(get_model)):
-    score = model.predict(["Cheese pie was totally different than the photo on the application"])
-    return {"score": score}
-"""
+
+@router.get("/en")
+def predict():
+    
+    # Predict the sentiment
+    prediction = ml_models["en"].predict(["The pizza was very cold"])
+
+    # Print the sentiment
+    sentiment_label = "positive" if prediction[0] == 1 else "negative"
+    
+    
+    return{"score":sentiment_label}
+
 
 @router.post("/en")
 def predict_en():
@@ -75,7 +50,7 @@ def predict_en():
         print(X_batch)
 
         # Make predictions
-        predictions = predict(X_batch)
+        predictions = ml_models["en"].predict(X_batch)
         
         # Update MongoDB documents with predictions
         for doc, prediction in zip(documents, predictions):
@@ -85,4 +60,4 @@ def predict_en():
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-"""
+

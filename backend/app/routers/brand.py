@@ -74,3 +74,6 @@ def delete_altname(brand_name: str,alt_name: str, db:Session = Depends(get_db), 
     db.commit()
     
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+# sentiment analysis part

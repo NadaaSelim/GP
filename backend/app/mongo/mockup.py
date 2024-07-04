@@ -2,7 +2,7 @@ import pandas as pd
 from database import english_collection
 
 column_to_field_mapping = {
-    'Restaurant': 'brand_name',
+
     'Review': 'text',
     
 }
@@ -17,4 +17,4 @@ for _, row in df.iterrows():
     data.append(document)
     
     
-#english_collection.insert_many(data)
+english_collection.insert_many(data)
