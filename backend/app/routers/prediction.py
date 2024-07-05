@@ -1,7 +1,7 @@
 from collections import defaultdict
 from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, status
-from mongo.database import english_collection
+from mongo.database import english_collection, ar_collection
 import models, oauth2, schemas
 from database import get_db
 import pandas as pd
@@ -13,7 +13,7 @@ from sqlalchemy.orm import Session
 
 
 router = APIRouter(
-    prefix="/predict/en",
+    prefix="/predict",
     tags=["prediction"],
 )
 
@@ -33,12 +33,19 @@ def predict():
     return{"score":sentiment_label}
 
 
-@router.post("/{brand_name}/{platform}", status_code=status.HTTP_201_CREATED, response_model=schemas.AnalysisOut)
-def predict_en(brand_name: str, platform: str, db:Session = Depends(get_db), current_user: int =Depends(oauth2.get_current_user)):
+@router.post("/{lang}/{brand_name}/{platform}", status_code=status.HTTP_201_CREATED, response_model=schemas.AnalysisOut)
+def predict_en(lang: str, brand_name: str, platform: str, db:Session = Depends(get_db), current_user: int =Depends(oauth2.get_current_user)):
     try:
+        
         brand = db.query(models.Brand).filter(models.Brand.name==brand_name).first()
+        
+        if lang == 'en':
+            collection = english_collection
+        elif lang == 'ar':
+            collection = ar_collection
         # Fetch data from MongoDB
-        documents = list(english_collection.find({ 'brand_id': brand.id ,'platform': platform},{'_id': 1,'text': 1}))
+        
+        documents = list(collection.find({ 'brand_id': brand.id ,'platform': platform},{'_id': 1,'text': 1}))
         
         if not documents:
             raise HTTPException(status_code=404, detail="No documents found in the collection")
@@ -56,7 +63,7 @@ def predict_en(brand_name: str, platform: str, db:Session = Depends(get_db), cur
         #print(type(X_batch))
 
         # Make predictions
-        predictions = ml_models["en"].predict(X_batch)
+        predictions = ml_models[lang].predict(X_batch)
         
         positive = 0
         negative = 0 
@@ -84,7 +91,7 @@ def predict_en(brand_name: str, platform: str, db:Session = Depends(get_db), cur
                     )
                     count_sample_negative += 1
                 
-            english_collection.update_one({'_id':  doc['_id']}, {'$set': {'score': int(prediction)}})
+            collection.update_one({'_id':  doc['_id']}, {'$set': {'score': int(prediction)}})
             
         # add analysis to db
         new_analysis = models.Analysis(
@@ -105,12 +112,17 @@ def predict_en(brand_name: str, platform: str, db:Session = Depends(get_db), cur
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/{brand_name}/{platform}")
-def analysis_by_month(brand_name: str, platform: str, db:Session = Depends(get_db), current_user: int =Depends(oauth2.get_current_user)):
+@router.get("/{lang}/{brand_name}/{platform}")
+def analysis_by_month(lang: str, brand_name: str, platform: str, db:Session = Depends(get_db), current_user: int =Depends(oauth2.get_current_user)):
     try:
         brand = db.query(models.Brand).filter(models.Brand.name==brand_name).first()
         # Fetch data from MongoDB
-        documents = list(english_collection.find({ 'brand_id': brand.id ,'platform': platform},{'_id': 1,'text': 1, 'time': 1}))
+        if lang == 'en':
+            collection = english_collection
+        elif lang == 'ar':
+            collection = ar_collection
+            
+        documents = list(collection.find({ 'brand_id': brand.id ,'platform': platform},{'_id': 1,'text': 1, 'time': 1}))
         
         if not documents:
             raise HTTPException(status_code=404, detail="No documents found in the collection")
@@ -127,7 +139,7 @@ def analysis_by_month(brand_name: str, platform: str, db:Session = Depends(get_d
        
 
         # Make predictions
-        predictions = ml_models["en"].predict(X_batch)
+        predictions = ml_models[lang].predict(X_batch)
         
         monthly_summary = defaultdict(lambda: {"positive": 0, "negative": 0})
         # Update MongoDB documents with predictions
@@ -141,7 +153,7 @@ def analysis_by_month(brand_name: str, platform: str, db:Session = Depends(get_d
                 monthly_summary[month_str]["negative"] += 1
                
                 
-            english_collection.update_one({'_id':  doc['_id']}, {'$set': {'score': int(prediction)}})
+            collection.update_one({'_id':  doc['_id']}, {'$set': {'score': int(prediction)}})
             
         return monthly_summary
     
