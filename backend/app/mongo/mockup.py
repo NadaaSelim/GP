@@ -13,9 +13,10 @@ for index, row in df.iterrows():
     if restuarnt_name == 'Cold Stone Creamery':
         # Extract the value from 'feature1' column
         feature1_value = row.get('Review')
+        feature2_value = row.get('Date')
 
         # Create an instance of YourModel with feature1 and defaults
-        instance = Review(text=feature1_value,brand_id=5,platform=Platform.TALABAT.value)
+        instance = Review(text=feature1_value,brand_id=5,platform=Platform.TALABAT.value,time=feature2_value)
         
         document = instance.model_dump()
 

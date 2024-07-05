@@ -31,12 +31,12 @@ def predict():
     return{"score":sentiment_label}
 
 
-@router.post("/en/{brand_name}", status_code=status.HTTP_201_CREATED, response_model=schemas.AnalysisOut)
-def predict_en(brand_name: str, db:Session = Depends(get_db), current_user: int =Depends(oauth2.get_current_user)):
+@router.post("/en/{brand_name}/{platform}", status_code=status.HTTP_201_CREATED, response_model=schemas.AnalysisOut)
+def predict_en(brand_name: str, platform: str, db:Session = Depends(get_db), current_user: int =Depends(oauth2.get_current_user)):
     try:
         brand = db.query(models.Brand).filter(models.Brand.name==brand_name).first()
         # Fetch data from MongoDB
-        documents = list(english_collection.find({ 'brand_id': brand.id },{'_id': 1,'text': 1}))
+        documents = list(english_collection.find({ 'brand_id': brand.id ,'platform': platform},{'_id': 1,'text': 1}))
         
         if not documents:
             raise HTTPException(status_code=404, detail="No documents found in the collection")
@@ -50,8 +50,8 @@ def predict_en(brand_name: str, db:Session = Depends(get_db), current_user: int 
 
         # Prepare the data for prediction
         X_batch = df['text']
-        print(X_batch.shape)
-        print(type(X_batch))
+        #print(X_batch.shape)
+        #print(type(X_batch))
 
         # Make predictions
         predictions = ml_models["en"].predict(X_batch)
@@ -60,13 +60,28 @@ def predict_en(brand_name: str, db:Session = Depends(get_db), current_user: int 
         negative = 0 
         num_reviews = X_batch.shape[0]
         
-        
+        count_sample_negative = 0
+        count_sample_positive = 0
+        sample_reviews = []
         # Update MongoDB documents with predictions
         for doc, prediction in zip(documents, predictions):
             if prediction == 1:
                 positive += 1
+                if count_sample_positive < 5 :
+                    sample_reviews.append(
+                        models.Review(text=doc['text'],score=prediction)
+                    )
+                    count_sample_positive += 1
+                
+                
             else:
                 negative += 1
+                if count_sample_negative < 5 :
+                    sample_reviews.append(
+                        models.Review(text=doc['text'],score=prediction)
+                    )
+                    count_sample_negative += 1
+                
             english_collection.update_one({'_id':  doc['_id']}, {'$set': {'score': int(prediction)}})
             
         # add analysis to db
@@ -75,8 +90,11 @@ def predict_en(brand_name: str, db:Session = Depends(get_db), current_user: int 
             positive=positive,
             negative=negative,
             num_reviews=num_reviews,
-            
+            platform=platform,
+            language='en'
         )
+        
+        new_analysis.reviews.extend(sample_reviews)
         db.add(new_analysis)
         db.commit()
         db.refresh(new_analysis)

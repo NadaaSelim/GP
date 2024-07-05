@@ -1,5 +1,5 @@
 from database import Base
-from sqlalchemy import Column, ForeignKey, Integer, String 
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String 
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from sqlalchemy.orm import relationship
@@ -57,8 +57,24 @@ class Analysis(Base):
     num_reviews = Column(Integer, nullable=False)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
+    platform = Column(String, nullable=False)
+    language = Column(String, nullable=False)
+    
     # Relationships
     brand = relationship('Brand', back_populates="analyses")
+    reviews = relationship("Review", back_populates="analysis", cascade="all, delete-orphan")
+
+    
+class Review(Base):
+    __tablename__ = "review"
+    
+    id = Column(Integer, primary_key=True, nullable=False)
+    analysis_id = Column(Integer, ForeignKey("analysis.id", ondelete="CASCADE"),nullable=False)
+    text = Column(String, nullable=False)
+    score = Column(Boolean, nullable=False)
+    
+    # Relationships
+    analysis = relationship("Analysis", back_populates="reviews")
     
     
 
