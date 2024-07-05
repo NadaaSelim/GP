@@ -1,6 +1,7 @@
 from fastapi import Depends
-import models, schemas, utils, oauth2
-from database import get_db
+from postgres import models, schemas
+import utils, oauth2
+from postgres.database import get_db
 from sqlalchemy.orm import Session
 
 

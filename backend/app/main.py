@@ -1,12 +1,12 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-import models
+from postgres import models
 from routers import auth, brand, user, web_scraper, prediction
-from database import SessionLocal, engine
-import dill
+from postgres.database import SessionLocal, engine
 from english_model.needed_fucntions import text_data_cleaning
 from arabic_model.needed_ar import clean_arabic_text
+
 models.Base.metadata.create_all(bind=engine)
 from lifespan import lifespan
 

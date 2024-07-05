@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException, status, Depends
 from sqlalchemy.orm import Session
-from database import get_db
-import models, oauth2
+from postgres.database import get_db
+from postgres import models, schemas
+import oauth2
 import httpx
-import schemas
 from mongo import schemas as mongo_schema
 from mongo import models as mongo_model
 from mongo.database import english_collection

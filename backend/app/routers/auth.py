@@ -1,12 +1,9 @@
 from fastapi import APIRouter, HTTPException, status, Depends
 from pydantic import ValidationError
 from sqlalchemy.orm import Session
-
-# TODO -> import issue
-import oauth2
-import schemas, models, utils, crud.crud_user as crud_user
-
-from database import get_db
+import oauth2, utils, crud.crud_user as crud_user
+from postgres import schemas, models
+from postgres.database import get_db
 
 
 router = APIRouter(

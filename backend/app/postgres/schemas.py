@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, field_validator, model_validator
+from pydantic import BaseModel, EmailStr, Field, field_validator, model_validator
 from datetime import datetime
 from typing import List, Optional
 from utils import validate_password
@@ -31,6 +31,10 @@ class UserLogin(BaseModel):
     email: EmailStr
     password: str
 
+class UserReset(BaseModel):
+    email: EmailStr
+    old_password: str
+    new_password: str
 
 class Token(BaseModel):
     access_token: str
@@ -58,22 +62,22 @@ class Brand(BaseModel):
         
 class BrandOut(BaseModel):
     name: str
-    alt_names: List[Altname]
+    alt_names: List[Altname] = Field(default_factory=list)
     
     @model_validator(mode='after')
     def convert_altnames(cls, values):
-        values.alt_names = [str(altname) if isinstance(altname, Altname) else altname for altname in values.alt_names]
+        values.alt_names = [Altname(altname=altname) if isinstance(altname, str) else altname for altname in values.alt_names]
         return values
     
     class Config:
         from_attributes = True    
         
 class BrandAltnames(BaseModel):
-    alt_names: List[Altname]
+    alt_names: List[Altname] = Field(default_factory=list)
     
     @model_validator(mode='after')
     def convert_altnames(cls, values):
-        values.alt_names = [str(altname) if isinstance(altname, Altname) else altname for altname in values.alt_names]
+        values.alt_names = [Altname(altname=altname) if isinstance(altname, str) else altname for altname in values.alt_names]
         return values
     
     class Config:
