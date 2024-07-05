@@ -1,20 +1,30 @@
 import pandas as pd
 from database import english_collection
+from models import Review, Platform
 
-column_to_field_mapping = {
-
-    'Review': 'text',
-    
-}
 
 df = pd.read_csv('D:\Graduation Project\GP\Web Scrapper\eng_reviews.csv')
-print(f"Number of rows loaded: {len(df)}")
+
 
 
 data = []
-for _, row in df.iterrows():
-    document = {new_field: row[old_field] for old_field, new_field in column_to_field_mapping.items()}
-    data.append(document)
+for index, row in df.iterrows():
+    restuarnt_name = row.get('Restaurant')
+    if restuarnt_name == 'Cold Stone Creamery':
+        # Extract the value from 'feature1' column
+        feature1_value = row.get('Review')
+
+        # Create an instance of YourModel with feature1 and defaults
+        instance = Review(text=feature1_value,brand_id=5,platform=Platform.TALABAT.value)
+        
+        document = instance.model_dump()
+
+        # Convert Pydantic model to dictionary and insert into MongoDB
+    
+        data.append(document)
+    
+english_collection.insert_many(data)   
+
+print("Insertion complete.")
     
     
-english_collection.insert_many(data)
