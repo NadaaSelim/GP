@@ -1,22 +1,22 @@
 import pandas as pd
-from database import english_collection
+from database import ar_collection
 from models import Review, Platform
 
 
-df = pd.read_csv('D:\Graduation Project\GP\Web Scrapper\eng_reviews.csv')
+df = pd.read_csv('D:/Graduation Project/GP/Web Scrapper/ar_reviews.csv')
 
 
 
 data = []
 for index, row in df.iterrows():
     restuarnt_name = row.get('Restaurant')
-    if restuarnt_name == 'Cold Stone Creamery':
+    if restuarnt_name == 'Al Dahan':
         # Extract the value from 'feature1' column
         feature1_value = row.get('Review')
         feature2_value = row.get('Date')
 
         # Create an instance of YourModel with feature1 and defaults
-        instance = Review(text=feature1_value,brand_id=5,platform=Platform.TALABAT.value,time=feature2_value)
+        instance = Review(text=feature1_value,brand_id=6,platform=Platform.TALABAT.value,time=feature2_value)
         
         document = instance.model_dump()
 
@@ -24,7 +24,7 @@ for index, row in df.iterrows():
     
         data.append(document)
     
-english_collection.insert_many(data)   
+ar_collection.insert_many(data)   
 
 print("Insertion complete.")
     

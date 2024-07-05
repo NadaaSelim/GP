@@ -98,14 +98,19 @@ class UserBrands(BaseModel):
 class BrandCreate(BaseModel):
     pass
     
-
+class Review(BaseModel):
+    text: str
+    score: bool
+    
 class AnalysisOut(BaseModel):
     
     positive: int
     negative: int
     num_reviews: int
     created_at: datetime
-    
+    platform: str
+    language: str
+    reviews: List[Review] = []
     class Config:
         from_attributes = True
  

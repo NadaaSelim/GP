@@ -7,6 +7,8 @@ from datetime import datetime
 class Platform(str, Enum):
     TWITTER = "Twitter"
     TALABAT = "Talabat"
+    FACEBOOK = "Facebook"
+    ELMENUS = "Elmenus"
 
 
 class Review(BaseModel):
