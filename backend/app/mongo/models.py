@@ -6,11 +6,13 @@ from datetime import datetime
 # Add additional platforms in the future
 class Platform(str, Enum):
     TWITTER = "Twitter"
+    TALABAT = "Talabat"
 
 
 class Review(BaseModel):
     text: str
     brand_id: int
     platform: Platform
-    time: str = Field(default_factory=lambda: datetime.now().isoformat())
-    score: Optional[int]
+    time: Optional[str] = Field(default_factory=lambda: datetime.now().isoformat())
+    score: Optional[int] = None
+    

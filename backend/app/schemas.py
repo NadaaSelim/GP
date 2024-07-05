@@ -99,5 +99,14 @@ class BrandCreate(BaseModel):
     pass
     
 
+class AnalysisOut(BaseModel):
     
+    positive: int
+    negative: int
+    num_reviews: int
+    created_at: datetime
+    
+    class Config:
+        from_attributes = True
+ 
     

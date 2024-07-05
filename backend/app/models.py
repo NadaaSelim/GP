@@ -34,6 +34,8 @@ class Brand(Base):
     # Relationships 
     user = relationship("User", back_populates="brands")     # one to many
     alt_names = relationship("Altname",back_populates="brand", cascade="all, delete-orphan")
+    analyses = relationship("Analysis", back_populates="brand", cascade="all, delete-orphan")
+
 
 class Altname(Base):
     __tablename__ = "altname"
@@ -43,6 +45,22 @@ class Altname(Base):
     
     # Relationships
     brand = relationship("Brand", back_populates="alt_names")
+    
+    
+class Analysis(Base):
+    __tablename__ = "analysis"
+    
+    id = Column(Integer, primary_key=True, nullable=False)
+    brand_id = Column(Integer, ForeignKey("brand.id", ondelete="CASCADE"),nullable=False)
+    positive = Column(Integer, nullable=False)
+    negative = Column(Integer, nullable=False)
+    num_reviews = Column(Integer, nullable=False)
+    created_at = Column(TIMESTAMP(timezone=True),
+                        nullable=False, server_default=text('now()'))
+    # Relationships
+    brand = relationship('Brand', back_populates="analyses")
+    
+    
 
     
     
