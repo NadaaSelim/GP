@@ -19,6 +19,7 @@ def validate_password(password: str):
         raise ValueError("Password not strong enough")
     
     return True
+
 def hash(password: str):
     return pwd_context.hash(password)
 

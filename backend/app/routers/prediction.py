@@ -2,8 +2,9 @@ from collections import defaultdict
 from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, status
 from mongo.database import english_collection, ar_collection
-import models, oauth2, schemas
-from database import get_db
+import oauth2
+from postgres import models, schemas
+from postgres.database import get_db
 import pandas as pd
 from lifespan import ml_models
 from sqlalchemy.orm import Session

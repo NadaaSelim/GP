@@ -1,4 +1,4 @@
-from database import Base
+from postgres.database import Base
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String 
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
