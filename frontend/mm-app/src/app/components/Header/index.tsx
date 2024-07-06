@@ -10,13 +10,20 @@ interface Props {
 interface Brand{
   name:string,logo:string;
 }
-const brands = [
-  { name: "Mcdonalds", logo: "images/img_group_147.png" },
-  { name: "Hardees", logo: "images/img_group_147.png" }
-];
+
+
+let user = null;
+let brands:Brand[] ;
 
 export default function Header({ ...props }: Props) {
   const [searchBarValue3, setSearchBarValue3] = React.useState("");
+  const userString = localStorage.getItem('user');
+  if(userString!=null){
+     user = JSON.parse(userString);
+
+     brands = user.brands;
+     console.log(brands)
+}
   // const user = {
   //   "id":"1234", "username":"USERNAME","email":"email@com"
   // }

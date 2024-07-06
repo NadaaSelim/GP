@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
 import { Button, Heading, Img, Input } from "../components";
-
+import {isAuth} from "../auth"
 const patterns:RegExp[] = [
     /[\u0600-\u06FF,\s]+/, //matches ar chars commas spaces
     /[a-zA-Z,\s]+/         // match eng chars and commas/spaces
@@ -40,6 +40,10 @@ function BrandForm() {
 }
 
 export default function AddBrand() {
+    if(!isAuth()){
+        window.location.href = "../login"; return;
+      }
+    
     const [formCount, setFormCount] = useState(1);
 
     const handleAddBrand = () => {
@@ -56,6 +60,7 @@ export default function AddBrand() {
         const brandForms = document.getElementsByClassName("brandForms");
 
         const token = localStorage.getItem('token');
+        const userString = localStorage.getItem('user')
 
         for (let i = 0; i < brandForms.length; i++) {
             const brandForm = brandForms[i] as HTMLElement;
@@ -90,7 +95,13 @@ export default function AddBrand() {
                 });
     
                 if (response.ok) {
-                    console.log("Brands added successfully!");
+                    if(userString != null){
+                        const user = JSON.parse(userString)
+                        const brands:string[] =user.brands;
+            
+                    }
+                    alert("Brands added successfully!");
+
                 } else {
                     console.error("Failed to add brands.");
                 }

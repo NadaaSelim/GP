@@ -5,12 +5,25 @@ interface DonutChartProps {
   strokeWidth: number;
 }
 
-const DonutChart: React.FC<DonutChartProps> = ({ size, strokeWidth }) => {
-  const data = [
-    { label: 'Label 1', value: 60, color: '#4CAF50' },
-    { label: 'Label 2', value: 40, color: '#2196F3' },
-  ];
+interface donutData{
+  label:string;value:number;color:string;
+} 
 
+const DonutChart: React.FC<DonutChartProps> = ({ size, strokeWidth }) => {
+  // const data = [
+  //   { label: 'Positive', value: 60, color: '#4CAF50' },
+  //   { label: 'Negative', value: 40, color: 'red' },
+  // ];
+  const WCSR = localStorage.getItem("os-sr");
+  let data:donutData[]=[]
+  console.log(WCSR)
+  if(WCSR!=null){
+      let parsed = JSON.parse(WCSR);
+      data.push(
+        {label:"Positive",value:parsed.positive, color:"#4CAF50"},
+        {label:"Negative",value:parsed.negative, color:"red"},
+      )
+  }
   const total = data.reduce((acc, { value }) => acc + value, 0);
 
   const [hoveredSegment, setHoveredSegment] = useState<{ label: string; percentage: number; value:number } | null>(null);
@@ -84,71 +97,11 @@ const App: React.FC = () => {
     <div className="max-w-sm w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
       <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">Overall Sentiment</h5>
       <div className="py-6">
-        <DonutChart size={200} strokeWidth={50} />
+        <DonutChart size={300} strokeWidth={60} />
       </div>
       <div className="flex justify-between items-center pt-5">
-        <button
-          id="dropdownDefaultButton"
-          data-dropdown-toggle="lastDaysdropdown"
-          data-dropdown-placement="bottom"
-          className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
-          type="button"
-        >
-          Last 7 days
-          <svg
-            className="w-2.5 m-2.5 ms-1.5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 10 6"
-          >
-            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-          </svg>
-        </button>
-        <div id="lastDaysdropdown" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-          <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-            <li>
-              <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                Yesterday
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                Today
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                Last 7 days
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                Last 30 days
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                Last 90 days
-              </a>
-            </li>
-          </ul>
-        </div>
-        <a
-          href="#"
-          className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2"
-        >
-          Traffic analysis
-          <svg
-            className="w-2.5 h-2.5 ms-1.5 rtl:rotate-180"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 6 10"
-          >
-            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
-          </svg>
-        </a>
+
+      
       </div>
     </div>
   );

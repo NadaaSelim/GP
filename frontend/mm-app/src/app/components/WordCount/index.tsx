@@ -6,7 +6,7 @@ import ApexCharts from "apexcharts"; // Import ApexCharts library
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 interface BarChartProps {
-  data: { category: string; twitter: number; facebook: number }[];
+  data: { category: string; twitter: number; talabat: number,elmenus:number }[];
 }
 
 const BarChart: React.FC<BarChartProps> = ({ data }) => {
@@ -16,17 +16,21 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
     if (chartRef.current) {
       const categories = data.map(item => item.category); // Extract categories from data
 
-      // Prepare series data for Twitter and Facebook
+      // Prepare series data for Twitter and talabat
       const series = [
-        
-        {
-          name: "Facebook",
-          data: data.map(item => item.facebook),
-        },
         {
           name: "Twitter",
           data: data.map(item => item.twitter),
-        }
+        },
+        {
+          name: "Talabat",
+          data: data.map(item => item.talabat),
+        },
+        
+        {
+          name: "Elmenus",
+          data: data.map(item => item.elmenus),
+        },
       ];
 
       // Chart options configuration
@@ -44,7 +48,7 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
             horizontal: false,
           },
         },
-        colors: ["#1E90FF", "#000"], // Twitter (black) and Facebook (blue) colors
+        colors:["#000","#FFA500","#D30000"], // Twitter (black) and talabat (blue) colors
         series: series,
         xaxis: {
           categories: categories,
@@ -77,7 +81,7 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
           horizontalAlign: "center",
           offsetY: 10,
           labels: {
-            colors: ["#1E90FF", "#000"], // Twitter (black) and Facebook (blue) legend label colors
+            colors:["#000","#FFA500","#D30000"], // Twitter (black) and talabat (orange) legend label colors
           },
         },
         tooltip: {

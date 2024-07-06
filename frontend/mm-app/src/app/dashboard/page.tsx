@@ -10,6 +10,7 @@ import Sidebar1 from "../components/Sidebar1";
 import WordCount from "../components/WordCount";
 import LineChart from "../components/LineChart";
 import CircleChart from "../components/CircleChart";
+import {isAuth} from '../auth';
 
 const dropDownOptions = [
   { label: "Option1", value: "option1" },
@@ -18,6 +19,9 @@ const dropDownOptions = [
 ];
 
 export default function ReportPage() {
+  if(!isAuth()){
+    window.location.href = "../login"; return;
+  }
   const [searchBarValue4, setSearchBarValue4] = React.useState("");
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
 

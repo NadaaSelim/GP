@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Heading, Text, Img } from "../components";
 
 export default function Guest() {
-  localStorage.removeItem('token');
+  localStorage.clear();
 
     return (
       <>

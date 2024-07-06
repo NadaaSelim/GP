@@ -37,7 +37,10 @@ const SignupForm = () => {
       console.log("Good to go")
      
     } else {
-      console.error('Signup failed'); return;
+      const errorResponse = await response.json(); 
+      alert(errorResponse.detail); 
+      console.log(errorResponse.detail); 
+      return;
     }
 
     const getUser = await fetch('http://localhost:8000/user/userinfo', {
@@ -51,7 +54,7 @@ const SignupForm = () => {
 
     if (getUser.ok) {
       const userresp = await getUser.json();
-      localStorage.setItem('user', userresp);
+      localStorage.setItem('user', JSON.stringify(userresp));
       console.log(userresp);
       //redirect to  next page
       console.log("Good to go")

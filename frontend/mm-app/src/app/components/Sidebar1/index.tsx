@@ -10,10 +10,20 @@ interface Props {
   setSelectedIndex: (index: number) => void;
 }
 
+interface User{
+  username:string
+}
 export default function Sidebar1({ selectedIndex, setSelectedIndex, ...props }: Props) {
   const [collapsed, setCollapsed] = React.useState(false);
-  // TODO will be replaced with localstorage.getItem("user").username
-  const username = "USERNAME";
+
+  const userString = localStorage.getItem('user');
+  let username = "USERNAME"; // Default value
+  console.log(userString)
+  if (userString !== null) {
+    const user: User = JSON.parse(userString);
+    username = user.username; // Access username from the parsed User object
+  }
+  
   const img = "images/img_avatar_image.png"
   const handleClick = (index: number) => {
     setSelectedIndex(index);

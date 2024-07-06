@@ -36,7 +36,10 @@ const Login: React.FC = () => {
       //redirect to  next page
       router.push('/dashboard');
     } else {
-      console.error('Login failed');
+      const errorResponse = await response.json(); 
+      alert(errorResponse.detail); 
+      console.log(errorResponse.detail);  
+      return;  
     }
 
     const getUser = await fetch('http://localhost:8000/user/userinfo', {
@@ -50,7 +53,7 @@ const Login: React.FC = () => {
 
     if (getUser.ok) {
       const userresp = await getUser.json();
-      localStorage.setItem('user', userresp);
+      localStorage.setItem('user', JSON.stringify(userresp));
       console.log(userresp);
       //redirect to  next page
       console.log("Good to go")

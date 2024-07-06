@@ -15,6 +15,8 @@
     "@weknow/react-bubble-chart-d3": "^1.0.12",
     "apexcharts": "^3.49.2",
     "chart.js": "^4.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "next": "14.1.1",
     "react": "^18",
     "react-apexcharts": "^1.4.1",
@@ -25,6 +27,7 @@
     "react-select": "^5.8.0"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

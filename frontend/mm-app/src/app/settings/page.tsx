@@ -4,6 +4,7 @@ import { Img, Text, Button, Input, Heading, SelectBox,Sidebar1,Header,BrandComp 
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Login from "../login/page";
+import {isAuth} from "../auth";
 
 interface Brand {
     name: string;
@@ -12,6 +13,16 @@ interface Brand {
     
 
 export default function SettingsPage() {
+    if(!isAuth()){
+        window.location.href = "../login"; return;
+      }
+      const userString = localStorage.getItem('user');
+      let user =null;
+      console.log(userString)
+  if (userString !== null) {
+     user = JSON.parse(userString);
+  }
+
     const [selectedIndex, setSelectedIndex] = useState<number>(3);
     const [brandData, setBrandData] = useState<Brand[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -68,11 +79,11 @@ export default function SettingsPage() {
                 <div className="flex flex-col justify-center items-center w-[80%] gap-5 h-full mt-[15px] mr-[2%]  ">
                         <div className="flex flex-col items-start justify-start w-full border-indigo-400_01   border border-solid rounded-[10px] gap-[17px] p-3 ">
                         <img src="../../images/img_avatar_image.png" alt="Avatar" className="w-[100px] h-[100px] border-2 border-[#5A67BA] rounded-full object-cover" />
-                        <h2 className="text-xl font-extrabold text-blue-950">Yara Hassan</h2>
+                        <h2 className="text-xl font-extrabold text-blue-950">{user.username}</h2>
                         <div className="flex row gap-3 ml-2">
                                     <Img src="../../images/img_email.svg" alt="email" className="h-[33px] w-[33px]" />
                                     <h2  className="text-lg font-bold text-blue-950">
-                                        yara@mail.com
+                                        {user.email}
                                     </h2>
                                 </div>
 

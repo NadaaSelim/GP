@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Img, Text } from "../components";
 import { useRouter } from 'next/router';
-
+import {isAuth} from "../auth";
 interface BrandProps {
   name: string;
   alt_names: string[];
@@ -176,6 +176,10 @@ const Popup: React.FC<PopupProps> = ({ content, onClose, onConfirm }) => {
 };
 
 export default function ChooseBrandPage() {
+  if(!isAuth()){
+    window.location.href = "../login"; return;
+  }
+
   const images = [
     { src: "images/img_target_dynamic_color.png", alt: "targetdynamic" },
   ];

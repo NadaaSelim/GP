@@ -1,8 +1,13 @@
 "use client"
 import React from "react";
 import { Button, Text, Input, Heading } from "../components";
+import {isAuth} from "../auth"
 
 export default function Changepassword1Page() {
+  if(!isAuth()){
+    window.location.href = "../login"; return;
+  }
+
   return (
     <div className="flex items-center justify-center w-full min-h-screen bg-indigo-200">
       <div className="flex flex-col items-center justify-start w-full max-w-[999px] p-[55px] bg-gray-100 rounded-lg shadow-lg">
