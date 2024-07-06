@@ -1,16 +1,16 @@
 alembic==1.13.2
-annotated-types==0.7.0   
+annotated-types==0.7.0
 anyio==4.4.0
 bcrypt==4.1.3
-beautifulsoup4==4.12.3   
+beautifulsoup4==4.12.3
 blis==0.7.11
-catalogue==2.0.10        
-certifi==2024.6.2        
+catalogue==2.0.10
+certifi==2024.6.2
 charset-normalizer==3.3.2
 click==8.1.7
-cloudpathlib==0.16.0     
+cloudpathlib==0.16.0
 colorama==0.4.6
-confection==0.1.5        
+confection==0.1.5
 cymem==2.0.8
 dataclasses==0.6
 dill==0.3.8
@@ -41,6 +41,7 @@ markdown-it-py==3.0.0
 MarkupSafe==2.1.5
 mdurl==0.1.2
 murmurhash==1.0.10
+nltk==3.8.1
 numpy==1.26.4
 oauthlib==3.2.2
 orjson==3.10.5
@@ -50,6 +51,7 @@ passlib==1.7.4
 password-strength==0.0.3.post2
 preshed==3.0.9
 psycopg2==2.9.9
+PyArabic==0.6.15
 pydantic==2.7.4
 pydantic-extra-types==2.8.2
 pydantic-settings==2.3.4
@@ -64,6 +66,7 @@ python-multipart==0.0.9
 python-socks==2.5.0
 pytz==2024.1
 PyYAML==6.0.1
+regex==2024.5.15
 requests==2.32.3
 requests-oauthlib==1.3.1
 rich==13.7.1
