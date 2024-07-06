@@ -8,13 +8,11 @@ from sqlalchemy.orm import relationship
 
 class User(Base):
     __tablename__ = "user"
-    # TODO add photo
+   
     
     id = Column(Integer, primary_key=True, nullable=False)
     email = Column(String, nullable=False, unique=True)
-    # TODO it doesnt have to be unique and make limits
     username = Column(String, nullable=False, unique=False)
-    # TODO 2 -> hashing and make limits
     password = Column(String, nullable=False)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
