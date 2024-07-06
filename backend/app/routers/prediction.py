@@ -8,6 +8,8 @@ from postgres.database import get_db
 import pandas as pd
 from lifespan import ml_models
 from sqlalchemy.orm import Session
+from mongo import models as mongo_models
+from word_count import extract_top_adjectives, format_result
 
 
 
@@ -36,27 +38,34 @@ def predict():
 
 @router.post("/{lang}/{brand_name}/{platform}", status_code=status.HTTP_201_CREATED, response_model=schemas.AnalysisOut)
 def predict_en(lang: str, brand_name: str, platform: str, db:Session = Depends(get_db), current_user: int =Depends(oauth2.get_current_user)):
-    try:
+
         
         brand = db.query(models.Brand).filter(models.Brand.name==brand_name).first()
+        if not brand:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Brand not found")
         
+        if brand.user_id != current_user.id:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail="Not authorized to perform requested action")
         if lang == 'en':
             collection = english_collection
         elif lang == 'ar':
             collection = ar_collection
+        else:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Unsupported language")
         # Fetch data from MongoDB
         
         documents = list(collection.find({ 'brand_id': brand.id ,'platform': platform},{'_id': 1,'text': 1}))
         
         if not documents:
-            raise HTTPException(status_code=404, detail="No documents found in the collection")
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No reviews found ")
 
         # Convert MongoDB documents to DataFrame
         df = pd.DataFrame(documents)
         
         # Ensure the DataFrame has the required features
         if not all(feature in df.columns for feature in features):
-            raise HTTPException(status_code=400, detail=f"Input data must contain the following features: {features}")
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Input data must contain the following features: {features}")
 
         # Prepare the data for prediction
         X_batch = df['text']
@@ -101,7 +110,7 @@ def predict_en(lang: str, brand_name: str, platform: str, db:Session = Depends(g
             negative=negative,
             num_reviews=num_reviews,
             platform=platform,
-            language='en'
+            language=lang
         )
         
         new_analysis.reviews.extend(sample_reviews)
@@ -109,31 +118,73 @@ def predict_en(lang: str, brand_name: str, platform: str, db:Session = Depends(g
         db.commit()
         db.refresh(new_analysis)
         return new_analysis
+
     
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+@router.get("/associated-words/{lang}/{brand_name}")
+def associated_words(lang: str,brand_name: str, db:Session = Depends(get_db), current_user: int =Depends(oauth2.get_current_user)):
+   
+        brand = db.query(models.Brand).filter(models.Brand.name==brand_name).first()
+        
+        if not brand:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Brand not found")
+        
+        if brand.user_id != current_user.id:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail="Not authorized to perform requested action")
+        
+        if lang == 'en':
+            collection = english_collection
+        elif lang == 'ar':
+            collection = ar_collection
+        else:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Unsupported language")
+          
+        reviews = list(collection.find({ 'brand_id': brand.id},{'text': 1,'platform': 1}))
+        reviews_by_platform = reviews_by_platform = {platform.value: [] for platform in mongo_models.Platform}
+        
+        for review in reviews:
+            platform = review['platform']
+            text = review['text']
+        
+            reviews_by_platform[platform].append(text)
+        
+        top_adjectives = extract_top_adjectives(reviews_by_platform)
+        formatted_result = format_result(top_adjectives)
+        return formatted_result
+   
+    
+
 
 @router.get("/{lang}/{brand_name}/{platform}")
 def analysis_by_month(lang: str, brand_name: str, platform: str, db:Session = Depends(get_db), current_user: int =Depends(oauth2.get_current_user)):
-    try:
+    
         brand = db.query(models.Brand).filter(models.Brand.name==brand_name).first()
+        if not brand:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Brand not found")
+        
+        if brand.user_id != current_user.id:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail="Not authorized to perform requested action")
         # Fetch data from MongoDB
         if lang == 'en':
             collection = english_collection
         elif lang == 'ar':
             collection = ar_collection
+        else:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Unsupported language")
             
         documents = list(collection.find({ 'brand_id': brand.id ,'platform': platform},{'_id': 1,'text': 1, 'time': 1}))
         
         if not documents:
-            raise HTTPException(status_code=404, detail="No documents found in the collection")
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No reviews found ")
 
         # Convert MongoDB documents to DataFrame
         df = pd.DataFrame(documents)
         
         # Ensure the DataFrame has the required features
         if not all(feature in df.columns for feature in features):
-            raise HTTPException(status_code=400, detail=f"Input data must contain the following features: {features}")
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Input data must contain the following features: {features}")
+
 
         # Prepare the data for prediction
         X_batch = df['text']
@@ -158,5 +209,7 @@ def analysis_by_month(lang: str, brand_name: str, platform: str, db:Session = De
             
         return monthly_summary
     
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+ 
+
+
+    

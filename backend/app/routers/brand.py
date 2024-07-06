@@ -31,6 +31,13 @@ def create_brand(brand: schemas.Brand, db: Session = Depends(get_db), current_us
 @router.get("/{brand_name}/altnames",status_code=status.HTTP_200_OK, response_model=schemas.BrandAltnames)
 def get_altnames(brand_name: str, db:Session = Depends(get_db), currnt_user: int = Depends(oauth2.get_current_user)):
     altnames =  db.query(models.Brand).filter(models.Brand.name==brand_name).first()
+    if not altnames:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Brand with name: {brand_name} does not exist")
+    
+    if altnames.user_id != currnt_user.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail="Not authorized to perform requested action")
     return altnames
     
 # Remove brand
