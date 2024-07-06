@@ -31,20 +31,15 @@ const BrandComponent: React.FC<BrandCompProps> = ({ brandName, onDelete, onClick
     };
 
     return (
-        <div className="flex flex-row md:flex-col justify-between items-center w-[98%] md:w-full md:gap-10 mb-1" onClick={() => onClick(brandName)}>
-            <div className="flex flex-row sm:flex-col justify-center items-end w-[82%] md:w-full sm:gap-5">
-                <img
-                    src={`images/${brandName}.png`} // Adjust image source path as per your structure
-                    alt={brandName}
-                    className="w-[8%] md:h-auto sm:w-full mb-[7px] object-cover"
-                />
+        <div className="flex flex-row md:flex-col justify-between items-center w-[98%] md:w-full md:gap-10 mb-1" >
+            <div className="flex flex-row sm:flex-col justify-start items-end w-[82%] md:w-full sm:gap-5">
+                {/* <p className='text-xl font-extrabold text-center'>{brandName[0]}</p> */}
                 <div className="flex flex-row justify-start w-[35%] sm:w-full mt-[5px] ml-3.5 sm:ml-0 sm:mt-0">
-                    <h5 className="text-[28.58px] font-semibold">
+                    <h5 className="text-lg font-semibold" onClick={() => onClick(brandName)}>
                         {brandName}
                     </h5>
                 </div>
                 <p className="ml-[30px] md:ml-5 text-gray-500 text-[22.82px] font-normal">
-                    {/* Add any additional information here */}
                 </p>
             </div>
             <button className="w-[5%] mt-3 border-2 font-extrabold border-[#000] text-slate-50 rounded bg-red-500"

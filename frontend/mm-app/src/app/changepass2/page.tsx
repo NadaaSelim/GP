@@ -2,8 +2,61 @@
 import React from "react";
 import { Button, Text, Input, Heading } from "../components";
 import {isAuth} from "../auth"
+import { useRouter } from "next/router";
 
-export default function Changepassword1Page() {
+
+async function changePassword(email: string, oldPassword: string, newPassword: string, router: ReturnType<typeof useRouter>) {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/user/change-password", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        
+      },
+      body: JSON.stringify({
+        email,
+        old_password: oldPassword,
+        new_password: newPassword,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to change password");
+    }
+
+    const result = await response.json();
+    alert("Password changed successfully");
+    router.push("../dashboard");
+  } catch (error) {
+  }
+}
+
+
+
+function changePass(router: ReturnType<typeof useRouter>) {
+  const oldpass = (document.getElementById('oldpass') as HTMLInputElement).value;
+  const newpass = (document.getElementById('newpass') as HTMLInputElement).value;
+  const user = localStorage.getItem('user');
+  if (!user) {
+    alert("user not found");
+    return;
+  }
+
+  const parsedUser = JSON.parse(user);
+  if(parsedUser.password != oldpass ){
+    alert("Wrong Password"); return;
+  }
+  if(oldpass==newpass){
+    alert("New Password should not be the same as Old Password");
+    return;
+  }
+
+
+}
+
+export default function Changepassword2Page() {
+  const router = useRouter();
+
   if(!isAuth()){
     window.location.href = "../login"; return;
   }
@@ -21,7 +74,7 @@ export default function Changepassword1Page() {
           shape="round"
           type="password"
           name="pass1"
-          id="pass1"
+          id="oldpass"
           placeholder="Old Password"
           className="w-full mt-6 tracking-[1.92px] font-medium"
         />
@@ -29,7 +82,7 @@ export default function Changepassword1Page() {
           shape="round"
           type="password"
           name="pass2"
-          id="pass2"
+          id="newpass"
           placeholder="New Password"
           className="w-full mt-6 tracking-[1.92px] font-medium"
         />
@@ -37,6 +90,7 @@ export default function Changepassword1Page() {
         <Button
           shape="round"
           className="mt-8 tracking-[2.56px] font-extrabold min-w-[294px]"
+          onClick={() =>changePass(router)}
         >
           Reset
         </Button>

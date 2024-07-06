@@ -104,14 +104,14 @@ export default function SettingsPage() {
                             )}
 </div>
     <div className="flex flex-row justify-between items-start w-full m-[2%] mt-[5%] p-[2%] ">
-        <Text size="xs" as="p" className="flex mt-[7px] !text-indigo-900 text-[11.08px] font-normal">
+        {/* <Text size="xs" as="p" className="flex mt-[7px] !text-indigo-900 text-[11.08px] font-normal">
             <span className="text-gray-500">Showing</span>
             <span className="text-indigo-900">1</span>
             <span className="text-indigo-900">of</span>
             <span className="text-indigo-900">2</span>
             <span className="text-gray-500">data</span>
-        </Text>
-        <div className="flex flex-row justify-between items-center w-[16%] border-white-A700 border border-solid">
+        </Text> */}
+        {/* <div className="flex flex-row justify-between items-center w-[16%] border-white-A700 border border-solid">
             <Img src="../../images/img_dropdownone.svg" alt="dropdownone" className="h-[25px] w-[25px]" />
             <div className="flex flex-col items-center justify-start h-[39px] w-[39px]">
                 <Text
@@ -123,7 +123,7 @@ export default function SettingsPage() {
                 </Text>
             </div>
             <Img src="../../images/img_dropdown_gray_500.svg" alt="dropdownthree" className="h-[25px] w-[25px]" />
-        </div>
+        </div> */}
     </div>
 
                     </div>

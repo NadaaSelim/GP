@@ -1,13 +1,55 @@
-"use client"
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import { Button, Text, Input, Heading } from "../components";
-import Link from "next/link";
-import {isAuth} from "../auth"
+import { isAuth } from "../auth";
 
-export default function Changepassword1Page() {
-  if(!isAuth()){
-    window.location.href = "../login"; return;
+const Changepassword1Page: React.FC = () => {
+  
+  if (!isAuth()) {
+    window.location.href = "../login";
   }
+
+  const handleSubmit = async () => {
+    let inputEmail =  (document.getElementById('email') as HTMLInputElement);
+    
+    let user = (localStorage.getItem('user'));
+    const oldpass = (document.getElementById('oldpass') as HTMLInputElement).value;
+    const newpass = (document.getElementById('newpass') as HTMLInputElement).value;
+   
+    if (inputEmail==null ||user==null || inputEmail.value != JSON.parse(user).email) {
+      alert("Incorrect Email"); return;
+    }
+    let email = inputEmail.value
+    console.log(user)
+   
+    if(oldpass==newpass){
+      alert("New Password should not be the same as Old Password");
+      return;
+    }
+  
+ 
+    try {
+      const response = await fetch("http://127.0.0.1:8000/user/change-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+          email,
+          old_password: oldpass,
+          new_password: newpass,
+        }),
+      });
+      const responseData = await response.json();
+
+      if(response.ok && responseData){
+      alert("Password changed successfully");
+      window.location.href="../dashboard";}
+    } catch (error) {
+      alert("Wrong Password")
+    }
+  };
 
   return (
     <div className="flex items-center justify-center w-full min-h-screen bg-indigo-200">
@@ -22,19 +64,42 @@ export default function Changepassword1Page() {
           shape="round"
           type="email"
           name="email"
+          id="email"
           placeholder="yara@mail.com"
           className="w-full mt-6 tracking-[1.92px] font-medium"
+          //value={email}
+    //      onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setEmail(e.target.value)}
         />
-        <Text size="2xl" as="p" className="mt-7 text-[24.82px] text-gray-900">
-          Forgot your email?
-        </Text>
-        <Link href="./changepass2" ><Button
+        <Input
+          shape="round"
+          type="password"
+          name="oldPassword"
+          id="oldpass"
+          placeholder="Old Password"
+          className="w-full mt-6 tracking-[1.92px] font-medium"
+          //value={oldPassword}
+      //    onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setOldPassword(e.target.value)}
+        />
+        <Input
+          shape="round"
+          type="password"
+          name="newPassword"
+          id="newpass"
+          placeholder="New Password"
+          className="w-full mt-6 tracking-[1.92px] font-medium"
+          //value={newPassword}
+     //     onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setNewPassword(e.target.value)}
+        />
+        <Button
           shape="round"
           className="mt-8 tracking-[2.56px] font-extrabold min-w-[294px]"
+          onClick={handleSubmit}
         >
           Continue
-        </Button></Link>
+        </Button>
       </div>
     </div>
   );
 }
+
+export default Changepassword1Page;

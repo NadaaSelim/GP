@@ -1,33 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface DonutChartProps {
   size: number;
   strokeWidth: number;
 }
 
-interface donutData{
-  label:string;value:number;color:string;
-} 
+interface donutData {
+  label: string;
+  value: number;
+  color: string;
+}
 
 const DonutChart: React.FC<DonutChartProps> = ({ size, strokeWidth }) => {
-  // const data = [
-  //   { label: 'Positive', value: 60, color: '#4CAF50' },
-  //   { label: 'Negative', value: 40, color: 'red' },
-  // ];
-  const WCSR = localStorage.getItem("os-sr");
-  let data:donutData[]=[]
-  console.log(WCSR)
-  if(WCSR!=null){
-      let parsed = JSON.parse(WCSR);
-      data.push(
-        {label:"Positive",value:parsed.positive, color:"#4CAF50"},
-        {label:"Negative",value:parsed.negative, color:"red"},
-      )
-  }
+  const [data, setData] = useState<donutData[]>([]);
+  const [hoveredSegment, setHoveredSegment] = useState<{ label: string; percentage: number; value: number } | null>(null);
+
+  useEffect(() => {
+    const WCSR = localStorage.getItem("os-sr");
+    console.log("WCSR:", WCSR);
+
+    if (WCSR) {
+      const parsed = JSON.parse(WCSR);
+      const newData: donutData[] = [
+        { label: "Positive", value: parsed.positive, color: "#4CAF50" },
+        { label: "Negative", value: parsed.negative, color: "red" },
+      ];
+      setData(newData);
+    }
+  }, []);
+
   const total = data.reduce((acc, { value }) => acc + value, 0);
-
-  const [hoveredSegment, setHoveredSegment] = useState<{ label: string; percentage: number; value:number } | null>(null);
-
   let startAngle = -90;
 
   return (
@@ -72,7 +74,7 @@ const DonutChart: React.FC<DonutChartProps> = ({ size, strokeWidth }) => {
           return (
             <g
               key={index}
-              onMouseEnter={() => setHoveredSegment({ label, percentage,value })}
+              onMouseEnter={() => setHoveredSegment({ label, percentage, value })}
               onMouseLeave={() => setHoveredSegment(null)}
             >
               <path d={pathData} fill={color} />
@@ -84,13 +86,11 @@ const DonutChart: React.FC<DonutChartProps> = ({ size, strokeWidth }) => {
         <div className="absolute bg-white text-black p-2 block-3 rounded shadow" style={{ top: '60%', left: '50%', transform: 'translate(-50%, -50%)' }}>
           <p className="text-sm font-semibold">{hoveredSegment.label}: {hoveredSegment.percentage.toFixed(2)}%</p>
           <p className="text-sm font-semibold">Reviews: {hoveredSegment.value}</p>
-
         </div>
       )}
     </div>
   );
 };
-
 
 const App: React.FC = () => {
   return (
@@ -99,10 +99,7 @@ const App: React.FC = () => {
       <div className="py-6">
         <DonutChart size={300} strokeWidth={60} />
       </div>
-      <div className="flex justify-between items-center pt-5">
-
-      
-      </div>
+      <div className="flex justify-between items-center pt-5"></div>
     </div>
   );
 };

@@ -2,11 +2,16 @@
 import React, { useState } from "react";
 import { Button, Heading, Img, Input } from "../components";
 import {isAuth} from "../auth"
+import { useRouter } from "next/navigation"; 
+
 const patterns:RegExp[] = [
     /[\u0600-\u06FF,\s]+/, //matches ar chars commas spaces
     /[a-zA-Z,\s]+/         // match eng chars and commas/spaces
 
 ]
+interface Brand{
+    name:string,alt_names:string[]
+}
 function BrandForm() {
 
     return (
@@ -54,35 +59,106 @@ export default function AddBrand() {
         if (formCount > 1) setFormCount((prevCount) => prevCount - 1);
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    // const handleSubmit = async (e: React.FormEvent) => {
 
-        e.preventDefault();
-        const brandForms = document.getElementsByClassName("brandForms");
+    //     e.preventDefault();
+    //     const brandForms = document.getElementsByClassName("brandForms");
 
-        const token = localStorage.getItem('token');
-        const userString = localStorage.getItem('user')
+    //     const token = localStorage.getItem('token');
+    //     const userString = localStorage.getItem('user')
 
-        for (let i = 0; i < brandForms.length; i++) {
-            const brandForm = brandForms[i] as HTMLElement;
-            const inputs = brandForm.getElementsByTagName("input");
-            const altNames:any[] = [];
+    //     for (let i = 0; i < brandForms.length; i++) {
+    //         const brandForm = brandForms[i] as HTMLElement;
+    //         const inputs = brandForm.getElementsByTagName("input");
+    //         const altNames:any[] = [];
 
-            const name = inputs[0].value.toLowerCase();
+    //         const name = inputs[0].value.toLowerCase();
             
-            for(let j=1;j<=2;j++){
-                let alt = inputs[j].value.trim();
-                let splitAltNames = alt.split(',');
+    //         for(let j=1;j<=2;j++){
+    //             let alt = inputs[j].value.trim();
+    //             let splitAltNames = alt.split(',');
                 
-                splitAltNames.forEach(name => {
-                    name = name.trim().toLowerCase();
-                    if(patterns[j-1].test(name))
-                        altNames.push({ altname:  name});
-                });
-            }
+    //             splitAltNames.forEach(name => {
+    //                 name = name.trim().toLowerCase();
+    //                 if(patterns[j-1].test(name))
+    //                     altNames.push({ altname:  name});
+    //             });
+    //         }
     
             
 
-            let brand = ({ name, alt_names: altNames });
+    //         let brand = ({ name, alt_names: altNames });
+    //         console.log(brand);
+    //         try {
+    //             const response = await fetch("http://localhost:8000/brand/add", {
+    //                 method: "POST",
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                     'Authorization': `Bearer ${token}`,
+    //                 },
+    //                 body: JSON.stringify(brand),
+    //             });
+    
+    //             if (response.ok) {
+    //                 if(userString != null){
+    //                     const user = JSON.parse(userString)
+    //                     const brands:string[] =user.brands;
+            
+    //                 }
+    //                 alert("Brands added successfully!");
+
+    //             } else {
+    //                 console.error("Failed to add brands."); 
+    //             }
+    //         } catch (error) {
+    //             console.error("An error occurred:", error);
+    //         }
+    
+    //     }
+    //     const getUser = await fetch('http://localhost:8000/user/userinfo', {
+    //         method: 'GET',
+    //         headers: {
+    //           'Content-Type': 'application/json',
+    //           'Authorization': `Bearer ${localStorage.getItem('token')}`
+    //         },
+            
+    //       });
+      
+    //       if (getUser.ok) {
+    //         const userresp =  getUser.json();
+    //         localStorage.setItem('user', JSON.stringify(userresp));
+    //         console.log(userresp);
+    //         router.push('/dashboard');
+
+    //       }
+    //     console.log(token);
+    // };
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const brandForms = document.getElementsByClassName("brandForms");
+    
+        const token = localStorage.getItem('token');
+        const userString = localStorage.getItem('user')
+    
+        for (let i = 0; i < brandForms.length; i++) {
+            const brandForm = brandForms[i] as HTMLElement;
+            const inputs = brandForm.getElementsByTagName("input");
+            const altNames: any[] = [];
+    
+            const name = inputs[0].value.toLowerCase();
+    
+            for (let j = 1; j <= 2; j++) {
+                let alt = inputs[j].value.trim();
+                let splitAltNames = alt.split(',');
+    
+                splitAltNames.forEach(name => {
+                    name = name.trim().toLowerCase();
+                    if (patterns[j - 1].test(name))
+                        altNames.push({ altname: name });
+                });
+            }
+    
+            let brand = { name, alt_names: altNames };
             console.log(brand);
             try {
                 const response = await fetch("http://localhost:8000/brand/add", {
@@ -95,23 +171,30 @@ export default function AddBrand() {
                 });
     
                 if (response.ok) {
-                    if(userString != null){
-                        const user = JSON.parse(userString)
-                        const brands:string[] =user.brands;
-            
+                    if (userString != null) {
+                        const user = JSON.parse(userString);
+                        const brands: Brand[] = user.brands || [];
+                        brands.push(brand); 
+    
+                        // Update user session with new brands
+                        const updatedUser = { ...user, brands };
+                        localStorage.setItem('user', JSON.stringify(updatedUser));
                     }
                     alert("Brands added successfully!");
-
+    
                 } else {
-                    console.error("Failed to add brands.");
+                    alert("Failed to add brands.");
+                    return;
                 }
             } catch (error) {
-                console.error("An error occurred:", error);
+                console.error("An error occurred:", error);return;
             }
-    
         }
-        console.log(token);
+        router.push("../dashboard")
     };
+    
+    const router = useRouter();
+
 
     return (
         <div className="flex flex-row min-h-screen justify-end w-full pl-[55px] pr-[55px] border-black-900 border border-solid bg-indigo-200">

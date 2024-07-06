@@ -16,6 +16,11 @@ type ApiResponse = {
   };
 };
 
+type OSSR = {
+    positive: number;
+    negative: number;
+  
+};
 
 let brands: Brand[] = [];
 
@@ -79,9 +84,33 @@ const getRequestByMonth = async (brand:string, platform:string, lang:string) => 
   }
 };
 
+const fetchWC = async (brand:string, lang:string) => {
+  const endpoint = `http://127.0.0.1:8000/predict/associated-words/${lang}/${brand}`;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log("API response:", result);
+      localStorage.setItem("WC",JSON.stringify(result));
+      
+    } else {
+      console.error("API error:", response.statusText);
+    }
+  } catch (error) {
+    console.error("Fetch error:", error);
+  }
+};
 
 
-const fetchData = async (brand:string, platform:string, lang:string) => {
+const fetchData = async (brand: string, platform: string, lang: string) => {
   const endpoint = `http://127.0.0.1:8000/predict/${lang}/${brand}/${platform}`;
 
   try {
@@ -93,43 +122,52 @@ const fetchData = async (brand:string, platform:string, lang:string) => {
       },
     });
 
-    if (response.ok) {
-      const result = await response.json();
-      console.log("API response:", result);
-
-      const storageKey = `os-sr-${platform}`;
-      let data = localStorage.getItem(storageKey)
-      
-      let existingData =  { positive: 0, negative: 0 };
-      let os_sr =   localStorage.getItem('os-sr')
-      
-      if(data != null){
-        existingData = JSON.parse(data) 
-}
-
-      localStorage.setItem(storageKey, JSON.stringify({
-        positive: existingData.positive + result.positive,
-        negative: existingData.negative + result.negative,
-        num_reviews:  result.num_reviews,
-        created_at: result.created_at
-      }));
-
-      if(os_sr!=null){
-        let os_sr_data = JSON.parse(os_sr)
-
-      localStorage.setItem('os-sr', JSON.stringify({
-        positive: os_sr_data.positive + result.positive,
-        negative: os_sr_data.negative + result.negative,
-        num_reviews: result.num_reviews,
-        created_at: result.created_at
-      }));}
-    } else {
-      console.error("API error:", response.statusText);
+    if (!response.ok) {
+      throw new Error(`API error: ${response.statusText}`);
     }
+
+    const result = await response.json();
+    console.log("API response:", result);
+
+    // Initialize 'os-sr' if it doesn't exist
+    let os_sr = localStorage.getItem('os-sr');
+    let os_sr_data:OSSR = {
+      positive: 0,
+      negative: 0,
+    };
+    if (os_sr != null) {
+    
+      os_sr_data = JSON.parse(os_sr);
+    }
+    if(os_sr_data !=null ){
+    localStorage.setItem('os-sr', JSON.stringify({
+      positive: os_sr_data.positive + result.positive,
+      negative: os_sr_data.negative + result.negative,
+      created_at: result.created_at  
+    }));
+}
+    const storageKey = `os-sr-${platform}`;
+    let data = localStorage.getItem(storageKey);
+    let existingData = { positive: 0, negative: 0,
+      reviews:[]
+     };
+
+    if (data !== null) {
+      existingData = JSON.parse(data);
+    }
+
+    localStorage.setItem(storageKey, JSON.stringify({
+      positive: existingData.positive + result.positive,
+      negative: existingData.negative + result.negative,
+      created_at: result.created_at,
+      reviews: existingData.reviews.concat(result.reviews || []),
+    }));
+
   } catch (error) {
     console.error("Fetch error:", error);
   }
 };
+
 
 
 export default function AnalyzereviewsPage() {
@@ -158,20 +196,22 @@ export default function AnalyzereviewsPage() {
       alert("Please select a brand and at least one platform.");
       return;
     }
-    localStorage.removeItem('os-rs');
-    localStorage.removeItem('os-rs-Talabat');
-    localStorage.removeItem('os-rs-Twitter');
-    localStorage.removeItem('os-rs-Elmenus');
+    localStorage.removeItem('os-sr');
+    localStorage.removeItem('os-sr-Talabat');
+    localStorage.removeItem('os-sr-Twitter');
+    localStorage.removeItem('os-sr-Elmenus');
     localStorage.removeItem('RBM');
     localStorage.removeItem('RBM-Talabat');
     localStorage.removeItem('RBM-Twitter');
     localStorage.removeItem('RBM-Elmenus');
+    localStorage.removeItem('WC');
 
     selectedPlatforms.forEach(platform => {
       fetchData(selectedBrand, platform, 'en'); // English version
       fetchData(selectedBrand, platform, 'ar'); // Arabic version
       getRequestByMonth(selectedBrand,platform,'en')
       getRequestByMonth(selectedBrand,platform,'ar')
+      fetchWC(selectedBrand,'en');
 
     });
     alert("Analysis Done!");

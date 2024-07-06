@@ -86,14 +86,12 @@ export default function Header({ ...props }: Props) {
 
 const BrandSelectBox = () => {
   const [selectedBrand, setSelectedBrand] = useState(() => {
-    // Retrieve the selected brand from localStorage, or default to the first brand
     const savedBrand = localStorage.getItem('selectedBrand');
     return savedBrand ? JSON.parse(savedBrand) : brands[0];
   });
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
-    // Save the selected brand to localStorage whenever it changes
     localStorage.setItem('selectedBrand', JSON.stringify(selectedBrand));
   }, [selectedBrand]);
 
@@ -109,11 +107,11 @@ const BrandSelectBox = () => {
         onClick={() => setDropdownOpen(!dropdownOpen)}
       >
         <button className="w-8 h-8 sm bg-yellow-100 rounded-full flex items-center justify-center">
-          <img src={selectedBrand.logo} alt={selectedBrand.name} className="w-[60%] h-[60%] object-contain" />
+         {selectedBrand!=null&& (<p>{selectedBrand.name[0]}</p>)}
         </button>
-        <p className="ml-3 font-semibold text-s text-blue-gray-900 tracking-[0.50px]">
-          {selectedBrand.name}
-        </p>
+    {selectedBrand!=null&& (<p className="ml-3 font-semibold text-s text-blue-gray-900 tracking-[0.50px]">
+      { selectedBrand.name}
+    </p>)}
         <img
           src="images/img_arrow_down.svg"
           alt="arrowdown_one"
@@ -122,14 +120,16 @@ const BrandSelectBox = () => {
       </div>
       {dropdownOpen && (
         <div className="absolute mt-2 border-2 border-solid rounded w-full bg-slate-50 shadow-lg z-10">
-          {brands.map((brand) => (
+          {brands && brands.length>0 && brands.map((brand) => (
             <div
               key={brand.name}
               className="flex items-center p-2 cursor-pointer hover:bg-gray-200"
               onClick={() => handleBrandSelect(brand)}
             >
               <button className="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center">
-                <img src={brand.logo} alt={brand.name} className="w-[40%] h-[40%] object-contain" />
+                {/* <img src={brand.logo} alt={brand.name} className="w-[40%] h-[40%] object-contain" /> */}
+                <p >{brand.name[0]}</p>
+
               </button>
               <p className="ml-3  text-sm text-blue-gray-900 tracking-[0.50px]">
                 {brand.name}

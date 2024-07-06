@@ -77,7 +77,7 @@ export default function ReportPage() {
           </p>
           <p className="mt-5 md:ml-5 !text-black-900 tracking-[0.50px]  font-medium">
             
-          Platforms: Facebook, Twitter
+          Platforms: Talabat,Elmenus
           </p>
           </div>
           <div className="flex flex-row justify-start items-start mt-5 text-lg w-[80%] ">
@@ -104,8 +104,7 @@ export default function ReportPage() {
             <div className="flex flex-row mt-[20px] w-full gap-5 relative">
 
               <SampleReviews/>​
-              <WordCount data={[ { category: "word1", twitter: 50, talabat: 20,elmenus:20 },
-    { category: "word2", twitter: 10, talabat: 40,elmenus:35 },]}/>
+              <WordCount />
                   
  </div>
 
@@ -121,16 +120,33 @@ export default function ReportPage() {
 }
 
 function SampleReviews(){
+  let reviews: any[]=[]
+  const platforms = ["Talabat","Elmenus","Twitter"]
+  for (let platform of platforms) {
+    let platformdata = localStorage.getItem(`os-sr-${platform}`);
+    if (platformdata !== null) {
+      reviews = reviews.concat(JSON.parse(platformdata).reviews);
+    }
+    if (reviews.length >= 5) {
+      break;
+    }
+  }
+  
   return (
     <>
         <div className="w-[30%] bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
         <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">Sample Reviews</h5>
         <h6 className="text-base mt-2 mb-4 font-normal text-gray-500 dark:text-gray-400 pb-1">What is the public saying about your brand</h6>
         <div className="flex flex-col gap-2">
+          
+        {reviews.slice(0, 5).map((review:{score:boolean;text:string}, index:number) => (
+          <React.Fragment key={index}>
+            <Review platform="Talabat" isPositive={review.score} reviewText={review.text} />
+            {index < reviews.length - 1 && <hr />}
+          </React.Fragment>
+        ))}
 
-        <Review platform={"Twitter"} isPositive={false} reviewText={"bjjd"}></Review>
-        <hr></hr>
-        <Review platform={"Talabat"} isPositive={true} reviewText={"bjjd"}></Review>
+
         </div>
         </div>
     </>
@@ -145,6 +161,7 @@ interface ReviewProps {
 }
 
 const Review: React.FC<ReviewProps> = ({ platform, isPositive, reviewText }) => {
+  console.log("TALABAT",localStorage.getItem('os-sr-Talabat'));
   return (
     <div className="flex items-start max-w-md  mx-4 ">
       <div className="justify-start ">

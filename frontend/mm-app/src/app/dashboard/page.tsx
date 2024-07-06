@@ -60,14 +60,7 @@ export default function ReportPage() {
             <DountChart/>
             </div>
             <div className="flex flex-row mt-[20px] w-full gap-5 relative">
-            <CircleChart circleData={[
-  { category: 'A', value: 50 },
-  { category: 'B', value: 30 },
-  { category: 'C', value: 70 },
-  { category: 'F', value: 20 }, 
-  { category: 'F', value: 20 }, 
-
-]}/>
+            <CircleChart  />
             <LineChart/>
             
               {/* <WordCount data={[ { category: "word1", twitter: 50, facebook: 20 },

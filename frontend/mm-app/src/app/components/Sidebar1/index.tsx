@@ -103,7 +103,7 @@ export default function Sidebar1({ selectedIndex, setSelectedIndex, ...props }: 
             </Link>
           ))}
         </Menu>
-        <Chatbot />
+        {/* <Chatbot /> */}
       </Sidebar>
     </div>
   );

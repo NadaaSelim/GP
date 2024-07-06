@@ -38,8 +38,8 @@ const SignupForm = () => {
      
     } else {
       const errorResponse = await response.json(); 
-      alert(errorResponse.detail); 
-      console.log(errorResponse.detail); 
+      alert(errorResponse.detail[0].msg); 
+      console.log(errorResponse); 
       return;
     }
 
@@ -61,8 +61,11 @@ const SignupForm = () => {
       router.push('/addbrand');
     } else {
       console.error('Couldnt retrieve user ');
+      
     }
-  }catch(error){ console.error(error);}
+  }catch(error){ console.error(error);
+    alert(error);
+  }
 
 
   };
@@ -107,11 +110,11 @@ const SignupForm = () => {
                 </div>
                 <div className="flex flex-col items-center justify-start w-[83%] gap-[50px]">
                   <a href="#">
-                    <Heading size="md" as="h1" className="!text-black-900 tracking-[1.92px] font-medium">
+                    <h1 className="text-4xl font-bold !text-black-900 tracking-[1.92px] font-medium">
                       <span className="text-black-900 text-3xl">Create&nbsp;</span>
                       <span className="text-black-900"></span>
                       <span className="text-black-900 text-3xl">Account</span>
-                    </Heading>
+                    </h1>
                   </a>
                   <div className="flex flex-row justify-between w-full">
                     <Button
@@ -139,9 +142,9 @@ const SignupForm = () => {
                       Signup with Facebook
                     </Button>
                   </div>
-                  <Text size="lg" as="p" className="!text-blue_gray-100 tracking-[1.44px]">
+                  <p  className="!text-blue_gray-100 text-lg tracking-[1.44px]">
                     - OR -
-                  </Text>
+                  </p>
                   <form id="submitForm" className="h-full w-full flex flex-col justify-center items-center gap-5" onSubmit={handleSubmit}>
                     <Input
                       color="gray_100_02"
@@ -186,29 +189,28 @@ const SignupForm = () => {
                       //   setPassword(changeEvent.target.value)}}
                       required
                     />
+
                     <Button size="2xl" type="submit" className="w-full tracking-[1.92px] font-extrabold">
                       Create Account
                     </Button>
                   </form>
                   <Text size="lg" as="p" className="!text-black tracking-[1.44px] !font-medium">
-                    <Link href="../login"><span className="text-gray-400_01">Already have an account? </span>
-                      <span className="!text-blue_gray_800">Log In</span></Link>
+                    <Link href="../login"><span className="text-gray-400_01 text-lg underline">Already have an account? </span>
+                      <span className="!text-blue_gray_800 text-lg underline">Log In</span></Link>
                   </Text>
                 </div>
               </div>
             </div>
           </div>
-          <Text
-            size="6xl"
-            as="p"
-            className="w-[24%] left-[3%] top-[16%] m-auto !text-white-A700 tracking-[2.88px] absolute font-medium"
+          <p
+            className="w-[24%] text-2xl left-[3%] top-[16%] m-auto !text-white-A700 tracking-[2.88px] absolute font-medium"
           >
             <span className="text-white-A700 tracking-[1.88px] font-extrabold">
               Getting <br />
               Started With <br />
             </span>
-            <span className="text-white-A700 tracking-[3.96px] font-medium">Market Minds</span>
-          </Text>
+            <span className="text-white-A700 tracking-[3.96px] text-3xl font-extrabold">Market Minds</span>
+          </p>
         </div>
       </div>
     </>

@@ -186,11 +186,11 @@ export default function Guest() {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col items-start justify-start w-full mt-[-56px]">
-              <Text size="7xl" as="p" className="ml-[358px] mt-[50px] mb-[30px] !text-black-900 !font-merienda z-[1]">
-                Hello
+            <div className="flex flex-col items-center justify-center w-full">
+              <Text size="7xl" as="p" className="  font-extrabold z-[1]">
+                
               </Text>
-              <div className="flex flex-row justify-start items-center w-full mt-[-122px]">
+              <div className="flex flex-row justify-center items-center w-full ">
                 <div className="flex flex-col items-center justify-start w-[36%] z-[1]">
                   <div className="h-[526px] w-full relative">
                     <Img
@@ -224,14 +224,12 @@ export default function Guest() {
                       alt="imageoneone_one"
                       className="justify-center h-[57px] left-0 bottom-0 right-0 top-0 m-auto absolute rounded-md"
                     />
-                    <Heading
-                      size="xl"
-                      as="h2"
-                      className="w-max top-[6%] right-0 left-0 m-auto !text-gray-200_01 !font-inter text-center absolute"
+                    <h2
+                      className="w-max text-4xl top-[6%] right-0 left-0 m-auto !text-gray-200_01 font-bold text-center absolute"
                     >
                       Login
 
-                    </Heading> </Link>
+                    </h2> </Link>
                   </div>
                   <div className="h-[57px] w-[37%] mt-[20px] mb-[20px] z-[1] relative">
                   <Link href='../signup'><Img
@@ -239,20 +237,18 @@ export default function Guest() {
                       alt="imageoneone_one"
                       className="justify-center h-[57px] left-0 bottom-0 right-0 top-0 m-auto absolute rounded-md"
                     />
-                    <Heading
-                      size="xl"
-                      as="h2"
-                      className="w-max top-[6%] right-0 left-0 m-auto !text-gray-200_01 !font-inter text-center absolute"
+                    <h2
+                      className="w-max top-[5%] text-3xl right-0 left-0 m-auto !text-gray-200_01 font-bold text-center absolute"
                     >
                       Sign Up
 
-                    </Heading> </Link>
+                    </h2> </Link>
                   </div>
                   <div className="flex flex-row justify-start items-start w-full ">
-                    <Heading as="h3" className="w-[36%] !text-gray-200_01 !font-inter z-[1] !leading-[35px]">
+                    <h3  className="w-[36%] !text-gray-200_01 font-semibold z-[1] !leading-[35px]">
                       Are you ready to unlock the marketing magic that drives results? Dive in and unleash your
                       brand&#39;s full potential!
-                    </Heading>
+                    </h3>
                     <Img src="../../images/img_marni_2.png" alt="marnitwooneone" className="w-4/5 ml-[-129px] object-cover" />
                   </div>
                 </div>
@@ -266,13 +262,12 @@ export default function Guest() {
           >
             or
           </Text>
-          <Heading
-            size="xl"
-            as="h2"
-            className="left-[6%] top-[2%] m-auto !text-indigo-400 !font-inter text-center absolute"
+          <h2
+            className="text-5xl font-extrabold left-[3%] top-[2%]  !text-indigo-400  text-start absolute mr-20
+            mb-30"
           >
             MarketMinds
-          </Heading>
+          </h2>
         
         </div>
       </>

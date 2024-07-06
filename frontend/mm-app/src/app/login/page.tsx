@@ -107,9 +107,9 @@ alt="doodleSoneone"
                   </Text>
                   <Img src="../../images/img_arrow_drop_down.svg" alt="arrowdropdown" className="h-6 w-6" />
                 </div>                <div className="flex flex-col items-center justify-start w-[83%] gap-[50px]">
-                  <Heading size="xl" as="h1" className="font-medium !text-black-900  tracking-[1.92px]">
+                  <h1  className="font-bold text-4xl !text-black-900  tracking-[1.92px]">
                     Log in
-                  </Heading>
+                  </h1>
                   <div className="flex flex-row justify-between w-full">
                     <Button
                       color="gray_100_02"
@@ -161,8 +161,8 @@ alt="doodleSoneone"
                   </Button>
                   </form>
                   <Text size="lg" as="p" className="!text-gray-400_01 tracking-[1.44px] !font-medium">
-                    <Link href="../signup"><span className="text-gray-400_01">Don't have an account? </span>
-                    <span className="text-blue_gray_800">Sign up</span></Link>
+                    <Link href="../signup"><span className="text-gray-400_01 text-lg font-normal underline">Don't have an account? </span>
+                    <span className="text-blue_gray_800 text-lg font-normal underline">Sign up</span></Link>
                   </Text>
                 </div>
               </div>
