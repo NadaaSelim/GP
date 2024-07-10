@@ -22,4 +22,4 @@ class Language(str, Enum):
 class TwitterRequest(BaseModel):
     brandnames: List[str]
     lang: Language
-    maxTweets: int = 10
+    maxTweets: int = 150

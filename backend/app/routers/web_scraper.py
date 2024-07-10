@@ -22,8 +22,8 @@ def post_todo(review: models.Review):
 """
     
 # api to get english reviews and store in db
-@router.post("/twitter/{brand_name}",status_code=status.HTTP_201_CREATED)
-async def scrape_twitter_en(brand_name:str, db:Session = Depends(get_db), currnt_user: int = Depends(oauth2.get_current_user)):
+@router.post("/twitter/{lang}/{brand_name}",status_code=status.HTTP_201_CREATED)
+async def scrape_twitter_en(lang: str,brand_name:str, db:Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
     
     brand =  db.query(models.Brand).filter(models.Brand.name==brand_name).first()
     
@@ -32,7 +32,7 @@ async def scrape_twitter_en(brand_name:str, db:Session = Depends(get_db), currnt
     
     request = mongo_schema.TwitterRequest(
         brandnames=alt_names,
-        lang= mongo_schema.Language.ENGLISH,
+        lang= lang,
         )
     
     api_url = "http://localhost:8080/scrape"
