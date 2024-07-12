@@ -148,8 +148,8 @@ def associated_words(lang: str,brand_name: str, db:Session = Depends(get_db), cu
         
             reviews_by_platform[platform].append(text)
         
-        top_adjectives = extract_top_adjectives(reviews_by_platform)
-        formatted_result = format_result(top_adjectives)
+        top_adjectives, review_dict = extract_top_adjectives(reviews_by_platform)
+        formatted_result = format_result(top_adjectives, review_dict)
         return formatted_result
    
     
